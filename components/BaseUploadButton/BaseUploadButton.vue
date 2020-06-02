@@ -55,6 +55,7 @@ export default {
 <style scoped lang="sass">
 .file-upload-input
     position: absolute
+    visibility: hidden
 .base-upload-button
     display: inline-flex
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      <h1>{{title}}</h1>
     <el-input
       class="margin-bottom-24 search-input"
       v-model="search"
@@ -9,12 +10,21 @@
     <div class="table-wrapper">
       <el-table
         @sort-change="sortChange"
+        @selection-change="handleSelectionChange"
         class="table margin-bottom-24"
         border
         height="100%"
         :data="dataListForShow"
         style="width: 100%"
+        :cell-style="cellStyle"
+        ref="table"
+        :header-cell-style="{background:'#333333', color: 'white'}"
       >
+    <el-table-column
+        v-if="isBatchSelection"
+        type="selection"
+        width="55">
+    </el-table-column>
         <el-table-column
           :label="column.label"
           v-for="(column, index) in columnList"
@@ -36,9 +46,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" :width="manipulationColumn.width">
-          <template slot-scope="scope" class="manipulationColumn">
+          <template slot-scope="scope">
             <slot :row="scope.row"></slot>
-            <el-button size="mini" @click="handleEdit(scope.row)">修改</el-button>
+            <el-button type="success" size="mini" @click="handleEdit(scope.row)">修改</el-button>
             <el-popconfirm
               @onConfirm="handleDelete(scope.row)"
               :title="'Confirm to delete ID: ' + scope.row.ID "
@@ -120,18 +130,13 @@
 </template>
 <script>
 import axios from "axios";
-import Request from "../../util/request";
-import Util from "../../util/util";
+import Request from "vue_basecomponent/util/request";
+import Util from "vue_basecomponent/util/util";
 export default {
   props: {
     columnList: {
       type: Array,
       required: true
-    },
-    dataList: {
-      type: Array,
-      required: true,
-      default: []
     },
     tableName: {
       type: String,
@@ -140,7 +145,19 @@ export default {
     manipulationColumn:{
       type: Object,
       required: true
+    },
+    title: {
+        type: String,
+        required: false
+    },
+    isBatchSelection: {
+      type: Boolean,
+      required: false,
+      default: false
     }
+  },
+  mounted() {
+    this.handleRefresh()
   },
   data() {
     return {
@@ -149,9 +166,33 @@ export default {
       pageSize: 10,
       dialogVisible: false,
       currentSelection: null,
+      multipleSelection: [],
+      dataList: []
     };
   },
   methods: {
+    cellStyle({row, column, rowIndex, columnIndex}){
+        if(columnIndex === this.$refs.table.columns.length - 1){ //指定坐            
+            return 'background:#EEEEEE'
+        }
+    },
+    handleBatchSendEmail(){
+        if(this.multipleSelection.length < 1){
+            this.$message.error('請選取多於一項資料');
+            return
+        }
+        Request.get(this, "send_batch_invitation_email", {IDList: this.multipleSelection.map(f => f.ID)}, res => {
+            this.$notify({
+                title: "發送批次電郵成功",
+                message: "",
+                type: "success"
+            });
+            this.handleRefresh()
+        })
+    },
+    handleSelectionChange(val){
+        this.multipleSelection = val;
+    },
     sortChange: function(column, prop, order) {
       if (column.order == "descending") {
         this.dataList.sort(function(a, b) {
@@ -189,7 +230,9 @@ export default {
       });
     },
     handleRefresh(){
-      this.$parent.handleRefresh();
+        Request.get(this, "get_" + this.tableName + "_all", {}, res => {
+            this.dataList = res.data[this.tableName.toString()];
+        });
     },
     handleUpdate() {
       Request.get(this,"update_" + this.tableName , this.currentSelection, res => {

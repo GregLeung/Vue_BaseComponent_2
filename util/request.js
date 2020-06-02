@@ -30,6 +30,32 @@ var Request = {
         Util.loading().close();
       });
   },
+  post(
+    vueInstance,
+    action,
+    body,
+    successCallback = function() {},
+    errorCallback = function() {}
+  ) {
+    Util.loading();
+    axios
+      .get(store().state.baseUrl + action, body)
+      .then(res => {
+        if (isError(res)) throw new Error(res.data.data);
+        successCallback(res.data);
+      })
+      .catch(error => {
+        vueInstance.$notify({
+          title: "錯誤",
+          message: error,
+          type: "warning"
+        });
+        errorCallback(error);
+      })
+      .finally(() => {
+        Util.loading().close();
+      });
+  },
   uploadFile(
     file,
     url,
@@ -56,9 +82,10 @@ var Request = {
           type: "warning"
         });
         errorCallback(error);
-      }).finally(()=>{
-        Util.loading().close();
       })
+      .finally(() => {
+        Util.loading().close();
+      });
   }
 };
 
