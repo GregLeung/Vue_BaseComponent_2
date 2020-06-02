@@ -120,7 +120,7 @@
 </template>
 <script>
 import axios from "axios";
-import Request from "../..//util/request";
+import Request from "../../util/request";
 import Util from "../../util/util";
 export default {
   props: {
