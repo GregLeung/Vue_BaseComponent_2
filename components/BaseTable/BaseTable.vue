@@ -130,8 +130,8 @@
 </template>
 <script>
 import axios from "axios";
-import Request from "../util/request";
-import Util from "../util/util";
+import Request from "../../util/request";
+import Util from "../../util/util";
 export default {
   props: {
     columnList: {
