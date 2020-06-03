@@ -39,7 +39,7 @@ var Request = {
   ) {
     Util.loading();
     axios
-      .get(store().state.baseUrl + action, body)
+      .post(store().state.baseUrl + action, body)
       .then(res => {
         if (isError(res)) throw new Error(res.data.data);
         successCallback(res.data);
