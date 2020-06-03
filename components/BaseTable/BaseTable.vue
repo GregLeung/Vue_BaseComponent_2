@@ -45,17 +45,17 @@
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" :width="manipulationColumn.width">
+        <el-table-column label="Manipulation" fixed="right" :width="manipulationColumn.width">
           <template slot-scope="scope">
             <slot :row="scope.row"></slot>
-            <el-button type="success" size="mini" @click="handleEdit(scope.row)">修改</el-button>
+            <el-button type="success" size="mini" @click="handleEdit(scope.row)">Edit</el-button>
             <el-popconfirm
               @onConfirm="handleDelete(scope.row)"
               :title="'Confirm to delete ID: ' + scope.row.ID "
               confirmButtonText="Confirm"
               cancelButtonText="Cancel"
             >
-              <el-button slot="reference" size="mini" type="danger">刪除</el-button>
+              <el-button slot="reference" size="mini" type="danger">Delete</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
