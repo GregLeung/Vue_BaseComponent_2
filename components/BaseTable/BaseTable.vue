@@ -30,7 +30,7 @@
           v-for="(column, index) in columnList"
           v-bind:key="index"
           sortable="custom"
-          :width="column.width"
+          :min-width="column.width"
           :prop="column.prop"
           :fixed="column.fixed"
         >
@@ -45,7 +45,7 @@
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Manipulation" fixed="right" :width="manipulationColumn.width">
+        <el-table-column label="Manipulation" fixed="right" :min-width="manipulationColumn.width">
           <template slot-scope="scope">
             <slot :row="scope.row"></slot>
             <el-button type="success" size="mini" @click="handleEdit(scope.row)">Edit</el-button>
