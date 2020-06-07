@@ -6,7 +6,7 @@
           <h2 class="title">{{title}}</h2>
         </div>
         <div class="card-body">
-            <nuxt />
+          <nuxt />
         </div>
       </div>
     </div>
@@ -15,6 +15,7 @@
 
 <script lang="js">
 export default {
+  name: "BaseContainerLayout",
     data(){
         return {
             title: "Title"
@@ -26,6 +27,6 @@ export default {
 <style scoped lang="sass">
 @import '../css/main.css'
 img
-    max-width: 514px
-    width: 100%
+  max-width: 514px
+  width: 100%
 </style>
