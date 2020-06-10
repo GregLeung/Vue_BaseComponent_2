@@ -23,10 +23,6 @@ export default {
     change: {
       type: Function,
       default: text => {}
-    },
-    titleStyle: {
-      type: Object,
-      default: {}
     }
   },
   data: () => {
