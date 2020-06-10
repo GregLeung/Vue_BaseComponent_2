@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="{'form-row': direction == 'row'}">
-      <div class="name input-title">{{title}}</div>
+      <div class="name input-title" :class="titleStyle">{{title}}</div>
       <div class="value">
         <div class="input-group">
           <input  @input="change(value)" v-model="value" class="input--style-5" type="text" name="name" />
@@ -23,6 +23,10 @@ export default {
     change: {
       type: Function,
       default: text => {}
+    },
+    titleStyle: {
+      type: Object,
+      default: {}
     }
   },
   data: () => {
