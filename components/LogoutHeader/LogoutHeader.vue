@@ -1,6 +1,7 @@
 <template>
     <div class="logout-header">
-        <p class="logout-text">登出</p>
+        <!-- <p class="logout-text">登出</p> -->
+        <slot></slot>
     </div>
 </template>
 <script>
