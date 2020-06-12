@@ -13,7 +13,7 @@ export default {};
   margin-left: 211px
   display: flex
   height: 52px
-  width: 100%
+  width: calc(100% - 211px)
   align-items: center
   justify-content: flex-end
   background-color: #3c8dbc
