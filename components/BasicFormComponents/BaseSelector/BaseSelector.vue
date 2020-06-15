@@ -1,11 +1,13 @@
 <template>
 <div>
   <div :class="{'form-row': direction == 'row'}">
-    <div class="name input-title">{{title}}</div>
+    <div class="name input-title" :style="titleStyle">{{title}}</div>
     <div class="select-row">
       <el-select
+        :multiple="multiple"
         class="margin-right"
         v-model="value"
+        :style="selectStyle"
         :placeholder="placeholder"
       >
         <el-option
@@ -15,7 +17,6 @@
           :label="item.label"
           :value="item.value"
         >
-          
         </el-option>
       </el-select>
       <el-input v-model="otherValue" v-if="showOtherInput()"></el-input>
@@ -43,8 +44,26 @@ export default {
       type: Function,
       default: function(){
         return false
-        
       }
+    },
+    titleStyle:{
+      type: Object,
+      default: function(){
+        return {}
+      },
+      required: false
+    },
+    selectStyle:{
+      type: Object,
+      default: function(){
+        return {}
+      },
+      required: false
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   data() {

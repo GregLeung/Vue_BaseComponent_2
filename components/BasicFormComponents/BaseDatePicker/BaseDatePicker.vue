@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="form-row">
-      <div class="name input-title">{{title}}</div>
-      <div class="value">
-        <div class="input-group">
+      <div class="name input-title" :style="titleStyle">{{title}}</div>
+      <!-- <div class="value">
+        <div class="input-group"> -->
           <el-date-picker
             v-model="value"
             :type="type"
             :placeholder="placeholder"
             :value-format="setValueFormat()"
           ></el-date-picker>
-        </div>
-      </div>
+        <!-- </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -29,6 +29,10 @@ export default {
       type: String,
       required: false,
       default: "Select"
+    },
+    titleStyle:{
+      type: Object,
+      default: () => {}
     }
   },
   methods: {
