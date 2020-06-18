@@ -18,6 +18,7 @@ export default {};
   align-items: center
   justify-content: flex-end
   background-color: #3c8dbc
+  z-index: 10
 .logout-text
   color: #FFFFFF
   font-size: 20px
