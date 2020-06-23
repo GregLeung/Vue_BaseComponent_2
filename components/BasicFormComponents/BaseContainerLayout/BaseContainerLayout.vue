@@ -20,7 +20,7 @@ export default {
     props: {
         headingStyle: {
             type: Object,
-            default: {}
+            default: () =>{}
         },
     },
     data() {
