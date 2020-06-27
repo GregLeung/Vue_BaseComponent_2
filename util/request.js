@@ -7,7 +7,7 @@ var Request = {
     action,
     params,
     successCallback = function() {},
-    errorCallback = function() {}
+    errorCallback = function() {},
   ) {
     Util.loading();
     axios
@@ -17,7 +17,7 @@ var Request = {
       .then(res => {
         if (isError(res)) throw new Error(res.data.data);
         successCallback(res.data);
-      })
+    })
       .catch(error => {
         vueInstance.$notify({
           title: "錯誤",
@@ -30,6 +30,31 @@ var Request = {
         Util.loading().close();
       });
   },
+  getAsync(vueInstance, action,params){
+    Util.loading();
+    return new Promise((resolve, reject) => {
+      axios
+      .get(store().state.baseUrl + action, {
+        params: params
+      })
+      .then(res => {
+        if (isError(res)) throw new Error(res.data.data);
+        resolve(res.data)
+      })
+      .catch(error => {
+        vueInstance.$notify({
+          title: "錯誤",
+          message: error,
+          type: "warning"
+        });
+        reject(error)
+      })
+      .finally(() => {
+        Util.loading().close();
+      });
+    });
+    
+  },
   post(
     vueInstance,
     action,
@@ -38,8 +63,18 @@ var Request = {
     errorCallback = function() {}
   ) {
     Util.loading();
+    // const data = new URLSearchParams();
+    // for(const property in body){
+    //   formData.append(property, JSON.stringify(body[property]));
+    // }
+    // data.append("aa", "BBB")
+    const headers = {
+      'Content-Type': 'application/json',
+    }
     axios
-      .post(store().state.baseUrl + action, body)
+      .post(store().state.baseUrl + action, body, {
+        headers: headers
+      })
       .then(res => {
         if (isError(res)) throw new Error(res.data.data);
         successCallback(res.data);

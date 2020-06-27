@@ -1,8 +1,15 @@
 <template>
-  <div class="fixed">
-    <div class="header">
-      <p class="title">{{title}}</p>
-    </div>
+  <div class="fixed" :style="isCollaspe ? {}: openStyle">
+    <navigation-menu-item></navigation-menu-item>
+    <!-- <el-popover placement="right"  trigger="click">
+      <div class="headerSelection">
+        <el-button class="headerSelectionButton" @click.native="handleSystemChange" round>Client Management System</el-button>
+        <el-button class="headerSelectionButton" round>Event System</el-button>
+      </div>
+      <div slot="reference" class="header">
+        <p class="title">{{title}}</p>
+      </div>
+    </el-popover>-->
     <el-menu
       class="height-100"
       default-active="2"
@@ -13,39 +20,27 @@
       active-text-color="#3c8dbc"
       ref="menu"
       @select="handleSelect"
+      :collapse="isCollaspe"
     >
-      <el-submenu
-        :index="submenu"
-        v-for="(submenu, subMenuIndex) in getSubMenu()"
-        v-bind:key="subMenuIndex"
-      >
-        <template slot="title">
-          <span class="sub-menu">{{submenu}}</span>
-        </template>
-        <el-menu-item-group v-for="(menu, index) in menu[submenu]" v-bind:key="index">
-          <el-menu-item :index="menu['path']" class="menu-item">
-            <i :class="menu['icon']"></i>
-            <span>{{menu["name"]}}</span>
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-menu-item
-        :index="menu[item]['path']"
-        class="menu-item"
-        v-for="(item, index) in getMenu()"
+      <navigation-menu-item
+        :menuItem="item"
+        v-for="(item, index) in menu"
         v-bind:key="index"
-      >
-        <i :class="menu[item]['icon']"></i>
-        <span>{{menu[item]["name"]}}</span>
-      </el-menu-item>
+      ></navigation-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
+import Cookies from "js-cookie";
+import { mapGetters } from "vuex";
+import NavigationMenuItem from "@/components/NavigationMenuItem";
 export default {
   mounted() {
     this.$refs.menu.activeIndex = this.path;
+  },
+  components: {
+    NavigationMenuItem
   },
   props: {
     path: {
@@ -57,8 +52,21 @@ export default {
       required: false
     },
     menu: {
-      type: Object,
+      type: Array,
       required: true
+    },
+    openStyle: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {};
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(["isNavigationBarOpened"]),
+    isCollaspe() {
+      return !this.isNavigationBarOpened;
     }
   },
   methods: {
@@ -66,51 +74,44 @@ export default {
     handleClose(key, keyPath) {},
     handleSelect(key, keyPath) {
       this.$router.push({ path: keyPath[keyPath.length - 1] });
-    },
-    getSubMenu() {
-      var menuList = Object.keys(this.menu);
-      var result = [];
-      menuList.forEach(f => {
-        if (Array.isArray(this.menu[f])) result.push(f);
-      });
-      return result;
-    },
-    getMenu() {
-      var menuList = Object.keys(this.menu);
-      var result = [];
-      menuList.forEach(f => {
-        if (!Array.isArray(this.menu[f])) result.push(f);
-      });
-      return result;
     }
   }
 };
 </script>
 <style scoped lang="sass">
-body
-    margin: 0px
 .fixed
-    position: fixed
-    height: 100%
+  position: fixed
+  z-index: 2
+  height: 100%
 .height-100
-    height: 100%
-.sub-menu
-    font-size: 18px
-    color: #48C9B0
+  height: 100%
 .menu-item
-    font-size: 20px
+  font-size: 18px
 .icon
-    font-size: 24px
+  font-size: 24px
 .header
-    height: 52px
-    width: 211px
-    border: none
-    background-color: #367fa9
-    display: flex
-    justify-content: center
-    align-items: center
+  height: 52px
+  width: 211px
+  cursor: pointer
+  border: none
+  background-color: #367fa9
+  display: flex
+  justify-content: center
+  align-items: center
 .title
-    color: #FFFFFF
-    font-size: 20px
-    text-align: center
+  color: #FFFFFF
+  font-size: 20px
+  padding: 4px
+  text-align: center
+.headerSelection
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+.headerSelectionButton
+  margin-bottom: 8px
+  margin-left: 0px
+  width: 100%
+.horizontal-collapse-transition
+  transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out
 </style>
