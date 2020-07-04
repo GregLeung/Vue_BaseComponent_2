@@ -15,5 +15,5 @@ export default{
 }
 </script>
 <style scoped lang="sass">
-@import "../sass/main.sass"
+@import "../main.sass"
 </style>
