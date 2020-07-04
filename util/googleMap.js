@@ -44,3 +44,4 @@ function getCurrentPosition() {
       );
     });
   }
+  export default GoogleMap;
