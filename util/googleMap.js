@@ -1,5 +1,5 @@
 class GoogleMap{
-    async static getCurrentLocationName(){
+    static async getCurrentLocationName(){
         if (!navigator.geolocation) throw new Error("Device Not Support GPS");
         var position = await getCurrentPosition();
         var address = await geocode(position);
