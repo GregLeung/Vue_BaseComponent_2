@@ -1,7 +1,7 @@
 import store from "@/store/index";
 import { Loading } from 'element-ui';
 class Util {
-  loading() {
+  static loading() {
     return Loading.service({
       lock: true,
       text: store().state.loadingText,
