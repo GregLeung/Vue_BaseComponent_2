@@ -1,139 +1,38 @@
 <template>
-  <div class="window-container">
-    <navigation-bar
-      :openStyle="openStyle"
-      :path="currentPath"
-      title="Client Management System"
-      :menu="menu"
-    ></navigation-bar>
-    <el-col>
-      <div class="main-page" :class="classObj">
-        <c-m-s-header :style="headerStyle">
-          <div slot="left">
-            <navigation-bar-toggle-button
-              :isActive="isNavigationBarOpened"
-              :toggleClick="toggleNavigationBarChange"
-              class="margin-left-14"
-            ></navigation-bar-toggle-button>
-          </div>
-          <div slot="right">
-            <el-button class="text-button margin-right-14" type="text">William</el-button>
-            <el-button @click="handleLogOut" class="margin-right-14">Log out</el-button>
-          </div>
-        </c-m-s-header>
-        <div class="page">
-          <transition name="slide-fade">
-            <nuxt />
-          </transition>
-        </div>
-      </div>
-    </el-col>
+  <div :style="headerStyle" class="cms-header">
+    <div class="left">
+      <slot name="left"></slot>
+    </div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import NavigationBar from "@/components/NavigationBar";
-import NavigationBarToggleButton from "@/components/NavigationBarToggleButton/NavigationBarToggleButton";
-import CMSHeader from "@/components/CMSHeader/CMSHeader";
-import { BaseFooter } from "vue_basecomponent";
-import variables from "@/static/variables.scss";
 export default {
-  components: {
-    NavigationBar,
-    CMSHeader,
-    NavigationBarToggleButton
-  },
-  computed: {
-    ...mapGetters(["isNavigationBarOpened"]),
-    classObj() {
-      return {
-        hideSidebar: !this.isNavigationBarOpened
-      };
-    },
-    headerStyle() {
-      return {
-        width: this.isNavigationBarOpened
-          ? variables["cms-header-width"]
-          : variables["cms-header-width-with-collapse-navigation-bar"]
-      };
-    },
-    openStyle() {
-      return {
-        width: variables["navigation-bar-width"]
-      };
-    }
-  },
-  data() {
-    return {
-      currentPath: $nuxt.$route.path,
-      menu: [
-        {
-          path: "/crm/staff",
-          name: "Staff Management",
-          icon: "el-icon-user"
-        },
-        {
-          path: "/crm/client",
-          name: "Client Management",
-          icon: "el-icon-s-custom"
-        },
-        {
-          name: "Event System",
-          icon: "el-icon-menu",
-          children: [
-            {
-              path: "/crm/roi",
-              name: "ROI Management",
-              icon: "el-icon-user"
-            },
-            {
-              path: "/crm/booking",
-              name: "Booking Management",
-              icon: "el-icon-s-order",
-            },
-            {
-              path: "/crm/event",
-              name: "Events Management",
-              icon: "el-icon-tickets",
-            }
-          ]
-        }
-      ]
-    };
-  },
-  methods: {
-    toggleNavigationBarChange() {
-      this.$store.dispatch("toggleSideBar");
-    },
-    handleLogOut(){
-      this.$router.push({ path: "/crm/login" });
+  props: {
+    headerStyle: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {};
+      }
     }
   }
 };
 </script>
-
 <style scoped lang="sass">
-@import "@/static/main.sass"
-@import "@/static/variables.scss"
-
-.window-container
+.cms-header
+  position: fixed
+  padding-right: 24px
   display: flex
-  height: 100%
+  height: 52px
   width: 100%
-
-.table-title
-  font-size: 24px
-.main-page
-  margin-left: $navigation-bar-width
-  height: 100%
-  &.hideSidebar
-    margin-left: 64px
-  .page
-    
-    padding: 8px
-    padding-top: 50px
-    height: calc(100% - 58px)
-
-.text-button
-  color: white
+  align-items: center
+  justify-content: space-between
+  background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(157,157,218,1) 0%, rgba(45,134,240,1) 100%)
+  z-index: 10
+.logout-text
+  color: #FFFFFF
+  font-size: 20px
 </style>

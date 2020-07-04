@@ -63,11 +63,6 @@ var Request = {
     errorCallback = function() {}
   ) {
     Util.loading();
-    // const data = new URLSearchParams();
-    // for(const property in body){
-    //   formData.append(property, JSON.stringify(body[property]));
-    // }
-    // data.append("aa", "BBB")
     const headers = {
       'Content-Type': 'application/json',
     }

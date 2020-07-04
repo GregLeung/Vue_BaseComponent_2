@@ -1,15 +1,6 @@
 <template>
   <div class="fixed" :style="isCollaspe ? {}: openStyle">
     <navigation-menu-item></navigation-menu-item>
-    <!-- <el-popover placement="right"  trigger="click">
-      <div class="headerSelection">
-        <el-button class="headerSelectionButton" @click.native="handleSystemChange" round>Client Management System</el-button>
-        <el-button class="headerSelectionButton" round>Event System</el-button>
-      </div>
-      <div slot="reference" class="header">
-        <p class="title">{{title}}</p>
-      </div>
-    </el-popover>-->
     <el-menu
       class="height-100"
       default-active="2"
@@ -34,7 +25,7 @@
 <script>
 import Cookies from "js-cookie";
 import { mapGetters } from "vuex";
-import NavigationMenuItem from "@/components/NavigationMenuItem";
+import NavigationMenuItem from "../NavigationMenuItem/NavigationMenuItem";
 export default {
   mounted() {
     this.$refs.menu.activeIndex = this.path;
