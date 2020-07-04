@@ -1,61 +1,24 @@
 import axios from "axios";
 import Util from "./util.js";
 import store from "@/store/index";
-var Request = {
-  get(
+class Request {
+  static get(
     vueInstance,
     action,
     params,
     successCallback = function() {},
-    errorCallback = function() {},
+    errorCallback = function() {}
   ) {
     Util.loading();
-    axios
-      .get(store().state.baseUrl + action, {
-        params: params
-      })
-      .then(res => {
-        if (isError(res)) throw new Error(res.data.data);
-        successCallback(res.data);
-    })
-      .catch(error => {
-        vueInstance.$notify({
-          title: "錯誤",
-          message: error,
-          type: "warning"
-        });
-        errorCallback(error);
-      })
-      .finally(() => {
-        Util.loading().close();
-      });
-  },
-  getAsync(vueInstance, action,params){
+    get(vueInstance, action, params, successCallback, errorCallback);
+  }
+  static getAsync(vueInstance, action, params) {
     Util.loading();
     return new Promise((resolve, reject) => {
-      axios
-      .get(store().state.baseUrl + action, {
-        params: params
-      })
-      .then(res => {
-        if (isError(res)) throw new Error(res.data.data);
-        resolve(res.data)
-      })
-      .catch(error => {
-        vueInstance.$notify({
-          title: "錯誤",
-          message: error,
-          type: "warning"
-        });
-        reject(error)
-      })
-      .finally(() => {
-        Util.loading().close();
-      });
+      get(vueInstance, action, params, resolve, reject);
     });
-    
-  },
-  post(
+  }
+  static post(
     vueInstance,
     action,
     body,
@@ -64,8 +27,8 @@ var Request = {
   ) {
     Util.loading();
     const headers = {
-      'Content-Type': 'application/json',
-    }
+      "Content-Type": "application/json"
+    };
     axios
       .post(store().state.baseUrl + action, body, {
         headers: headers
@@ -85,8 +48,8 @@ var Request = {
       .finally(() => {
         Util.loading().close();
       });
-  },
-  uploadFile(
+  }
+  static uploadFile(
     file,
     url,
     successCallback = function() {},
@@ -117,8 +80,29 @@ var Request = {
         Util.loading().close();
       });
   }
-};
+}
 
+function get(vueInstance, action, params, successCallback, errorCallback) {
+  axios
+    .get(store().state.baseUrl + action, {
+      params: params
+    })
+    .then(res => {
+      if (isError(res)) throw new Error(res.data.data);
+      successCallback(res.data);
+    })
+    .catch(error => {
+      vueInstance.$notify({
+        title: "錯誤",
+        message: error,
+        type: "warning"
+      });
+      errorCallback(error);
+    })
+    .finally(() => {
+      Util.loading().close();
+    });
+}
 function isError(res) {
   try {
     return res.data.code != 200;

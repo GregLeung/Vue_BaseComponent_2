@@ -1,6 +1,6 @@
 import store from "@/store/index";
 import { Loading } from 'element-ui';
-var Util = {
+class Util {
   loading() {
     return Loading.service({
       lock: true,

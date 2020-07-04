@@ -6,6 +6,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar.vue"
 import NavigationBarToggleButton from "./components/NavigationBarToggleButton/NavigationBarToggleButton.vue"
 import LoginContainerBox from "./components/Login/LoginContainerBox/LoginContainerBox.vue"
 import LoginInput from "./components/Login/LoginInput/LoginInput.vue"
+import Request from "./components/Login/LoginInput/LoginInput.vue"
 
 
 export {BaseFooter, BaseTable, BaseUploadButton, CMSHeader, NavigationBar, NavigationBarToggleButton, LoginContainerBox, LoginInput};
