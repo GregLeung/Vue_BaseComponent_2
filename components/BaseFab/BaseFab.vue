@@ -19,14 +19,13 @@
                                     v-tooltip="{ content: action.tooltip, placement: tooltipPosition, classes: 'fab-tooltip', trigger: tooltipTrigger}"
                                     @click="action.onClick()" class="pointer"
                                     ref="actions">
-                                    <!-- <i :class="[ actionIconSize ,'material-icons']">{{action.icon}}</i> -->
-                                    <i :class="['el-icon-edit']" :style="{'font-size': iconSize, color: iconColor}"/>
+                                    <i :class="action.icon" :style="{'font-size': iconSize, color: iconColor}"/>
                                 </li>
                             </template>
                             <template v-else>
                                 <li v-if="toggle" :style="{ 'background': action.color || bgColor }"
                                     @click="action.onClick()" class="pointer">
-                                    <i :class="['el-icon-edit']" :style="{'font-size': iconSize, color: iconColor}"/>
+                                    <i :class="action.icon" :style="{'font-size': iconSize, color: iconColor}"/>
                                 </li>
                             </template>
                         </transition>
