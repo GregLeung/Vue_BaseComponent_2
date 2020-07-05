@@ -10,6 +10,7 @@ import BaseCamera from "./components/BaseCamera/BaseCamera.vue";
 import CMSForm from "./components/CMSForm/CMSForm.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
+import BaseFab from "./components/BaseFab/BaseFab.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -28,6 +29,7 @@ export {
   CMSForm,
   BaseLabel,
   IconField,
+  BaseFab,
   Request,
   Excel,
   Util,
