@@ -89,6 +89,9 @@ function get(vueInstance, action, params, successCallback, errorCallback) {
     })
     .then(res => {
       if (isError(res)) throw new Error(res.data.data);
+      res.data = jsonParse(res.data)
+      console.log(res.data);
+      
       successCallback(res.data);
     })
     .catch(error => {
@@ -110,4 +113,32 @@ function isError(res) {
     return true;
   }
 }
+
+function jsonParse(parameter){
+    var result = {}
+      if(IsJsonString(parameter)){
+        result = jsonParse(JSON.parse(parameter))
+      }else if(Array.isArray(parameter)){
+        result = parameter.map(f => jsonParse(f))
+      }else if(parameter instanceof Object){
+        for (const property in parameter) {
+          result[property] = jsonParse(parameter[property])
+        }     
+      }
+      else{
+        result = parameter
+      }
+    
+    return result
+}
+
+function IsJsonString(str) {
+  try {
+      var json = JSON.parse(str);
+      return (typeof json === 'object' && json != null);
+  } catch (e) {
+      return false;
+  }
+}
+
 export default Request;
