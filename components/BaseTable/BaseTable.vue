@@ -239,10 +239,16 @@ export default {
       }
     },
     handleUpdate() {
-      Request.get(
+      var updateData = {
+        ID: this.currentSelection["ID"]
+      };
+      this.columnList.forEach(f => {
+        updateData[f.prop] = this.currentSelection[f.prop];
+      })
+      Request.post(
         this,
         "update_" + this.tableName,
-        this.currentSelection,
+        updateData,
         res => {
           if (res.code == -1) throw res.data.data;
           this.$notify({
