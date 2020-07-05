@@ -331,7 +331,9 @@
     }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
+    @import "./icons.css";
+    @import "./animation.css";
     .animated.quick {
         -webkit-animation-duration: .7s !important;
         animation-duration: .7s !important;
