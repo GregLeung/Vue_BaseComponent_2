@@ -143,7 +143,8 @@ export default {
     },
     manipulationColumn: {
       type: Object,
-      required: true
+      required: false,
+      default: () => {width: 150}
     },
     title: {
       type: String,
