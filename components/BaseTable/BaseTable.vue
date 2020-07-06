@@ -43,19 +43,25 @@
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-if="showManipulation" label="Manipulation" fixed="right" :min-width="manipulationColumn.width">
+        <el-table-column
+          v-if="showManipulation"
+          label="Manipulation"
+          fixed="right"
+          :min-width="manipulationColumn.width"
+        >
           <template slot-scope="scope">
-            <slot :row="scope.row"></slot>
-            <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
-            <el-popconfirm
-              @click.stop.native=""
-              @onConfirm="handleDelete(scope.row)"
-              :title="'Confirm to delete ID: ' + scope.row.ID "
-              confirmButtonText="Confirm"
-              cancelButtonText="Cancel"
-            >
-              <el-button slot="reference" size="mini" type="danger">Delete</el-button>
-            </el-popconfirm>
+            <slot name="manipulation" :row="scope.row">
+              <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
+              <el-popconfirm
+                @click.stop.native
+                @onConfirm="handleDelete(scope.row)"
+                :title="'Confirm to delete ID: ' + scope.row.ID "
+                confirmButtonText="Confirm"
+                cancelButtonText="Cancel"
+              >
+                <el-button slot="reference" size="mini" type="danger">Delete</el-button>
+              </el-popconfirm>
+            </slot>
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +72,13 @@
         width="70%"
       >
         <div v-for="(item, index) in columnList" :key="index">
-          <el-row v-if="!item['disabled']" class="margin-bottom-24" type="flex" align="middle" justify="center">
+          <el-row
+            v-if="!item['disabled']"
+            class="margin-bottom-24"
+            type="flex"
+            align="middle"
+            justify="center"
+          >
             <el-col :span="4">
               <span class="title-font">{{item.label}}</span>
             </el-col>
@@ -128,7 +140,7 @@ import Request from "../../util/request";
 import Util from "../../util/util";
 export default {
   props: {
-    showManipulation:{
+    showManipulation: {
       type: Boolean,
       required: false,
       default: true
@@ -144,7 +156,9 @@ export default {
     manipulationColumn: {
       type: Object,
       required: false,
-      default: () => {width: 150}
+      default: () => {
+        return { width: 150 };
+      }
     },
     title: {
       type: String,
@@ -160,15 +174,15 @@ export default {
       required: false,
       default: null
     },
-    rowClick:{
+    rowClick: {
       type: Function,
       required: false,
-      default: (row, column, event) =>{}
+      default: (row, column, event) => {}
     },
-    rowStyle:{
+    rowStyle: {
       type: Function,
       required: false,
-      default:({row, Object}) => {}
+      default: ({ row, Object }) => {}
     }
   },
   mounted() {
@@ -249,22 +263,17 @@ export default {
       };
       this.columnList.forEach(f => {
         updateData[f.prop] = this.currentSelection[f.prop];
-      })
-      Request.post(
-        this,
-        "update_" + this.tableName,
-        updateData,
-        res => {
-          if (res.code == -1) throw res.data.data;
-          this.$notify({
-            title: "Success",
-            message: "",
-            type: "success"
-          });
-          this.dialogVisible = false;
-          this.handleRefresh();
-        }
-      );
+      });
+      Request.post(this, "update_" + this.tableName, updateData, res => {
+        if (res.code == -1) throw res.data.data;
+        this.$notify({
+          title: "Success",
+          message: "",
+          type: "success"
+        });
+        this.dialogVisible = false;
+        this.handleRefresh();
+      });
     },
     parseData(row, property, currentProp) {
       if (property.hasOwnProperty("parseValue")) {
