@@ -43,7 +43,7 @@
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Manipulation" fixed="right" :min-width="manipulationColumn.width">
+        <el-table-column v-if="showManipulation" label="Manipulation" fixed="right" :min-width="manipulationColumn.width">
           <template slot-scope="scope">
             <slot :row="scope.row"></slot>
             <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
@@ -128,6 +128,11 @@ import Request from "../../util/request";
 import Util from "../../util/util";
 export default {
   props: {
+    showManipulation:{
+      type: Boolean,
+      required: false,
+      default: true
+    },
     columnList: {
       type: Array,
       required: true
@@ -324,10 +329,7 @@ export default {
   font-size: 20px
 .container
   height: 70vh
-  // display: flex
-  // flex-direction: column
   .table-wrapper
-    // flex-grow: 1
     height: 100%
 .margin-bottom-24
   margin-bottom: 24px
