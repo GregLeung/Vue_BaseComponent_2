@@ -90,8 +90,6 @@ function get(vueInstance, action, params, successCallback, errorCallback) {
     .then(res => {
       if (isError(res)) throw new Error(res.data.data);
       res.data = jsonParse(res.data)
-      console.log(res.data);
-      
       successCallback(res.data);
     })
     .catch(error => {

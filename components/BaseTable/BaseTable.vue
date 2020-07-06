@@ -233,7 +233,6 @@ export default {
     async handleRefresh() {
       try {
         if (this.customRefresh) {
-          var result = this.customRefresh();
           this.dataList = await this.customRefresh();
         } else {
           Request.get(this, "get_" + this.tableName + "_all", {}, res => {
