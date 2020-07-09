@@ -50,8 +50,9 @@
           :min-width="manipulationColumn.width"
         >
           <template slot-scope="scope">
+            <div @click.stop="">
             <slot name="manipulation" :row="scope.row">
-              <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
+                <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
               <el-popconfirm
                 @click.stop.native
                 @onConfirm="handleDelete(scope.row)"
@@ -62,6 +63,7 @@
                 <el-button slot="reference" size="mini" type="danger">Delete</el-button>
               </el-popconfirm>
             </slot>
+            </div>
           </template>
         </el-table-column>
       </el-table>
