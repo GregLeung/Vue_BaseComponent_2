@@ -1,28 +1,28 @@
 <template>
-<div>
-  <div :class="{'form-row': direction == 'row'}">
-    <div class="name input-title" :style="titleStyle">{{title}}</div>
-    <div class="select-row">
-      <el-select
-        :multiple="multiple"
-        class="margin-right"
-        v-model="value"
-        :style="selectStyle"
-        :placeholder="placeholder"
-      >
-        <el-option
-          class="input"
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+  <div>
+    <div :class="{'form-row': direction == 'row'}">
+      <div class="name input-title" :style="titleStyle">{{title}}</div>
+      <div class="select-row">
+        <el-select
+          @change="handleOnChange"
+          :multiple="multiple"
+          class="margin-right"
+          v-model="value"
+          :style="selectStyle"
+          :placeholder="placeholder"
         >
-        </el-option>
-      </el-select>
-      <el-input v-model="otherValue" v-if="showOtherInput()"></el-input>
+          <el-option
+            class="input"
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <el-input v-model="otherValue" v-if="showOtherInput()"></el-input>
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 export default {
@@ -32,7 +32,7 @@ export default {
       type: String,
       default: "Select"
     },
-    options:{
+    options: {
       type: Array,
       default: []
     },
@@ -42,21 +42,21 @@ export default {
     },
     showOtherInput: {
       type: Function,
-      default: function(){
-        return false
+      default: function() {
+        return false;
       }
     },
-    titleStyle:{
+    titleStyle: {
       type: Object,
-      default: function(){
-        return {}
+      default: function() {
+        return {};
       },
       required: false
     },
-    selectStyle:{
+    selectStyle: {
       type: Object,
-      default: function(){
-        return {}
+      default: function() {
+        return {};
       },
       required: false
     },
@@ -72,7 +72,15 @@ export default {
       otherValue: null
     };
   },
-  methods: {}
+  model: {
+    prop: "value",
+    event: "update"
+  },
+  methods: {
+    handleOnChange(value) {
+      this.$emit("update", value)
+    }
+  }
 };
 </script>
 <style lang="sass" scoped>
@@ -98,13 +106,13 @@ export default {
     color: red
     font-size: 20px
 .name
-  color: #555
-  font-size: 28px
-  font-weight: 700
+    color: #555
+    font-size: 28px
+    font-weight: 700
 .margin-bottom
     margin-bottom: 8px
 .select-row
-  display: flex
-  justify-content: flex-start
-  align-items: center
+    display: flex
+    justify-content: flex-start
+    align-items: center
 </style>

@@ -1,42 +1,48 @@
 <template>
-  <div>
+<div>
     <div :class="{'form-row': direction == 'row'}">
         <div class="name input-title" :style="titleStyle">{{title}}</div>
-      <!-- <div class="value">
-        <div class="input-group"> -->
-          <input   @input="change(value)" v-model="value" class="input--style-5" type="text" name="name" />
-        <!-- </div>
-      </div> -->
+        <input @input="handleOnChange(value)" v-model="value" class="input--style-5" type="text" name="name" />
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
-  props: {
-    title: String,
-    validateMessage:String,
-    direction: {
-      type: String,
-      default: "row"
-    }, 
-    change: {
-      type: Function,
-      default: text => {}
+    props: {
+        title: String,
+        validateMessage: String,
+        direction: {
+            type: String,
+            default: "row"
+        },
+        change: {
+            type: Function,
+            default: text => {}
+        },
+        titleStyle: {
+            type: Object,
+            default: () => {}
+        }
     },
-    titleStyle:{
-      type: Object,
-      default: () => {}
+    model:{
+        prop: "value",
+        event: "update"
+    },
+    data: () => {
+        return {
+            value: "",
+        };
+    },
+    methods:{
+        handleOnChange(value){
+            this.$emit("update", value)
+        }
     }
-  },
-  data: () => {
-    return {
-      value: "",
-    };
-  }
 };
 </script>
-<style scoped lang="sass">
+
+<style lang="sass" scoped>
 @import '../css/main.css'
 .validation-text
     padding-left: 125px
