@@ -23,16 +23,14 @@ export default {
         titleStyle: {
             type: Object,
             default: () => {}
+        },
+        value:{
+            type: String
         }
     },
     model:{
         prop: "value",
         event: "update"
-    },
-    data: () => {
-        return {
-            value: "",
-        };
     },
     methods:{
         handleOnChange(event){
@@ -41,6 +39,7 @@ export default {
     }
 };
 </script>
+
 
 <style lang="sass" scoped>
 @import '../css/main.css'
