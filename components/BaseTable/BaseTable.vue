@@ -13,7 +13,6 @@
         @selection-change="handleSelectionChange"
         class="table margin-bottom-24"
         border
-        height="100%"
         :data="dataListForShow"
         style="width: 100%"
         :cell-style="cellStyle"
@@ -50,9 +49,8 @@
           :min-width="manipulationColumn.width"
         >
           <template slot-scope="scope">
-            <div @click.stop="">
             <slot name="manipulation" :row="scope.row">
-                <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
+              <el-button type="success" size="mini" @click.stop.native="handleEdit(scope.row)">Edit</el-button>
               <el-popconfirm
                 @click.stop.native
                 @onConfirm="handleDelete(scope.row)"
@@ -63,7 +61,6 @@
                 <el-button slot="reference" size="mini" type="danger">Delete</el-button>
               </el-popconfirm>
             </slot>
-            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -339,7 +336,6 @@ export default {
 .title-font
   font-size: 20px
 .container
-  height: 70vh
   .table-wrapper
     height: 100%
 .margin-bottom-24
@@ -353,6 +349,7 @@ export default {
   justify-content: flex-end
 </style>
 <style lang="sass">
+
 .el-table__row
   cursor: pointer
 </style>
