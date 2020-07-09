@@ -2,7 +2,7 @@
 <div>
     <div :class="{'form-row': direction == 'row'}">
         <div class="name input-title" :style="titleStyle">{{title}}</div>
-        <input @input="handleOnChange(value)" v-model="value" class="input--style-5" type="text" name="name" />
+        <input @input="handleOnChange" v-bind:value="value" class="input--style-5" type="text" name="name" />
     </div>
 </div>
 </template>
