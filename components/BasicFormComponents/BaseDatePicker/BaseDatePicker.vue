@@ -2,7 +2,7 @@
 <div>
     <div class="form-row">
         <div class="name input-title" :style="titleStyle">{{title}}</div>
-        <el-date-picker @change="handleOnChange" v-model="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
+        <el-date-picker @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
     </div>
 </div>
 </template>
@@ -24,6 +24,9 @@ export default {
         titleStyle: {
             type: Object,
             default: () => {}
+        },
+        value:{
+            type: String
         }
     },
     model:{
@@ -40,15 +43,9 @@ export default {
         handleOnChange(value){
             this.$emit("update", value)
         }
-    },
-    data: () => {
-        return {
-            value: null,
-        };
     }
 };
 </script>
-
 <style lang="sass" scoped>
 @import '../css/main.css'
 .validation-text

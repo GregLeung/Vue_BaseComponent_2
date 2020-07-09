@@ -4,10 +4,10 @@
       <div class="name input-title" :style="titleStyle">{{title}}</div>
       <div class="select-row">
         <el-select
-          @change="handleOnChange"
+          @input="handleOnChange"
           :multiple="multiple"
           class="margin-right"
-          v-model="value"
+          v-bind:value="value"
           :style="selectStyle"
           :placeholder="placeholder"
         >
@@ -64,11 +64,13 @@ export default {
       type: Boolean,
       default: false,
       required: false
+    },
+    value:{
+        type: String
     }
   },
   data() {
     return {
-      value: null,
       otherValue: null
     };
   },
