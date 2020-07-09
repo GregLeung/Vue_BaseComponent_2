@@ -35,8 +35,8 @@ export default {
         };
     },
     methods:{
-        handleOnChange(value){
-            this.$emit("update", value)
+        handleOnChange(event){
+            this.$emit("update", event.target.value)
         }
     }
 };
