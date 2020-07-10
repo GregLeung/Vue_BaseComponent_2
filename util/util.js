@@ -9,6 +9,11 @@ class Util {
       background: store().state.loadingBackground
     });
   }
+  static goToUrl(url, parameters){
+    var url = new URL(url)
+    url.search = new URLSearchParams(parameters)
+    location.href = url.href
+  }
 };
 
 export default Util;
