@@ -7,7 +7,8 @@ import NavigationBarToggleButton from "./components/NavigationBarToggleButton/Na
 import LoginContainerBox from "./components/Login/LoginContainerBox/LoginContainerBox.vue";
 import LoginInput from "./components/Login/LoginInput/LoginInput.vue";
 import BaseCamera from "./components/BaseCamera/BaseCamera.vue";
-import CMSForm from "./components/CMSForm/CMSForm.vue";
+import CMSForm from "./components/CMSFormComponent/CMSForm/CMSForm.vue";
+import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInput.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
@@ -27,6 +28,7 @@ export {
   LoginInput,
   BaseCamera,
   CMSForm,
+  CMSFormInput,
   BaseLabel,
   IconField,
   BaseFab,
