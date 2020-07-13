@@ -66,7 +66,7 @@ export default {
       required: false
     },
     value:{
-        type: Array
+        type: [Array, String]
     }
   },
   data() {
