@@ -66,7 +66,7 @@ export default {
       required: false
     },
     value:{
-        type: Any
+        type: Object
     }
   },
   data() {
