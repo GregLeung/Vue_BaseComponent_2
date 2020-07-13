@@ -66,7 +66,7 @@ export default {
       required: false
     },
     value:{
-        type: Object
+        type: Array
     }
   },
   data() {
