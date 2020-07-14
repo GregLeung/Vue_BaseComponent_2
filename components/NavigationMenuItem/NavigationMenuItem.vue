@@ -1,6 +1,6 @@
 <template>
-    <div id="navigation-menu-item" :style="cssProps">
-    <el-submenu v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
+    
+    <el-submenu id="navigation-menu-item" :style="cssProps" v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
     <template slot="title">
       <i :class="menuItem['icon']"></i>
       <span class="sub-menu">{{menuItem['name']}}</span>
@@ -18,13 +18,13 @@
       </el-menu-item-group>
     </div>
   </el-submenu>
-  <div v-else-if="menuItem != null">
+  <div id="navigation-menu-item" :style="cssProps" v-else-if="menuItem != null">
     <el-menu-item :index="menuItem['path']" class="menu-item">
       <i :class="menuItem['icon']"></i>
       <span slot="title">{{menuItem["name"]}}</span>
     </el-menu-item>
   </div>
-    </div>
+    
 </template>
 <script>
 export default {
