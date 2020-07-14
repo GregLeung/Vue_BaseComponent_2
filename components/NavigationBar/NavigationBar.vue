@@ -80,6 +80,10 @@ export default {
   z-index: 2
   height: 100%
   overflow: scroll
+  &::-webkit-scrollbar
+    display: none
+    -ms-overflow-style: none
+    scrollbar-width: none
 .height-100
   height: 100%
 .menu-item
