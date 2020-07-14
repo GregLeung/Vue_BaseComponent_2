@@ -2,7 +2,7 @@
   <div id="base-table" class="container">
     <h1>{{title}}</h1>
     <el-input
-      class="margin-bottom-24 search-input"
+      class="margin-bottom-12 search-input"
       v-model="search"
       size="medium"
       placeholder="Search"
@@ -333,13 +333,16 @@ export default {
 };
 </script>
 <style scoped lang="sass">
+h1
+    margin-top: .2em
+    margin-bottom: .2em
 .title-font
   font-size: 20px
 .container
   .table-wrapper
     height: 100%
-.margin-bottom-24
-  margin-bottom: 24px
+.margin-bottom-12
+  margin-bottom: 12px
 .margin-top-24
   margin-top: 24px
 .search-input
@@ -353,5 +356,6 @@ export default {
 .el-table__row
   cursor: pointer
 </style>
+
 
 
