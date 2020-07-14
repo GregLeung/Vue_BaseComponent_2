@@ -1,5 +1,6 @@
 <template>
-  <el-submenu v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
+    <div id="navigation-menu-item" :style="cssProps">
+    <el-submenu v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
     <template slot="title">
       <i :class="menuItem['icon']"></i>
       <span class="sub-menu">{{menuItem['name']}}</span>
@@ -23,6 +24,7 @@
       <span slot="title">{{menuItem["name"]}}</span>
     </el-menu-item>
   </div>
+    </div>
 </template>
 <script>
 export default {
@@ -30,6 +32,18 @@ export default {
   props: {
     menuItem: {
       required: false
+    },
+    lineHeight: {
+        type: String,
+        required: false,
+        default: "56px"
+    }
+  },
+  computed: {
+    cssProps() {
+      return {
+        '--height': this.lineHeight
+      }
     }
   }
 };
@@ -39,4 +53,17 @@ export default {
   font-size: 18px
 .menu-item
   font-size: 18px
+</style>
+<style lang="sass">
+#navigation-menu-item
+    .el-submenu__title
+        height: var(--height)
+        line-height: var(--height)
+    
+    .el-menu-item
+        height: var(--height)
+        line-height: var(--height)
+    .el-menu-item-group__title
+        padding: 0px
+    
 </style>

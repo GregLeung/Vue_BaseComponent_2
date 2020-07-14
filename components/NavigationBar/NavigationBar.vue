@@ -1,6 +1,5 @@
 <template>
   <div class="fixed" :style="isCollaspe ? {}: openStyle">
-    <navigation-menu-item></navigation-menu-item>
     <el-menu
       class="height-100"
       default-active="2"
@@ -15,9 +14,10 @@
     >
       <navigation-menu-item
         :menuItem="item"
+        :lineHeight="lineHeight"
         v-for="(item, index) in menu"
         v-bind:key="index"
-      ></navigation-menu-item>
+      />
     </el-menu>
   </div>
 </template>
@@ -45,6 +45,11 @@ export default {
     menu: {
       type: Array,
       required: true
+    },
+    lineHeight: {
+        type: String,
+        required: false,
+        default: "56px"
     },
     openStyle: {
       type: Object,
@@ -74,6 +79,7 @@ export default {
   position: fixed
   z-index: 2
   height: 100%
+  overflow: scroll
 .height-100
   height: 100%
 .menu-item
