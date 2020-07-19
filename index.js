@@ -12,6 +12,7 @@ import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInpu
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
+import LanguageButton from "./components/LanguageButton/LanguageButton.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -32,6 +33,7 @@ export {
   BaseLabel,
   IconField,
   BaseFab,
+  LanguageButton,
   Request,
   Excel,
   Util,
