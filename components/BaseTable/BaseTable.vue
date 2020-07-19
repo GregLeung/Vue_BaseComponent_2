@@ -16,21 +16,21 @@
             <el-table-column v-if="showManipulation" :label="$t('Manipulation')" fixed="right" :min-width="manipulationColumn.width">
                 <template slot-scope="scope">
                     <slot name="manipulation" :row="scope.row">
-                        <el-tooltip class="item" effect="dark" content="View & Edit" placement="top">
+                        <el-tooltip class="item" effect="dark" :content="$t('Edit')" placement="top">
                             <el-button v-if="isCircleButton" circle type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit"></el-button>
-                            <el-button v-else type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit">Edit</el-button>
+                            <el-button v-else type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit">{{$t("Edit")}}</el-button>
                         </el-tooltip>
-                        <el-tooltip class="item" effect="dark" content="Delete" placement="top">
-                            <el-popconfirm @click.stop.native @onConfirm="handleDelete(scope.row)" :title="'Confirm to delete ID: ' + scope.row.ID " confirmButtonText="Confirm" cancelButtonText="Cancel">
+                        <el-tooltip class="item" effect="dark" :content="$t('Delete')" placement="top">
+                            <el-popconfirm @click.stop.native @onConfirm="handleDelete(scope.row)" :title="$t('Confirm to delete ID: ') + scope.row.ID " confirmButtonText="Confirm" cancelButtonText="Cancel">
                                 <el-button v-if="isCircleButton" circle slot="reference" size="mini" type="danger" icon="el-icon-delete"></el-button>
-                                <el-button v-else slot="reference" size="mini" type="danger" icon="el-icon-delete">Delete</el-button>
+                                <el-button v-else slot="reference" size="mini" type="danger" icon="el-icon-delete">{{$t('Delete')}}</el-button>
                             </el-popconfirm>
                         </el-tooltip>
                     </slot>
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-if="currentSelection != null" title="Edit" :visible.sync="dialogVisible" width="70%">
+        <el-dialog v-if="currentSelection != null" :title="$t('Edit')" :visible.sync="dialogVisible" width="70%">
             <div v-for="(item, index) in columnList" :key="index">
                 <el-row v-if="!item['disabled']" class="margin-bottom-24" type="flex" align="middle" justify="center">
                     <el-col :span="4">
