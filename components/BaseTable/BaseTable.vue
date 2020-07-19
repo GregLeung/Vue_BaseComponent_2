@@ -48,7 +48,7 @@
                 </el-row>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">$t('Cancel')</el-button>
+                <el-button @click="dialogVisible = false">{{$t('Cancel')}}</el-button>
                 <el-button type="primary" @click="handleUpdate">{{$t('Confirm')}}</el-button>
             </span>
         </el-dialog>
