@@ -21,7 +21,7 @@
                             <el-button v-else type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit">{{$t("Edit")}}</el-button>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark" :content="$t('Delete')" placement="top">
-                            <el-popconfirm @click.stop.native @onConfirm="handleDelete(scope.row)" :title="$t('Confirm to delete ID:') + scope.row.ID " confirmButtonText="Confirm" :cancelButtonText="$t('Cancel')">
+                            <el-popconfirm @click.stop.native @onConfirm="handleDelete(scope.row)" :title="$t('Confirm to delete ID:') + scope.row.ID " :confirmButtonText="$t('Confirm')" :cancelButtonText="$t('Cancel')">
                                 <el-button v-if="isCircleButton" circle slot="reference" size="mini" type="danger" icon="el-icon-delete"></el-button>
                                 <el-button v-else slot="reference" size="mini" type="danger" icon="el-icon-delete">{{$t('Delete')}}</el-button>
                             </el-popconfirm>
@@ -48,7 +48,7 @@
                 </el-row>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button @click="dialogVisible = false">$t('Cancel')</el-button>
                 <el-button type="primary" @click="handleUpdate">{{$t('Confirm')}}</el-button>
             </span>
         </el-dialog>
