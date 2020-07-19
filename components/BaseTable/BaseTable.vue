@@ -1,7 +1,7 @@
 <template>
 <div id="base-table" class="container">
     <h1>{{title}}</h1>
-    <el-input class="margin-bottom-12 search-input" v-model="search" size="medium" placeholder="Search" />
+    <el-input class="margin-bottom-12 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
     <div class="table-wrapper">
         <el-table @sort-change="sortChange" @selection-change="handleSelectionChange" class="table margin-bottom-24" border :data="dataListForShow" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{background:'#333333', color: 'white'}" :row-style="rowStyle" @row-click="rowClick">
             <el-table-column v-if="isBatchSelection" type="selection" width="55"></el-table-column>
@@ -13,7 +13,7 @@
                     <span v-else>{{ scope.row[column.prop] }}</span>
                 </template>
             </el-table-column>
-            <el-table-column v-if="showManipulation" label="Manipulation" fixed="right" :min-width="manipulationColumn.width">
+            <el-table-column v-if="showManipulation" :label="$t('Manipulation')" fixed="right" :min-width="manipulationColumn.width">
                 <template slot-scope="scope">
                     <slot name="manipulation" :row="scope.row">
                         <el-tooltip class="item" effect="dark" content="View & Edit" placement="top">
