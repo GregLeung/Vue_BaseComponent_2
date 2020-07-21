@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed" :style="isCollaspe ? {}: openStyle">
+  <div class="fixed" >
     <el-menu
       class="height-100"
       default-active="2"
@@ -25,7 +25,7 @@
 <script>
 import Cookies from "js-cookie";
 import { mapGetters } from "vuex";
-import NavigationMenuItem from "../NavigationMenuItem/NavigationMenuItem";
+import NavigationMenuItem from "@/components/NavigationMenuItem.vue";
 export default {
   mounted() {
     this.$refs.menu.activeIndex = this.path;
@@ -38,10 +38,6 @@ export default {
       type: String,
       required: true
     },
-    title: {
-      type: String,
-      required: false
-    },
     menu: {
       type: Array,
       required: true
@@ -49,7 +45,7 @@ export default {
     lineHeight: {
         type: String,
         required: false,
-        default: "56px"
+        default: "3.5em"
     },
     openStyle: {
       type: Object,
@@ -75,6 +71,8 @@ export default {
 };
 </script>
 <style scoped lang="sass">
+@import "@/static/variables.scss"
+@import "@/static/main.sass"
 .fixed
   position: fixed
   z-index: 2
@@ -86,33 +84,4 @@ export default {
     scrollbar-width: none
 .height-100
   height: 100%
-.menu-item
-  font-size: 18px
-.icon
-  font-size: 24px
-.header
-  height: 52px
-  width: 211px
-  cursor: pointer
-  border: none
-  background-color: #367fa9
-  display: flex
-  justify-content: center
-  align-items: center
-.title
-  color: #FFFFFF
-  font-size: 20px
-  padding: 4px
-  text-align: center
-.headerSelection
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-.headerSelectionButton
-  margin-bottom: 8px
-  margin-left: 0px
-  width: 100%
-.horizontal-collapse-transition
-  transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out
 </style>

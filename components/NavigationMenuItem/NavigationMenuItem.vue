@@ -1,5 +1,4 @@
 <template>
-    
     <el-submenu id="navigation-menu-item" :style="cssProps" v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
     <template slot="title">
       <i :class="menuItem['icon']"></i>
@@ -36,7 +35,7 @@ export default {
     lineHeight: {
         type: String,
         required: false,
-        default: "56px"
+        default: "3.5em"
     }
   },
   computed: {
@@ -49,21 +48,34 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-.sub-menu
-  font-size: 18px
-.menu-item
-  font-size: 18px
+@import "@/static/variables.scss"
+@import "@/static/main.sass"
+$font-size: 18px
+.el-menu:not(.el-menu--collapse)
+  .el-submenu
+    padding-left: 0px
+    i
+      @include responsive-font-size($font-size)
+  .el-menu-item
+    padding-left: 0px
+    i
+      @include responsive-font-size($font-size)
+  .sub-menu
+    @include responsive-font-size($font-size)
+  .menu-item
+    @include responsive-font-size($font-size)
+
 </style>
 <style lang="sass">
-#navigation-menu-item
+.navigation-bar
+  .el-menu:not(.el-menu--collapse)
     .el-submenu__title
-        height: var(--height)
-        line-height: var(--height)
-    
+      padding-left: 7% !important
+      height: var(--height)
+      line-height: var(--height)
     .el-menu-item
-        height: var(--height)
-        line-height: var(--height)
-    .el-menu-item-group__title
-        padding: 0px
+      padding-left: 7% !important
+      height: var(--height)
+      line-height: var(--height)
     
 </style>

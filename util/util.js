@@ -14,6 +14,15 @@ class Util {
     url.search = new URLSearchParams(parameters)
     location.href = url.href
   }
+  static cssRatioCalculate(cssString, ratio){
+    if(cssString.includes("px")){
+      var value = cssString.split("px")[0]
+      return value * ratio + "px"
+    }else if(cssString.includes("%")){
+      var value = cssString.split("%")[0]
+      return value * ratio + "%"
+    }
+  }
 };
 
 export default Util;
