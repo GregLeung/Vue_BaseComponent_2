@@ -50,20 +50,20 @@ export default {
 <style scoped lang="sass">
 @import "@/static/variables.scss"
 @import "@/static/main.sass"
-$font-size: 18px
+$font-size: .8rem
 .el-menu:not(.el-menu--collapse)
   .el-submenu
     padding-left: 0px
     i
-      @include responsive-font-size($font-size)
+      font-size: $font-size
   .el-menu-item
     padding-left: 0px
     i
-      @include responsive-font-size($font-size)
+      font-size: $font-size
   .sub-menu
-    @include responsive-font-size($font-size)
+    font-size: $font-size
   .menu-item
-    @include responsive-font-size($font-size)
+    font-size: $font-size
 
 </style>
 <style lang="sass">
