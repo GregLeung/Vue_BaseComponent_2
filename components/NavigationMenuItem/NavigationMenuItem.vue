@@ -77,5 +77,8 @@ $font-size: 18px
       padding-left: 7% !important
       height: var(--height)
       line-height: var(--height)
+    .el-menu-item-group
+      .el-menu-item
+        padding-left: 14% !important
     
 </style>
