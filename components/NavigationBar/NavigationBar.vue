@@ -25,7 +25,7 @@
 <script>
 import Cookies from "js-cookie";
 import { mapGetters } from "vuex";
-import NavigationMenuItem from "./NavigationMenuItem/NavigationMenuItem";
+import NavigationMenuItem from "../NavigationMenuItem/NavigationMenuItem";
 export default {
   mounted() {
     this.$refs.menu.activeIndex = this.path;
