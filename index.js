@@ -13,6 +13,7 @@ import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
 import LanguageButton from "./components/LanguageButton/LanguageButton.vue";
+import HalfRow from "./components/HalfRow/HalfRow.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -34,6 +35,7 @@ export {
   IconField,
   BaseFab,
   LanguageButton,
+  HalfRow,
   Request,
   Excel,
   Util,
