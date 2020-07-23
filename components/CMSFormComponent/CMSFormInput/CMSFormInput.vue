@@ -1,7 +1,7 @@
 <template>
 <el-form-item :class="{'basic-information-field': (direction == 'horizontal')}">
     <template slot="label">
-        <h1>{{label}}</h1>
+        <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </template>
     <el-input v-bind:value="value" @input="handleOnChange"/>
 </el-form-item>
@@ -23,6 +23,11 @@ export default Vue.extend({
             type: String,
             required: false,
             default: "horizontal"
+        },
+        fontSize: {
+            type: Number,
+            required: false,
+            default: 1
         }
     },
     model:{
