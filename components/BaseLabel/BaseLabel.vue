@@ -1,5 +1,5 @@
 <template>
-  <span class="label" :style="{'background': color, 'font-size': (fontSize * ratio) + 'px'}">{{value}}</span>
+  <span class="label" :style="{'background': color, 'font-size': fontSize}">{{value}}</span>
 </template>
 <script lang="js">
 import Vue from "vue";

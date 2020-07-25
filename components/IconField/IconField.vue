@@ -1,7 +1,7 @@
 <template>
-  <span>
+  <span >
     <i class="grey" :class="icon"></i>
-    <span class="font-18 grey" :style="textStyle">{{field}}</span>
+    <span class="grey" :style="textStyle">{{field}}</span>
   </span>
 </template>
 
@@ -30,8 +30,7 @@ export default Vue.extend({
 </script>
 
 <style lang="sass" scoped>
-.font-18
-    font-size: 18px
 .grey
     color: #999999
+    font-size: .8rem
 </style>
