@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="form-row">
+    <div class="basic-information-field">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
         <el-date-picker @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
     </div>
@@ -55,4 +55,11 @@ export default {
     }
 };
 </script>
+<style lang="sass" scoped>
+.basic-information-field
+  display: flex
+  align-items: center
+  margin-bottom: 0px
+  width: 100%
+</style>
 
