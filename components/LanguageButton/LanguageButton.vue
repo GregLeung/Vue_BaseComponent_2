@@ -36,7 +36,7 @@ methods: {
 
 <style lang="sass" scoped>
 i 
-    font-size: 36px 
+    font-size: 1.5rem
     cursor: pointer 
     color: white
 </style>
