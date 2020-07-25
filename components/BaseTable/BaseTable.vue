@@ -1,9 +1,9 @@
 <template>
 <div id="base-table" class="container">
     <h1>{{title}}</h1>
-    <el-input class="margin-bottom-12 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
+    <el-input class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
     <div class="table-wrapper">
-        <el-table @sort-change="sortChange" @selection-change="handleSelectionChange" class="table margin-bottom-24" border :data="dataListForShow" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{background:'#333333', color: 'white'}" :row-style="rowStyle" @row-click="rowClick">
+        <el-table @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataListForShow" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{background:'#333333', color: 'white'}" :row-style="rowStyle" @row-click="rowClick">
             <el-table-column v-if="isBatchSelection" type="selection" width="55"></el-table-column>
             <el-table-column :label="column.label" v-for="(column, index) in columnList" v-bind:key="index" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed">
                 <template slot-scope="scope">
@@ -32,7 +32,7 @@
         </el-table>
         <el-dialog v-if="currentSelection != null" :title="$t('Edit')" :visible.sync="dialogVisible" width="70%">
             <div v-for="(item, index) in columnList" :key="index">
-                <el-row v-if="!item['disabled']" class="margin-bottom-24" type="flex" align="middle" justify="center">
+                <el-row v-if="!item['disabled']" class="mb-16" type="flex" align="middle" justify="center">
                     <el-col :span="4">
                         <span class="title-font">{{item.label}}</span>
                     </el-col>
@@ -278,17 +278,14 @@ export default {
 </script>
 <style scoped lang="sass">
 h1
+    font-size: 1.5rem
     margin-top: .2em
     margin-bottom: .2em
 .title-font
-  font-size: 20px
+  font-size: 1rem
 .container
   .table-wrapper
     height: 100%
-.margin-bottom-12
-  margin-bottom: 12px
-.margin-top-24
-  margin-top: 24px
 .search-input
   width: 30%
 .pagination-wrapper
