@@ -22,19 +22,16 @@ export default Vue.extend({
 <style lang="sass" scoped>
 @import "@/static/variables.scss"
 .container
-    margin-left: 60px
-    margin-right: 60px
-    border-radius: .25em
+    border-radius: 8px
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1)
     border: 1px solid #ebeef5
-    margin-top: 16px
     .header
-        height: 50px
+        height: 1.5em
         background: $main-theme
         color: white
         text-align: center
-        font-size: 36px
-        line-height: 50px
+        font-size: 1.5rem
+        line-height: 1.5em
         border-radius: .25em .25em 0em 0em
 </style>
 <style lang="sass">
