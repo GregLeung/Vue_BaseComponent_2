@@ -9,6 +9,7 @@ import LoginInput from "./components/Login/LoginInput/LoginInput.vue";
 import BaseCamera from "./components/BaseCamera/BaseCamera.vue";
 import CMSForm from "./components/CMSFormComponent/CMSForm/CMSForm.vue";
 import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInput.vue";
+import CMSDatePicker from "./components/CMSFormComponent/CMSDatePicker/CMSDatePicker.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
@@ -31,6 +32,7 @@ export {
   BaseCamera,
   CMSForm,
   CMSFormInput,
+  CMSDatePicker,
   BaseLabel,
   IconField,
   BaseFab,
