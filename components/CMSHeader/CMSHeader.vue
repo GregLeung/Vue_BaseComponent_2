@@ -22,17 +22,15 @@ export default {
 };
 </script>
 <style scoped lang="sass">
+@import "@/static/variables.scss"
+@import "@/static/main.sass"
 .cms-header
   position: fixed
-  padding-right: 24px
   display: flex
-  height: 52px
+  height: 3em
   width: 100%
   align-items: center
   justify-content: space-between
-  background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(157,157,218,1) 0%, rgba(45,134,240,1) 100%)
+  background: $main-theme
   z-index: 10
-.logout-text
-  color: #FFFFFF
-  font-size: 20px
 </style>
