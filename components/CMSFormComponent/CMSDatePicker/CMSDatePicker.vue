@@ -1,10 +1,10 @@
 <template>
-<div>
-    <div class="basic-information-field">
-        <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
-        <el-date-picker @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
-    </div>
-</div>
+    <el-form-item class="basic-information-field">
+        <template slot="label">
+            <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
+        </template>
+            <el-date-picker @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
+    </el-form-item>
 </template>
 
 <script>
