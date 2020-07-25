@@ -23,13 +23,13 @@ export default{
 
 <style scoped lang="sass">
 .un 
-  width: 76%
+  width: 100%
   color: rgb(38, 50, 56)
   font-weight: 700
-  font-size: 14px
+  font-size: .8rem
   letter-spacing: 1px
   background: rgba(136, 126, 126, 0.04)
-  padding: 10px 20px
+  padding: .5rem 1rem
   border: none
   border-radius: 20px
   outline: none
