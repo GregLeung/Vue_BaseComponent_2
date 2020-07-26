@@ -1,6 +1,6 @@
 {
   "name": "vue_basecomponent",
-  "version": "0.7.15",
+  "version": "0.7.16",
   "description": "",
   "main": "./index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "vue": "^2.6.11",
     "vue-clickaway": "^2.2.2",
     "vue-ripple-directive": "^2.0.1",
-    "xlsx": "^0.16.3"
+    "xlsx": "^0.16.4"
   },
   "repository": {
     "type": "git",
