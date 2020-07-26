@@ -56,10 +56,6 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
-.basic-information-field
-  display: flex
-  align-items: center
-  margin-bottom: 0px
-  width: 100%
+@import "../cmsInput.sass"
 </style>
 
