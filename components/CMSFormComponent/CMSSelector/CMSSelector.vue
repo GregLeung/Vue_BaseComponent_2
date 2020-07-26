@@ -3,7 +3,7 @@
     <template slot="label">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </template>
-    <el-select v-bind:value="value" :placeholder="placeholder">
+    <el-select v-bind:value="value" :placeholder="placeholder" @input="handleOnChange">
         <el-option class="input" v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </el-form-item>
