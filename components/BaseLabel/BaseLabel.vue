@@ -14,7 +14,7 @@ export default Vue.extend({
             required: false,
         },
         fontSize: {
-            type: Number,
+            type: String,
             required: false,
         }
     },
