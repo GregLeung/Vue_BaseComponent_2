@@ -10,6 +10,7 @@
                     <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column,column.prop) != null">
                         <el-tag :type="parseData(scope.row, column,column.prop).type">{{ parseData(scope.row, column,column.prop).label }}</el-tag>
                     </span>
+                    <span v-else-if="column.hasOwnProperty('format')">{{column.format(scope.row[column.prop])}}</span>
                     <span v-else>{{ scope.row[column.prop] }}</span>
                 </template>
             </el-table-column>
@@ -43,7 +44,7 @@
                         </el-select>
                         <el-input-number v-else-if="item.type==Number" v-model="currentSelection[item.prop]" :placeholder="item.prop"></el-input-number>
                         <el-date-picker v-else-if="item.type=='DateTime'" v-model="currentSelection[item.prop]" type="datetime" value-format="yyyy-MM-dd hh:mm:ss" :placeholder="item.prop"></el-date-picker>
-                        <el-date-picker v-else-if="item.type=='Date'" v-model="currentSelection[item.prop]" type="datetime" value-format="yyyy-MM-dd" :placeholder="item.prop"></el-date-picker>
+                        <el-date-picker v-else-if="item.type=='Date'" v-model="currentSelection[item.prop]" type="date" value-format="yyyy-MM-dd" :placeholder="item.prop"></el-date-picker>
                         <el-input v-else v-model="currentSelection[item.prop]" :placeholder="item.prop"></el-input>
                     </el-col>
                 </el-row>
@@ -63,8 +64,8 @@
 
 <script>
 import axios from "axios";
-import Request from "../../util/request";
-import Util from "../../util/util";
+import {Request, Util} from "vue_basecomponent"
+
 export default {
     props: {
         showManipulation: {
