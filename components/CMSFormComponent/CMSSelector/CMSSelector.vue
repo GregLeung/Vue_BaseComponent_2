@@ -67,4 +67,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "../cmsInput.sass"
 </style>
