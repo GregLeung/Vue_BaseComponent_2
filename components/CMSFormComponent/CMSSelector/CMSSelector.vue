@@ -3,7 +3,7 @@
     <template slot="label">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </template>
-    <el-select :clearable="clearable" v-bind:value="value" :placeholder="placeholder" @input="handleOnChange">
+    <el-select :filterable="filterable" :clearable="clearable" v-bind:value="value" :placeholder="placeholder" @input="handleOnChange">
         <el-option class="input" v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </el-form-item>
@@ -43,6 +43,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        filterable: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     mounted(){
@@ -62,5 +67,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../cmsInput.sass"
 </style>
