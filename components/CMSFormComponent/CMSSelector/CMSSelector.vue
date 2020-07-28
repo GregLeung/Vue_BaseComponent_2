@@ -23,7 +23,7 @@ export default {
             default: "Select"
         },
         value: {
-            type: String
+            type: [Number, String]
         },
         fontSize: {
             type: Number,
