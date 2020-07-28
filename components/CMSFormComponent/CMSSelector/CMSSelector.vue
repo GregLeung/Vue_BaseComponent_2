@@ -3,7 +3,7 @@
     <template slot="label">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </template>
-    <el-select v-bind:value="value" :placeholder="placeholder" @input="handleOnChange">
+    <el-select :clearable="clearable" v-bind:value="value" :placeholder="placeholder" @input="handleOnChange">
         <el-option class="input" v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </el-form-item>
@@ -34,6 +34,20 @@ export default {
             type: Array,
             default: []
         },
+        defaultOption: {
+            type: [String, Number],
+            required: false,
+            default: null
+        },
+        clearable: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    },
+    mounted(){
+        if(this.value == null && this.defaultOption != null )  
+            this.$emit("update", this.defaultOption)
     },
     model: {
         prop: "value",
@@ -48,5 +62,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../cmsInput.sass"
+
 </style>
