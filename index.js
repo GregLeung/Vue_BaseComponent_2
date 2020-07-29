@@ -20,6 +20,7 @@ import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
 import GoogleMap from "./util/googleMap";
+import Plugin from "./plugin.js"
 
 export {
   BaseFooter,
@@ -43,5 +44,6 @@ export {
   Request,
   Excel,
   Util,
-  GoogleMap
+  GoogleMap,
+  Plugin
 };
