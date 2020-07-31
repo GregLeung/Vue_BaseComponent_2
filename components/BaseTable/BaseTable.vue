@@ -279,23 +279,28 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-h1
-    font-size: 1.5rem
-    margin-top: .2em
-    margin-bottom: .2em
-.title-font
-  font-size: 1rem
-.container
-  .table-wrapper
-    height: 100%
-.search-input
-  width: 30%
-.pagination-wrapper
-  display: flex
-  justify-content: flex-end
+#base-table
+    h1
+        font-size: 1.5rem
+        margin-top: .2em
+        margin-bottom: .2em
+    .title-font
+        font-size: 1rem
+    .container
+        .table-wrapper
+            height: 100%
+    .search-input
+        width: 30%
+    .pagination-wrapper
+        display: flex
+        justify-content: flex-end
 </style>
 <style lang="sass">
-
-.el-table__row
-  cursor: pointer
+#base-table
+    .el-table
+        font-size: .7rem
+        td, th
+            padding: .7em 0
+    .el-table__row
+        cursor: pointer
 </style>
