@@ -3,7 +3,7 @@
     <label>
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input v-bind:value="value" @input="handleOnChange"/>
+    <el-input :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
 </div>
 </template>
 
@@ -28,6 +28,15 @@ export default Vue.extend({
             type: Number,
             required: false,
             default: 1
+        },
+        type:{
+            type: String,
+            required: false,
+            default: "text"
+        },
+        rows:{
+            type: Number,
+            required: false
         }
     },
     model:{
