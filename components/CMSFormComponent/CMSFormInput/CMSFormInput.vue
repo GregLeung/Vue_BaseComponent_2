@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label>
+    <label :style="{'width': labelWidth + 'em'}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
@@ -35,6 +35,10 @@ export default Vue.extend({
             default: "text"
         },
         rows:{
+            type: Number,
+            required: false
+        },
+        labelWidth: {
             type: Number,
             required: false
         }
