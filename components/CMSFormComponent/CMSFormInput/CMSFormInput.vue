@@ -1,10 +1,10 @@
 <template>
-<el-form-item :class="{'basic-information-field': (direction == 'horizontal')}">
-    <template slot="label">
+<div :class="{'basic-information-field': (direction == 'horizontal')}">
+    <label>
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
-    </template>
+    </label>
     <el-input v-bind:value="value" @input="handleOnChange"/>
-</el-form-item>
+</div>
 </template>
 
 <script lang="js">
@@ -43,5 +43,19 @@ export default Vue.extend({
 </script>
 
 <style lang="sass" scoped>
-@import "../cmsInput.sass"
+.basic-information-field
+    display: flex
+    align-items: center
+    margin-bottom: 0px
+    width: 100%
+h1
+    overflow: hidden
+    white-space: nowrap
+label
+    vertical-align: middle
+    float: left
+    font-size: 1rem
+    color: #606266
+    padding: 0 12px 0 0
+    box-sizing: border-box
 </style>
