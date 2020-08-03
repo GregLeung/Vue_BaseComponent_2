@@ -29,6 +29,11 @@ export default {
             type: Object,
             default: () => {}
         },
+        direction: {
+            type: String,
+            required: false,
+            default: "horizontal"
+        },
         value:{
             type: String
         },

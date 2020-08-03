@@ -25,6 +25,11 @@ export default {
         value: {
             type: [Number, String]
         },
+        direction: {
+            type: String,
+            required: false,
+            default: "horizontal"
+        },
         fontSize: {
             type: Number,
             required: false,
