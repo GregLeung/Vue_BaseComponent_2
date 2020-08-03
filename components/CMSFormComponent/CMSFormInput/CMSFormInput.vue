@@ -43,19 +43,5 @@ export default Vue.extend({
 </script>
 
 <style lang="sass" scoped>
-.basic-information-field
-    display: flex
-    align-items: center
-    margin-bottom: 0px
-    width: 100%
-h1
-    overflow: hidden
-    white-space: nowrap
-label
-    vertical-align: middle
-    float: left
-    font-size: 1rem
-    color: #606266
-    padding: 0 12px 0 0
-    box-sizing: border-box
+@import "../cmsInput.sass"
 </style>
