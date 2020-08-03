@@ -1,5 +1,5 @@
 <template>
-  <span class="label" :style="{'background': color, 'font-size': fontSize}">{{value}}</span>
+  <span class="label" :style="{'background': color, 'font-size': fontSize + 'rem'}">{{value}}</span>
 </template>
 <script lang="js">
 import Vue from "vue";
@@ -14,7 +14,7 @@ export default Vue.extend({
             required: false,
         },
         fontSize: {
-            type: String,
+            type: Number,
             required: false,
         }
     },
