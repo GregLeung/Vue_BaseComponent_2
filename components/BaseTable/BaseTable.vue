@@ -16,8 +16,9 @@
             </el-table-column>
             <el-table-column v-if="showManipulation" :label="$t('Manipulation')" fixed="right" :min-width="manipulationColumn.width">
                 <template slot-scope="scope">
-                    <slot name="manipulation" :row="scope.row">
-                        <el-tooltip class="item" effect="dark" :content="$t('Edit')" placement="top">
+                    <div class="row">
+                        <slot name="manipulation" :row="scope.row">
+                        <el-tooltip class="item mr-8" effect="dark" :content="$t('Edit')" placement="top">
                             <el-button v-if="isCircleButton" circle type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit"></el-button>
                             <el-button v-else type="success" size="mini" @click.stop.native="handleEdit(scope.row)" icon="el-icon-edit">{{$t("Edit")}}</el-button>
                         </el-tooltip>
@@ -29,6 +30,7 @@
                         </el-tooltip>
                     </slot>
                     <slot name="extraManipulation" :row="scope.row"/>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -295,6 +297,9 @@ export default {
     .pagination-wrapper
         display: flex
         justify-content: flex-end
+    .row
+        display: flex
+        align-items: center
 </style>
 <style lang="sass">
 #base-table
