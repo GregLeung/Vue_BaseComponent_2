@@ -67,7 +67,7 @@ $font-size: .8rem
 
 </style>
 <style lang="sass">
-.navigation-bar
+#navigation-bar
   .el-menu:not(.el-menu--collapse)
     .el-submenu__title
       padding-left: 7% !important
