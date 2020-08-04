@@ -28,6 +28,7 @@
                             </el-popconfirm>
                         </el-tooltip>
                     </slot>
+                    <slot name="extraManipulation" :row="scope.row"/>
                 </template>
             </el-table-column>
         </el-table>
