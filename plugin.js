@@ -1,4 +1,3 @@
-import Vue from "vue";
 import moment from "moment";
 const Plugin = {
   install(Vue, options) {
