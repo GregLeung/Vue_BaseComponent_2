@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth + 'em'}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input :show-password="show-password" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
+    <el-input :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
 </div>
 </template>
 
@@ -16,7 +16,7 @@ export default Vue.extend({
             required: true,
             default: ""
         },
-        "show-password": {
+        showPassword: {
             type: Boolean,
             requored: false,
             default: false
