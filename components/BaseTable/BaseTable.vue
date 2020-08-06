@@ -93,6 +93,15 @@ export default {
                 };
             }
         },
+        defaultSortProp:{
+            type: String,
+            required: false
+        },
+        defaultSort:{
+            type: String,
+            required: false,
+            default: "ascending"
+        },
         title: {
             type: String,
             required: false
@@ -141,6 +150,24 @@ export default {
         };
     },
     methods: {
+        handleDefaultSortinng(){
+            if(this.defaultSortProp != null && this.defaultSortProp != ""){
+                if(this.defaultSort == "ascending")
+                    this.ascendingSorting(this.defaultSortProp) 
+                else
+                    this.descendignSorting(this.defaultSortProp)
+            }
+        },
+        ascendingSorting(prop){
+            this.dataList.sort(function (a, b) {
+                return ("" + a[prop]).localeCompare(b[prop]);
+            });
+        },
+        descendignSorting(prop){
+            this.dataList.sort(function (a, b) {
+                return ("" + b[prop]).localeCompare(a[prop]);
+            });
+        },
         cellStyle({
             row,
             column,
@@ -156,14 +183,9 @@ export default {
         },
         sortChange: function (column, prop, order) {
             if (column.order == "descending") {
-                this.dataList.sort(function (a, b) {
-                    return ("" + b[column.prop]).localeCompare(a[column.prop]);
-                });
+                this.descendignSorting(column.prop)
             } else {
-                this.dataList.sort(function (a, b) {
-                    return ("" + a[column.prop]).localeCompare(b[column.prop]);
-                    return a[column.prop] - b[column.prop];
-                });
+                this.ascendingSorting(column.prop)
             }
         },
         handleEdit(row) {
@@ -199,6 +221,7 @@ export default {
                 } else {
                     Request.get(this, "get_" + this.tableName + "_all", {}, res => {
                         this.dataList = res.data[this.tableName.toString()];
+                        this.handleDefaultSortinng()
                     });
                 }
             } catch (error) {
