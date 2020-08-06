@@ -16,7 +16,7 @@ export default Vue.extend({
             required: true,
             default: ""
         },
-        show-password: {
+        "show-password": {
             type: Boolean,
             requored: false,
             default: false
