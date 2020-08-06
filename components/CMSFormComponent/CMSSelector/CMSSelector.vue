@@ -20,7 +20,7 @@ export default {
         placeholder: {
             type: String,
             required: false,
-            default: "Select"
+            default: this.$t('Please Select')
         },
         value: {
             type: [Number, String]
