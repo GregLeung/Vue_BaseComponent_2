@@ -1,7 +1,7 @@
 import axios from "axios";
 import Util from "./util.js";
 import store from "@/store/index";
-axios.defaults.headers.common['API-KEY'] = store().state.api_key || "";
+axios.defaults.headers.common['API_KEY'] = store().state.api_key || "";
 class Request {
   static get(
     vueInstance,
