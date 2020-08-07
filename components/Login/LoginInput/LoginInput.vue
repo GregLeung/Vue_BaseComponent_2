@@ -16,6 +16,10 @@ export default{
             type: String
         },
     },
+    model:{
+        prop: "value",
+        event: "update"
+    },
     methods:{
         handleOnChange(value){
             this.$emit("update", value)
