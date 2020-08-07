@@ -21,8 +21,9 @@ export default{
         event: "update"
     },
     methods:{
-        handleOnChange(value){
-            this.$emit("update", value)
+        handleOnChange(event){
+            this.$emit("update", event.target.value)
+            this.change(event.target.value)
         }
     }
 }
