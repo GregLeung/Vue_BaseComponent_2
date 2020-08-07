@@ -20,6 +20,10 @@ const Plugin = {
           if (value != null) return moment(value).format("yyyy-MM-DD");
           else return "";
         },
+        hashPassword(password){
+          if(password === "") return password;
+          return sha256(password)
+        }
       },
     });
   },
