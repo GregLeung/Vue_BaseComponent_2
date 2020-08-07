@@ -1,5 +1,5 @@
 <template>
-    <input v-model="value" class="un" :type="type" align="center" :placeholder="placeholder" />
+    <input v-bind:value="value" @input="handleOnChange" class="un" :type="type" align="center" :placeholder="placeholder" />
 </template>
 <script lang="js">
 export default{
@@ -11,11 +11,14 @@ export default{
         type: {
             type: String,
             default: "text"
-        }
+        },
+        value: {
+            type: String
+        },
     },
-    data(){
-        return{
-            value: ""
+    methods:{
+        handleOnChange(value){
+            this.$emit("update", value)
         }
     }
 }
