@@ -1,4 +1,5 @@
 import moment from "moment";
+import {sha256} from "js-sha256"
 const Plugin = {
   install(Vue, options) {
     Vue.mixin({
