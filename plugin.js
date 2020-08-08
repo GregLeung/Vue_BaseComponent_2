@@ -22,7 +22,7 @@ const Plugin = {
           else return "";
         },
         hashPassword(password){
-          if(password === "") return password;
+          if(password === "" || password == null) return password;
           return sha256(password)
         }
       },
