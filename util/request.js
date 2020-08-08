@@ -3,6 +3,37 @@ import Util from "./util.js";
 import store from "@/store/index";
 axios.defaults.headers.common['API_KEY'] = store().state.api_key || "";
 class Request {
+  static getFile(vueInstance,
+    action,
+    params,
+    fileName,
+    successCallback = function() {},
+    errorCallback = function() {}){
+    axios({
+      url: store().state.baseUrl + action, //your url
+      method: 'GET',
+      responseType: 'blob',
+      params: params // important
+    }).then((res) => {
+       const url = window.URL.createObjectURL(new Blob([res.data]));
+       const link = document.createElement('a');
+       link.href = url;
+       link.setAttribute('download', fileName); //or any other extension
+       document.body.appendChild(link);
+       link.click();
+       successCallback(res)
+    }).catch(error => {
+      vueInstance.$notify({
+        title: "錯誤",
+        message: error,
+        type: "warning"
+      });
+      errorCallback(error);
+    })
+    .finally(() => {
+      Util.loading().close();
+    });;
+  }
   static get(
     vueInstance,
     action,
