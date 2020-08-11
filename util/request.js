@@ -2,6 +2,7 @@ import axios from "axios";
 import Util from "./util.js";
 import store from "@/store/index";
 axios.defaults.headers.common['API_KEY'] = store().state.api_key || "";
+axios.defaults.headers.common['token'] = store().getters.token || "";
 class Request {
   static getFile(vueInstance,
     action,
@@ -10,10 +11,11 @@ class Request {
     successCallback = function() {},
     errorCallback = function() {}){
     axios({
-      url: store().state.baseUrl + action, //your url
+      url: store().state.baseUrl + action,
       method: 'GET',
       responseType: 'blob',
-      params: params // important
+      params: params,
+      headers: {token: store().getters.token}
     }).then((res) => {
        const url = window.URL.createObjectURL(new Blob([res.data]));
        const link = document.createElement('a');

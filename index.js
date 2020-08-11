@@ -16,6 +16,7 @@ import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
 import LanguageButton from "./components/LanguageButton/LanguageButton.vue";
 import HalfRow from "./components/HalfRow/HalfRow.vue";
+import IconButton from "./components/IconButton/IconButton.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -41,6 +42,7 @@ export {
   BaseFab,
   LanguageButton,
   HalfRow,
+  IconButton,
   Request,
   Excel,
   Util,
