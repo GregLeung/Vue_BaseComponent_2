@@ -24,6 +24,9 @@ const Plugin = {
         hashPassword(password){
           if(password === "" || password == null) return password;
           return sha256(password)
+        },
+        getImgUrl(image) {
+          return require("@/assets/" + image)
         }
       },
     });
