@@ -22,7 +22,7 @@ export default Vue.extend({
             default: false
         },
         value: {
-            type: String
+            type: [String, Number]
         },
         direction: {
             type: String,
