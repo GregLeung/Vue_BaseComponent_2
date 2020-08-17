@@ -38,7 +38,7 @@ function checkValidationRules(vueInstance, prop) {
     var rule = prop.rules[i];
     switch (rule.type) {
       case "REQUIRED":
-        if (prop.value == null || prop.value == "") {
+        if (prop.value == null || prop.value === "") {
           vueInstance.$message.error(rule.message);
           return false;
         }
