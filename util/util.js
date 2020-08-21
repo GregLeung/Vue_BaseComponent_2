@@ -14,6 +14,11 @@ class Util {
     url.search = new URLSearchParams(parameters);
     location.href = url.href;
   }
+  static openNewTabUrl(url, parameters) {
+    var url = new URL(url);
+    url.search = new URLSearchParams(parameters);
+    window.open(url.href);
+  }
   static cssRatioCalculate(cssString, ratio) {
     if (cssString.includes("px")) {
       var value = cssString.split("px")[0];
