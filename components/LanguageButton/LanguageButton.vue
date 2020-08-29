@@ -1,6 +1,6 @@
 <template>
 <el-dropdown trigger="click" @command="handleSetLanguage">
-    <i class="icon-language" />
+    <i class="icon-language"  :style="{'color': color}"/>
     <el-dropdown-menu slot="dropdown">
         <el-dropdown-item :disabled="language==='en'" command="en">English</el-dropdown-item>
         <el-dropdown-item :disabled="language==='zh'" command="zh">繁體中文</el-dropdown-item>
@@ -11,6 +11,12 @@
 
 <script>
 export default {
+    props: {
+        color: {
+            type: String,
+            required: false
+        }
+    },
     computed: {
         language() {
             return this.$store.state.locale
@@ -20,10 +26,6 @@ methods: {
         handleSetLanguage(lang) {
             this.$i18n.locale = lang
             this.$store.dispatch('setLocale', lang)
-            this.$message({
-                message: 'Switch Language Success',
-                type: 'success'
-            })
             this.$router.push({
                 path: "/" + lang + "/" + this.$router.history.current.path.split("/").filter((f,index) => index > 1 ).join("/"),
                 query: this.$router.history.current.query
