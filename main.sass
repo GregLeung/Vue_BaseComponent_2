@@ -69,6 +69,32 @@ html
 .p-12
     padding: 1.2em
 
+$em-size: 160
+
+@mixin margin-padding-mixin 
+    @for $i from 1 through $em-size 
+        .mb-#{$i}
+            margin-bottom: #{$i}em
+        .mr-#{$i}
+            margin-right: #{$i}em
+        .ml-#{$i}
+            margin-left: #{$i}em
+        .mt-#{$i}
+            margin-top: #{$i}em
+        .m-#{$i}
+            margin: #{$i}em
+        .p-#{$i}
+            padding: #{$i}em
+        .pl-#{$i}
+            padding-left: #{$i}em
+        .pr-#{$i}
+            padding-right: #{$i}em
+        .pt-#{$i}
+            padding-top: #{$i}em
+        .pb-#{$i}
+            padding-bottom: #{$i}em
+@include margin-padding-mixin 
+
 html
     width: 100%
     height: 100%
@@ -95,6 +121,8 @@ body
         justify-content: space-between
     &.align-items-center
         align-items: center
+    &.align-items-flex-end
+        align-items: flex-end
 
 @keyframes fade-in
   0%
