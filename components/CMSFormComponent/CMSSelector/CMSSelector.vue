@@ -3,8 +3,8 @@
     <label :style="{'min-width': labelWidth + 'em'}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-select :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="value" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
-        <el-option class="input" v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    <el-select :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
+        <el-option class="input" v-for="item in dataOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </div>
 </template>
@@ -27,7 +27,7 @@ export default {
             required: false,
         },
         value: {
-            type: [Number, String]
+            type: [Number, String, Object]
         },
         direction: {
             type: String,
@@ -42,11 +42,6 @@ export default {
         options: {
             type: Array,
             default: []
-        },
-        defaultOption: {
-            type: [String, Number],
-            required: false,
-            default: null
         },
         clearable: {
             type: Boolean,
@@ -63,19 +58,31 @@ export default {
             required: false
         }
     },
-    mounted(){
-        if(this.value == null && this.defaultOption != null )  
-            this.$emit("update", this.defaultOption)
-    },
     model: {
         prop: "value",
         event: "update"
     },
     methods: {
         handleOnChange(value) {
-            this.$emit("update", value)
+            this.$emit("update", this.options[value].value)
+            this.optionValue = value
         }
-    }
+    },
+    data(){
+        return {
+            optionValue: ""
+        }
+    },
+    computed:{
+        dataOptions(){
+            return this.options.map((f, index)=>{
+                return {
+                    label: f.label,
+                    value: index
+                };
+            })
+        }
+    },
 };
 </script>
 
