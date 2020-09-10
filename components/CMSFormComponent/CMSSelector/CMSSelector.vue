@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'width': labelWidth}">
+    <label :style="{'min-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-select :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
