@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'min-width': labelWidth + 'em'}">
+    <label :style="{'min-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input-number v-bind:value="value" @change="handleOnChange" :min="min" :max="max"  />
@@ -27,7 +27,7 @@ export default {
             default: 1
         },
         labelWidth: {
-            type: Number,
+            type: String,
             required: false
         },
         min: {

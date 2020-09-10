@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'min-width': labelWidth + 'em'}">
+    <label :style="{'min-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input :disabled="disabled" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
@@ -49,7 +49,7 @@ export default Vue.extend({
             required: false
         },
         labelWidth: {
-            type: Number,
+            type: String,
             required: false
         }
     },
