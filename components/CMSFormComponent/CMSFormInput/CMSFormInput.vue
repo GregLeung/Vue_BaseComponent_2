@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'min-width': labelWidth}">
+    <label :style="{'width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input :disabled="disabled" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
