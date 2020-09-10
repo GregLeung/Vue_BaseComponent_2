@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'min-width': labelWidth}">
+    <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-checkbox :disabled="disabled" v-bind:value="value" @input="handleOnChange" @change="$emit('change', $event)"></el-checkbox>
