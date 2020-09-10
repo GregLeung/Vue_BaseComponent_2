@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-select :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
+    <el-select :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
         <el-option class="input" v-for="item in dataOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </div>
@@ -27,7 +27,7 @@ export default {
             required: false,
         },
         value: {
-            type: [Number, String, Object]
+            type: [Number, String, Object, Array]
         },
         direction: {
             type: String,
@@ -56,6 +56,11 @@ export default {
         labelWidth: {
             type: String,
             required: false
+        },
+        multiple: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     model: {
@@ -64,8 +69,13 @@ export default {
     },
     methods: {
         handleOnChange(value) {
-            this.$emit("update", this.options[value].value)
-            this.optionValue = value
+            if(this.multiple){
+                this.optionValue = value
+                this.$emit("update", this.optionValue.map(f => this.options[f].value))
+            }else{
+                this.$emit("update", this.options[value].value)
+                this.optionValue = value
+            }
         }
     },
     data(){
@@ -87,5 +97,21 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../cmsInput.sass"
+.basic-information-field
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    margin-bottom: 0px
+    width: 100%
+h1
+    overflow: hidden
+    margin: 0
+    // white-space: nowrap
+label
+    vertical-align: middle
+    float: left
+    font-size: 1rem
+    color: #606266
+    padding: 0 12px 0 0
+    box-sizing: border-box
 </style>
