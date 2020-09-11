@@ -60,6 +60,7 @@ export default Vue.extend({
     methods:{
         handleOnChange(value){
             this.$emit("update", value)
+            this.$emit("input", value)
         }
     }
 })

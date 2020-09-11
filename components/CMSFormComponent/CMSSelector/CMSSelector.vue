@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-select :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-bind:value="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
+    <el-select :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-model="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
         <el-option class="input" v-for="item in dataOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </div>
@@ -71,11 +71,20 @@ export default {
         handleOnChange(value) {
             if(this.multiple){
                 this.optionValue = value
-                this.$emit("update", this.optionValue.map(f => this.options[f].value))
+                var answer = this.optionValue.map(f => this.options[f].value)
+                this.$emit("update", answer)
+                this.$emit("customChange", answer)
             }else{
-                this.$emit("update", this.options[value].value)
+                var answer = this.options[value].value
+                this.$emit("update", answer)
+                this.$emit("customChange", answer)
                 this.optionValue = value
             }
+        }
+    },
+    mounted(){
+        if(this.value != null && this.value != ""){
+            this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
         }
     },
     data(){
@@ -97,21 +106,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.basic-information-field
-    display: flex
-    align-items: center
-    justify-content: flex-start
-    margin-bottom: 0px
-    width: 100%
-h1
-    overflow: hidden
-    margin: 0
-    // white-space: nowrap
-label
-    vertical-align: middle
-    float: left
-    font-size: 1rem
-    color: #606266
-    padding: 0 12px 0 0
-    box-sizing: border-box
+@import "../cmsInput.sass"
 </style>
