@@ -1,5 +1,5 @@
 import moment from "moment";
-import {sha256} from "js-sha256"
+import { sha256 } from "js-sha256";
 const Plugin = {
   install(Vue, options) {
     Vue.mixin({
@@ -11,6 +11,27 @@ const Plugin = {
             type: "success",
           });
         },
+        isObjectEmpty(object) {
+          return (
+            Object.keys(object).length === 0 && object.constructor === Object
+          );
+        },
+        isObjectEquivalent(a, b) {
+          a = JSON.parse(JSON.stringify(a));
+          b = JSON.parse(JSON.stringify(b));
+          var aProps = Object.getOwnPropertyNames(a);
+          var bProps = Object.getOwnPropertyNames(b);
+          if (aProps.length != bProps.length) {
+            return false;
+          }
+          for (var i = 0; i < aProps.length; i++) {
+            var propName = aProps[i];
+            if (a[propName] !== b[propName]) {
+              return false;
+            }
+          }
+          return true;
+        },
         checkValidate(propList) {
           for (let i = 0; i < propList.length; i++) {
             if (checkValidationRules(this, propList[i]) == false) return false;
@@ -21,13 +42,13 @@ const Plugin = {
           if (value != null) return moment(value).format("yyyy-MM-DD");
           else return "";
         },
-        hashPassword(password){
-          if(password === "" || password == null) return password;
-          return sha256(password)
+        hashPassword(password) {
+          if (password === "" || password == null) return password;
+          return sha256(password);
         },
         getImgUrl(image) {
-          return require("@/assets/" + image)
-        }
+          return require("@/assets/" + image);
+        },
       },
     });
   },

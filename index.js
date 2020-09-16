@@ -11,6 +11,7 @@ import CMSForm from "./components/CMSFormComponent/CMSForm/CMSForm.vue";
 import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInput.vue";
 import CMSDatePicker from "./components/CMSFormComponent/CMSDatePicker/CMSDatePicker.vue";
 import CMSSelector from "./components/CMSFormComponent/CMSSelector/CMSSelector.vue";
+import CMSRadioBox from "./components/CMSRadioBox/CMSRadioBox";
 import CMSInputNumber from "./components/CMSFormComponent/CMSInputNumber/CMSInputNumber.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
@@ -18,6 +19,7 @@ import BaseFab from "./components/BaseFab/BaseFab.vue";
 import LanguageButton from "./components/LanguageButton/LanguageButton.vue";
 import HalfRow from "./components/HalfRow/HalfRow.vue";
 import IconButton from "./components/IconButton/IconButton.vue";
+import SignaturePad from "./components/SignaturePad/SignaturePad.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -38,6 +40,7 @@ export {
   CMSFormInput,
   CMSDatePicker,
   CMSSelector,
+  CMSRadioBox,
   CMSInputNumber,
   BaseLabel,
   IconField,
@@ -45,6 +48,7 @@ export {
   LanguageButton,
   HalfRow,
   IconButton,
+  SignaturePad,
   Request,
   Excel,
   Util,

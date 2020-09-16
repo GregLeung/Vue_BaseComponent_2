@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-select :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-model="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
+    <el-select  :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-model="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
         <el-option class="input" v-for="item in dataOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </div>
@@ -67,6 +67,11 @@ export default {
         prop: "value",
         event: "update"
     },
+    watch: {
+        value: function(value, oldVal) {
+            this.updateValue(value)
+        }
+    },
     methods: {
         handleOnChange(value) {
             if(this.multiple){
@@ -80,12 +85,26 @@ export default {
                 this.$emit("customChange", answer)
                 this.optionValue = value
             }
+        },
+        updateValue(value){
+            if(Array.isArray(this.value))
+                this.optionValue = this.value.map(each => {
+                    this.dataOptions[this.options.findIndex(f => {
+                        return this.isObjectEquivalent(f.value, each)
+                    })];
+                    return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
+                })
+            else
+                this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
+        }
+    },
+    created(){
+        if(this.value != null && this.value != ""){
+            this.updateValue(this.value)
         }
     },
     mounted(){
-        if(this.value != null && this.value != ""){
-            this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
-        }
+        console.log("Mounnted");
     },
     data(){
         return {
@@ -105,6 +124,9 @@ export default {
 };
 </script>
 
+
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
+.el-select
+    width: 100%
 </style>

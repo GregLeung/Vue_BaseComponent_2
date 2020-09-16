@@ -84,35 +84,48 @@ class Request {
       });
   }
   static uploadFile(
-    file,
+    vueInstance,
     url,
+    file,
+    limitSize,
+    limitType,
     successCallback = function() {},
     errorCallback = function() {}
   ) {
-    Util.loading();
-    let formData = new FormData();
-    formData.append("file", file);
-    axios
-      .post(store().state.baseUrl + url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(res => {
-        if (res.data.code != 200) throw res.data.data;
-        successCallback(res.data);
-      })
-      .catch(error => {
-        this.$notify({
-          title: "Error",
-          message: error,
-          type: "warning"
+    try{
+      if(file.size/1024/1024 > limitSize) throw new Error(vueInstance.$t("File Size Too large"))
+      if(!limitType.includes(file.type)) throw new Error(vueInstance.$t("Wrong File Type"))
+      Util.loading();
+      let formData = new FormData();
+      formData.append("file", file);
+      axios
+        .post(store().state.baseUrl + url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(res => {
+          if (res.data.code != 200) throw res.data.data;
+          successCallback(res.data);
+        })
+        .catch(error => {
+          vueInstance.$notify({
+            title: "Error",
+            message: error,
+            type: "warning"
+          });
+          errorCallback(error);
+        })
+        .finally(() => {
+          Util.loading().close();
         });
-        errorCallback(error);
-      })
-      .finally(() => {
-        Util.loading().close();
+    }catch(error){
+      vueInstance.$notify({
+        title: vueInstance.$t('Error'),
+        message: error,
+        type: "warning"
       });
+    }
   }
 }
 
