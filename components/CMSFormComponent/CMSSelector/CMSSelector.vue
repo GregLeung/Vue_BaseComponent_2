@@ -103,9 +103,6 @@ export default {
             this.updateValue(this.value)
         }
     },
-    mounted(){
-        console.log("Mounnted");
-    },
     data(){
         return {
             optionValue: ""
