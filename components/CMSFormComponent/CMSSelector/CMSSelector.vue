@@ -14,7 +14,7 @@ export default {
     props: {
         label: {
             type: String,
-            require: true,
+            require: false,
             default: ""
         },
         disabled: {
