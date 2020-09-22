@@ -1,5 +1,5 @@
 <template>
-<div :class="{'basic-information-field': (direction == 'horizontal')}" v-if="isValueAndOptionsExisted()">
+<div :class="{'basic-information-field': (direction == 'horizontal')}" v-if="isOptionsExisted()">
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
@@ -69,7 +69,7 @@ export default {
     },
     watch: {
         value: function(value, oldVal) {
-            if(this.isValueAndOptionsExisted())
+            if(this.isOptionsExisted())
                 this.updateValue(value)
         }
     },
@@ -95,11 +95,12 @@ export default {
                     })];
                     return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
                 })
-            else
+            else{
                 this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
+            }
         },
-        isValueAndOptionsExisted(){
-            return this.options.length > 0 && this.value != null && this.value != ""
+        isOptionsExisted(){
+            return this.options.length > 0
         }
     },
     created(){
@@ -124,7 +125,6 @@ export default {
     },
 };
 </script>
-
 
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
