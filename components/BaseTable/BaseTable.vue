@@ -15,7 +15,7 @@
                 </template>
             </el-table-column>
             <el-table-column v-if="showManipulation" :label="$t('Manipulation')" fixed="right" :min-width="manipulationColumn.width">
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                     <div class="row">
                         <slot name="manipulation" :row="scope.row">
                         <el-tooltip class="item mr-8" effect="dark" :content="$t('Edit')" placement="top">
@@ -28,7 +28,7 @@
                                 <el-button v-else slot="reference" size="mini" type="danger" icon="el-icon-delete">{{$t('Delete')}}</el-button>
                             </el-popconfirm>
                         </el-tooltip>
-                    </slot>
+                    </slot> -->
                     <slot name="extraManipulation" :row="scope.row"/>
                     </div>
                 </template>
