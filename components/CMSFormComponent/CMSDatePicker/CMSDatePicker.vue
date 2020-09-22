@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-date-picker :disabled="disabled" @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
+    <el-date-picker :format="format" :disabled="disabled" @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
 </div>
 </template>
 
@@ -48,6 +48,10 @@ export default {
             default: 1
         },
         labelWidth: {
+            type: String,
+            required: false
+        },
+        format: {
             type: String,
             required: false
         }
