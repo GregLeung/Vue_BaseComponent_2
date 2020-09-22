@@ -104,7 +104,7 @@ export default {
         }
     },
     created(){
-        if(this.value != null && this.value != ""){
+        if(this.value != null && this.value !== ""){
             this.updateValue(this.value)
         }
     },
