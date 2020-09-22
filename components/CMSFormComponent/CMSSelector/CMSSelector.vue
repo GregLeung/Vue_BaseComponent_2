@@ -95,12 +95,8 @@ export default {
                     })];
                     return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
                 })
-            else{
-                if(this.label == "Sales"){
-                    console.log(this.options);
-                }
+            else
                 this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
-            }
         },
         isValueAndOptionsExisted(){
             return this.options.length > 0 && this.value != null && this.value != ""
