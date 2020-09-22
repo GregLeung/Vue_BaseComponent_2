@@ -11,6 +11,9 @@ const Plugin = {
             type: "success",
           });
         },
+        deepClone(object){
+          return JSON.parse(JSON.stringify(object))
+        },
         isObjectEmpty(object) {
           return (
             Object.keys(object).length === 0 && object.constructor === Object
