@@ -74,7 +74,7 @@ export default {
         showManipulation: {
             type: Boolean,
             required: false,
-            default: true
+            default: false
         },
         columnList: {
             type: Array,
