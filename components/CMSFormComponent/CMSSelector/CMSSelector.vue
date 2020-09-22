@@ -1,5 +1,5 @@
 <template>
-<div :class="{'basic-information-field': (direction == 'horizontal')}">
+<div :class="{'basic-information-field': (direction == 'horizontal')}" v-if="isValueAndOptionsExisted()">
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
@@ -14,7 +14,7 @@ export default {
     props: {
         label: {
             type: String,
-            require: false,
+            require: true,
             default: ""
         },
         disabled: {
@@ -69,7 +69,8 @@ export default {
     },
     watch: {
         value: function(value, oldVal) {
-            this.updateValue(value)
+            if(this.isValueAndOptionsExisted())
+                this.updateValue(value)
         }
     },
     methods: {
@@ -94,8 +95,15 @@ export default {
                     })];
                     return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
                 })
-            else
+            else{
+                if(this.label == "Sales"){
+                    console.log(this.options);
+                }
                 this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
+            }
+        },
+        isValueAndOptionsExisted(){
+            return this.options.length > 0 && this.value != null && this.value != ""
         }
     },
     created(){
