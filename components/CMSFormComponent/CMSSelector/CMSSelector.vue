@@ -70,7 +70,7 @@ export default {
     watch: {
         value: function(value, oldVal) {
             if(this.isOptionsExisted())
-                this.updateValue(value)
+                this.updateValue(value)   
         }
     },
     methods: {
@@ -88,15 +88,18 @@ export default {
             }
         },
         updateValue(value){
-            if(Array.isArray(this.value))
+            try{
+                if(Array.isArray(this.value))
                 this.optionValue = this.value.map(each => {
                     this.dataOptions[this.options.findIndex(f => {
                         return this.isObjectEquivalent(f.value, each)
                     })];
                     return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
                 })
-            else{
-                this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
+                else
+                    this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
+            }catch(e){
+                this.optionValue = null
             }
         },
         isOptionsExisted(){
@@ -104,9 +107,8 @@ export default {
         }
     },
     created(){
-        if(this.value != null && this.value !== "" && this.isOptionsExisted()){
+        if(this.value != null && this.value !== "" && this.isOptionsExisted())
             this.updateValue(this.value)
-        }
     },
     data(){
         return {
