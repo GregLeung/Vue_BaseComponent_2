@@ -71,7 +71,11 @@ export default {
         value: function(value, oldVal) {
             if(this.isOptionsExisted())
                 this.updateValue(value)   
-        }
+        },
+        options: function(value, oldVal) {
+            if(this.isOptionsExisted())
+                this.updateValue(value)   
+        },
     },
     methods: {
         handleOnChange(value) {
