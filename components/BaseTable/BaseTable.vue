@@ -7,11 +7,13 @@
             <el-table-column v-if="isBatchSelection" type="selection" width="55"></el-table-column>
             <el-table-column :label="column.label" v-for="(column, index) in columnList" v-bind:key="index" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed">
                 <template slot-scope="scope">
-                    <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column,column.prop) != null">
-                        <el-tag :type="parseData(scope.row, column,column.prop).type">{{ parseData(scope.row, column,column.prop).label }}</el-tag>
-                    </span>
-                    <span v-else-if="column.hasOwnProperty('format')">{{column.format(scope.row[column.prop])}}</span>
+                    <slot :name="column.prop" :row="scope.row">
+                        <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column,column.prop) != null">
+                            <el-tag :type="parseData(scope.row, column,column.prop).type">{{ parseData(scope.row, column,column.prop).label }}</el-tag>
+                        </span>
+                        <span v-else-if="column.hasOwnProperty('format')">{{column.format(scope.row[column.prop])}}</span>
                     <span v-else>{{ scope.row[column.prop] }}</span>
+                    </slot>
                 </template>
             </el-table-column>
             <el-table-column v-if="showManipulation" :label="$t('Manipulation')" fixed="right" :min-width="manipulationColumn.width">
