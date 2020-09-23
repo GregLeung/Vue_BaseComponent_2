@@ -62,7 +62,7 @@
     </div>
 
     <div class="pagination-wrapper">
-        <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[10, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage"></el-pagination>
+        <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage"></el-pagination>
     </div>
 </div>
 </template>
@@ -144,7 +144,7 @@ export default {
         return {
             search: "",
             currentPage: 1,
-            pageSize: 10,
+            pageSize: 20,
             dialogVisible: false,
             currentSelection: null,
             multipleSelection: [],
@@ -308,6 +308,12 @@ export default {
 </script>
 <style scoped lang="sass">
 #base-table
+    .el-table
+        font-size: .7rem
+        /deep/  td, th
+            padding: 0
+    .el-table__row
+        cursor: pointer
     h1
         font-size: 1.5rem
         margin-top: .2em
@@ -325,13 +331,4 @@ export default {
     .row
         display: flex
         align-items: center
-</style>
-<style lang="sass">
-#base-table
-    .el-table
-        font-size: .7rem
-        td, th
-            padding: .7em 0
-    .el-table__row
-        cursor: pointer
 </style>
