@@ -1,7 +1,7 @@
 import axios from "axios";
 import Util from "./util.js";
 import store from "@/store/index";
-axios.defaults.headers.common['API_KEY'] = store().state.api_key || "";
+axios.defaults.headers.common['Apikey'] = store().state.api_key || "";
 axios.defaults.headers.common['token'] = store().getters.token || "";
 class Request {
   static getFile(vueInstance,
