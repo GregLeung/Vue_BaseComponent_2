@@ -11,6 +11,13 @@ const Plugin = {
             type: "success",
           });
         },
+        prompt(title = this.$t("Error"), message = "", type = "warning") {
+          this.$notify({
+            title: title,
+            message: message,
+            type: type,
+          });
+        },
         deepClone(object){
           return JSON.parse(JSON.stringify(object))
         },
