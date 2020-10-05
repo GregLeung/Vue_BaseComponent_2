@@ -60,7 +60,7 @@ const Plugin = {
           return require("@/assets/" + image);
         },
         notNullNotEmpty(value) {
-          return (value != null && value != '')
+          return !(value == null || value == '' || value.length == 0)
         },
       },
     });
