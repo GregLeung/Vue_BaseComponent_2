@@ -59,6 +59,9 @@ const Plugin = {
         getImgUrl(image) {
           return require("@/assets/" + image);
         },
+        notNullNotEmpty(value) {
+          return (value != null && value != '')
+        },
       },
     });
   },
