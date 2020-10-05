@@ -1,7 +1,14 @@
 <template>
-  <div :style="headerStyle" class="cms-header">
+  <div :style="headerStyle" class="show" id="cms-header">
     <div class="left">
-      <slot name="left"></slot>
+      <slot class="a" name="left"></slot>
+      <div class="space"></div>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item  v-for="(item, index) in breadcrumbList" :key="index">
+            <n-link v-if="item.hasOwnProperty('path')" :to="item.path" no-prefetch>{{item.label}}</n-link>
+            <span v-else>{{item.label}}</span>
+        </el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="right">
       <slot name="right"></slot>
@@ -19,14 +26,20 @@ export default {
       },
     },
   },
-  mounted(){
-      window.addEventListener('mousemove', this.onMouseMove)
+  computed: {
+    breadcrumbList(){
+      return this.$store.state.currentPage
+    }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.onScroll);
   },
   methods: {
-    onMouseMove(event) {
+    onScroll(event) {
       var headerRef = this.$el;
-      if (event.clientY < 100) headerRef.classList.add("show");
+      if (window.scrollY == 0) headerRef.classList.add("show");
       else headerRef.classList.remove("show");
+      this.$emit("headerShow", event, window.scrollY == 0)
     },
   },
 };
@@ -34,7 +47,7 @@ export default {
 <style scoped lang="sass">
 @import "@/static/variables.scss"
 @import "@/static/main.sass"
-.cms-header
+#cms-header
     position: fixed
     display: flex
     height: 0em
@@ -48,4 +61,18 @@ export default {
     &.show
         height: 3em
         transition: height 1s
+    .left
+        display: flex
+        align-items: center
+        .space
+            width: 2em
+        .el-breadcrumb /deep/ .el-breadcrumb__inner
+            color: white
+            font-size: 1rem
+            a
+                color: white
+                cursor: pointer
+                font-weight: bold
+            span
+                color: white
 </style>
