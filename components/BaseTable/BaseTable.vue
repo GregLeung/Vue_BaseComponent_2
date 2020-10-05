@@ -1,7 +1,8 @@
 <template>
 <div id="base-table" class="container">
     <h1>{{title}}</h1>
-    <el-input class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
+    <el-input @input="handleSearchChange" @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
+    <el-button v-if="!autoSearch" type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange = true">Search</el-button>
     <div class="table-wrapper">
         <el-table @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataListForShow" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{background:'#333333', color: 'white'}" :row-style="rowStyle" @row-click="rowClick">
             <el-table-column v-if="isBatchSelection" type="selection" width="55"></el-table-column>
@@ -135,6 +136,11 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        autoSearch: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     mounted() {
@@ -143,6 +149,7 @@ export default {
     data() {
         return {
             search: "",
+            confirmedSearch: "",
             currentPage: 1,
             pageSize: 20,
             dialogVisible: false,
@@ -152,6 +159,14 @@ export default {
         };
     },
     methods: {
+        handleSearchChange(){
+            if(this.autoSearch)
+                this.confirmedSearch = this.search
+        },
+        handleEnterChange(){
+            if(this.confirmedSearch != this.search)
+                this.confirmedSearch = this.search
+        },
         handleDefaultSortinng(){
             if(this.defaultSortProp != null && this.defaultSortProp != ""){
                 if(this.defaultSort == "ascending")
@@ -260,7 +275,7 @@ export default {
     },
     computed: {
         dataListForShow: function () {
-            if (this.search == "")
+            if (this.confirmedSearch == "")
                 return this.dataList.slice(
                     this.currentPage * this.pageSize - this.pageSize,
                     this.currentPage * this.pageSize
@@ -274,7 +289,7 @@ export default {
                                 val[Object.keys(val)[i]]
                                 .toString()
                                 .toLowerCase()
-                                .includes(this.search.toLowerCase())
+                                .includes(this.confirmedSearch.toLowerCase())
                             )
                                 return true;
                         }
@@ -287,7 +302,7 @@ export default {
             }
         },
         dataListForShowLength: function () {
-            if (this.search == "") return this.dataList.length;
+            if (this.confirmedSearch == "") return this.dataList.length;
             else
                 return this.dataList.filter(val => {
                     for (let i = 0; i < Object.keys(val).length; i++) {
@@ -296,7 +311,7 @@ export default {
                             val[Object.keys(val)[i]]
                             .toString()
                             .toLowerCase()
-                            .includes(this.search.toLowerCase())
+                            .includes(this.confirmedSearch.toLowerCase())
                         )
                             return true;
                     }
