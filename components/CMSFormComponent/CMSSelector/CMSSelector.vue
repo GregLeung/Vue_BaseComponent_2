@@ -1,5 +1,5 @@
 <template>
-<div :class="{'basic-information-field': (direction == 'horizontal')}" v-if="isOptionsExisted()">
+<div :class="{'basic-information-field': (direction == 'horizontal')}">
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
