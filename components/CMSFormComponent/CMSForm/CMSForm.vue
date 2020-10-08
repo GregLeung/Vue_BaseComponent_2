@@ -1,5 +1,5 @@
 <template>
-  <div id="cms-form" class="container">
+  <div id="cms-form" class="container mb-10">
     <div class="header">{{title}}</div>
     <div class="body">
       <slot></slot>
@@ -21,6 +21,7 @@ export default Vue.extend({
 
 <style lang="sass" scoped>
 @import "@/static/variables.scss"
+@import "@/static/main.sass"
 .container
     border-radius: 8px
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1)
