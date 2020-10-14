@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input-number v-bind:value="value" @change="handleOnChange" :min="min" :max="max"  />
+    <el-input-number :disabled="disabled" v-bind:value="value" @change="handleOnChange" :min="min" :max="max"  />
 </div>
 </template>
 
@@ -15,6 +15,11 @@ export default {
             type: String,
             required: false,
             default: ""
+        },
+        disabled: {
+            type: Boolean,
+            require: true,
+            default: false
         },
         direction: {
             type: String,
