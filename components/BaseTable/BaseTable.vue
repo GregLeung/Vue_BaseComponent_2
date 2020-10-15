@@ -19,6 +19,7 @@
     >
     <div class="table-wrapper">
       <el-table
+        :max-height="windowHeight*0.8"
         @sort-change="sortChange"
         @selection-change="handleSelectionChange"
         class="table mb-16"
@@ -246,6 +247,7 @@ export default {
       currentSelection: null,
       multipleSelection: [],
       dataList: [],
+      windowHeight: window.innerHeight
     };
   },
   methods: {
@@ -256,7 +258,8 @@ export default {
       if (this.confirmedSearch != this.search)
         this.confirmedSearch = this.search;
     },
-    handleDefaultSortinng() {
+    handleDefaultSorting() {
+      console.log("HandelDefaultSirt");
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
         if (this.defaultSort == "ascending")
           this.ascendingSorting(this.defaultSortProp);
@@ -331,14 +334,11 @@ export default {
     },
     async handleRefresh() {
       try {
-        if (this.customRefresh) {
+        if (this.customRefresh) 
           this.dataList = await this.customRefresh();
-        } else {
-          Request.get(this, "get_" + this.tableName + "_all", {}, (res) => {
-            this.dataList = res.data[this.tableName.toString()];
-            this.handleDefaultSortinng();
-          });
-        }
+        else 
+          Request.get(this, "get_" + this.tableName + "_all", {}, (res) => {this.dataList = res.data[this.tableName.toString()];});
+        this.handleDefaultSorting();
       } catch (error) {
         this.dataList = [];
       }
@@ -431,9 +431,9 @@ export default {
         margin-bottom: .2em
     .title-font
         font-size: 1rem
-    .container
-        .table-wrapper
-            height: 100%
+    // .table-wrapper
+    //     height: 70vh
+    //     overflow: scroll
     .search-input
         width: 30%
     .pagination-wrapper
