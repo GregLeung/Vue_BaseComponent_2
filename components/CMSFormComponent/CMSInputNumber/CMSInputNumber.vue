@@ -43,10 +43,10 @@ export default {
         max: {
             type: Number,
             required: false,
-            default: 999999
+            default: 99999999999
         },
         value: {
-            type: Number,
+            type: [Number, String],
         },
     },
     model:{
