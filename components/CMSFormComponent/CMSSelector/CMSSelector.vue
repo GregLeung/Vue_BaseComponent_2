@@ -1,6 +1,5 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <p>asd</p>
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
