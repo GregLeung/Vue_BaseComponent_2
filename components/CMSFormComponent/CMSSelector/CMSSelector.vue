@@ -1,5 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
+    <p>Testing</p>
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
@@ -85,10 +86,12 @@ export default {
                 this.$emit("update", answer)
                 this.$emit("customChange", answer)
             }else{
-                var answer = this.options[value].value
-                this.$emit("update", answer)
-                this.$emit("customChange", answer)
-                this.optionValue = value
+                if(this.notNullNotEmpty(value)){
+                    var answer = this.options[value].value
+                    this.$emit("update", answer)
+                    this.$emit("customChange", answer)
+                    this.optionValue = value
+                }
             }
         },
         updateValue(value){
@@ -131,7 +134,6 @@ export default {
     },
 };
 </script>
-
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
 .el-select
