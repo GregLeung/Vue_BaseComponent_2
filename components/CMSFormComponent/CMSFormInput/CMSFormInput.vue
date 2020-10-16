@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input :maxlength="maxlength" :disabled="disabled" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
+    <el-input :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange"/>
 </div>
 </template>
 
@@ -56,6 +56,11 @@ export default Vue.extend({
             type: Number,
             required: false,
             default: 50
+        },
+        placeholder: {
+            type: String,
+            required: false,
+            default: ""
         }
     },
     model:{
