@@ -1,6 +1,6 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <p>Testing</p>
+    <p>asd</p>
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
@@ -91,18 +91,18 @@ export default {
                     this.$emit("update", answer)
                     this.$emit("customChange", answer)
                     this.optionValue = value
+                }else{
+                    this.$emit("update", null)
+                    this.$emit("customChange", null)
                 }
             }
         },
         updateValue(value){
             try{
                 if(Array.isArray(this.value))
-                this.optionValue = this.value.map(each => {
-                    this.dataOptions[this.options.findIndex(f => {
-                        return this.isObjectEquivalent(f.value, each)
-                    })];
-                    return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
-                })
+                    this.optionValue = this.value.map(each => {
+                        return this.dataOptions[this.options.findIndex(f => this.isObjectEquivalent(f.value, each))].value
+                    })
                 else
                     this.optionValue = this.dataOptions[this.options.findIndex(f => f.value == this.value)].value
             }catch(e){
