@@ -51,7 +51,7 @@ export default {
         filterable: {
             type: Boolean,
             required: false,
-            default: false
+            default: true
         },
         labelWidth: {
             type: String,
