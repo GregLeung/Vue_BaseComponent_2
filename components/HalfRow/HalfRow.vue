@@ -1,21 +1,34 @@
 <template>
-  <el-row>
+  <el-row :class="[
+      isAlignCenter ? 'row align-items-center' : '',
+    ]">
     <el-col :span="12">
-      <div class="padding">
+      <div class="p-8">
         <slot name="first"></slot>
       </div>
     </el-col>
     <el-col :span="12">
-      <div class="padding">
+      <div class="p-8">
         <slot name="second"></slot>
       </div>
     </el-col>
   </el-row>
 </template>
 <script>
-export default {}
+export default {
+  props: {
+    isAlignCenter: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  data: {
+    classList: ["row", "align-items-center"]
+  }
+}
 </script>
 <style scoped lang="sass">
-.padding
-    padding-right: 8px
+@import "vue_basecomponent/main.sass"
+
 </style>
