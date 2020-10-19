@@ -3,12 +3,12 @@
       isAlignCenter ? 'row align-items-center' : '',
     ]">
     <el-col :span="12">
-      <div class="p-8">
+      <div class="pr-8">
         <slot name="first"></slot>
       </div>
     </el-col>
     <el-col :span="12">
-      <div class="p-8">
+      <div class="pr-8">
         <slot name="second"></slot>
       </div>
     </el-col>
