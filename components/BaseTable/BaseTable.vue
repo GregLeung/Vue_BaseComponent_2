@@ -422,7 +422,7 @@ export default {
     .el-table
         font-size: .7rem
         /deep/  td, th
-        padding: 0
+          padding: 0
     .el-table__row
         cursor: pointer
     h1
