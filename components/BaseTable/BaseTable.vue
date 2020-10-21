@@ -19,7 +19,7 @@
     >
     <div class="table-wrapper">
       <el-table
-        :max-height="windowHeight*0.8"
+        :max-height="windowHeight*0.75"
         @sort-change="sortChange"
         @selection-change="handleSelectionChange"
         class="table mb-16"
