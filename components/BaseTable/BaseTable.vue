@@ -14,7 +14,7 @@
       type="primary"
       size="medium"
       icon="el-icon-search"
-      @click="handleEnterChange = true"
+      @click="handleEnterChange"
       >Search</el-button
     >
     <div class="table-wrapper">
