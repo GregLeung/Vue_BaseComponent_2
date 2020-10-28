@@ -335,8 +335,10 @@ export default {
       try {
         if (this.customRefresh)
           this.dataList = await this.customRefresh();
-        else
-          await Request.getAsync(this, "get_" + this.tableName + "_all", {}, (res) => {this.dataList = res.data[this.tableName.toString()];});
+        else{
+            var result = await Request.getAsync(this, "get_" + this.tableName + "_all", {});
+            this.dataList = result.data[this.tableName.toString()]
+        }
         this.handleDefaultSorting(); 
       } catch (error) {
         this.dataList = [];
