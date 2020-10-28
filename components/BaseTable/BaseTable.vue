@@ -259,7 +259,6 @@ export default {
         this.confirmedSearch = this.search;
     },
     handleDefaultSorting() {
-      console.log("HandelDefaultSirt");
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
         if (this.defaultSort == "ascending")
           this.ascendingSorting(this.defaultSortProp);
@@ -334,11 +333,11 @@ export default {
     },
     async handleRefresh() {
       try {
-        if (this.customRefresh) 
+        if (this.customRefresh)
           this.dataList = await this.customRefresh();
-        else 
-          Request.get(this, "get_" + this.tableName + "_all", {}, (res) => {this.dataList = res.data[this.tableName.toString()];});
-        this.handleDefaultSorting();
+        else
+          await Request.getAsync(this, "get_" + this.tableName + "_all", {}, (res) => {this.dataList = res.data[this.tableName.toString()];});
+        this.handleDefaultSorting(); 
       } catch (error) {
         this.dataList = [];
       }
