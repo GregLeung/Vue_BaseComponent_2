@@ -60,12 +60,12 @@ class Request {
     errorCallback = function() {}
   ) {
     Util.loading();
-    const headers = {
-      "Content-Type": "application/json"
-    };
     axios
       .post(store().state.baseUrl + action, body, {
-        headers: headers
+        headers: {
+          "Content-Type": "application/json",
+          "token": store().getters.token
+        }
       })
       .then(res => {
         if (isError(res)) throw new Error(res.data.data);
@@ -132,7 +132,10 @@ class Request {
 function get(vueInstance, action, params, successCallback, errorCallback) {
   axios
     .get(store().state.baseUrl + action, {
-      params: params
+      params: params,
+      headers: {
+        "token": store().getters.token
+      }
     })
     .then(res => {
       if (isError(res)) throw new Error(res.data.data);
