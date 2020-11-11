@@ -65,7 +65,7 @@ export default {
             if (this.type == "date") {
                 return "yyyy-MM-dd"
             }
-            return "yyyy-MM-dd hh:mm:ss"
+            return "yyyy-MM-dd HH:mm:ss"
         },
         handleOnChange(value){
             this.$emit("update", value)
