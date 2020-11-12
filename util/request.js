@@ -43,11 +43,9 @@ class Request {
     successCallback = function() {},
     errorCallback = function() {}
   ) {
-    // Util.loading();
     get(vueInstance, action, params, successCallback, errorCallback);
   }
   static getAsync(vueInstance, action, params) {
-    // Util.loading();
     return new Promise((resolve, reject) => {
       get(vueInstance, action, params, resolve, reject);
     });
@@ -130,6 +128,8 @@ class Request {
 }
 
 function getFromCache(key){ 
+  if(store().state.cache == null)
+    return null
   return store().state.cache.get(key);
 }
 
