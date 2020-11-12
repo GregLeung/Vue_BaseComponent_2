@@ -43,11 +43,11 @@ class Request {
     successCallback = function() {},
     errorCallback = function() {}
   ) {
-    Util.loading();
+    // Util.loading();
     get(vueInstance, action, params, successCallback, errorCallback);
   }
   static getAsync(vueInstance, action, params) {
-    Util.loading();
+    // Util.loading();
     return new Promise((resolve, reject) => {
       get(vueInstance, action, params, resolve, reject);
     });
@@ -129,30 +129,40 @@ class Request {
   }
 }
 
+function getFromCache(key){ 
+  return store().state.cache.get(key);
+}
+
+
 function get(vueInstance, action, params, successCallback, errorCallback) {
-  axios
-    .get(store().state.baseUrl + action, {
-      params: params,
-      headers: {
-        "Token": store().getters.token
-      }
-    })
-    .then(res => {
-      if (isError(res)) throw new Error(res.data.data);
-      res.data = jsonParse(res.data)
-      successCallback(res.data);
-    })
-    .catch(error => {
-      vueInstance.$notify({
-        title: "錯誤",
-        message: error,
-        type: "warning"
+  if(getFromCache(store().state.baseUrl + action + "/" + JSON.stringify(params)) != null){
+    successCallback(getFromCache(store().state.baseUrl + action + "/" + JSON.stringify(params)));
+  }else{
+    Util.loading()
+    axios.get(store().state.baseUrl + action, {
+        params: params,
+        headers: {
+          "Token": store().getters.token
+        }
+      })
+      .then(res => {
+        if (isError(res)) throw new Error(res.data.data);
+        res.data = jsonParse(res.data)
+        store().dispatch("setCache", {key: store().state.baseUrl + action + "/" + JSON.stringify(params), value: res.data});
+        successCallback(res.data);
+      })
+      .catch(error => {
+        vueInstance.$notify({
+          title: "錯誤",
+          message: error,
+          type: "warning"
+        });
+        errorCallback(error);
+      })
+      .finally(() => {
+        Util.loading().close();
       });
-      errorCallback(error);
-    })
-    .finally(() => {
-      Util.loading().close();
-    });
+  }
 }
 function isError(res) {
   try {
