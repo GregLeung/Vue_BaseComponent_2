@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-select  :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-model="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
+    <el-select  remote :remote-method="handleFilter" :multiple="multiple" :disabled="disabled" :filterable="filterable" :clearable="clearable" v-model="optionValue" :placeholder="placeholder" @input="handleOnChange" @change="$emit('change', $event)">
         <el-option class="input" v-for="item in dataOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </div>
@@ -78,6 +78,9 @@ export default {
         },
     },
     methods: {
+        handleFilter(value){
+            this.$emit("onFilterChange", value)
+        },
         handleOnChange(value) {
             if(this.multiple){
                 this.optionValue = value
