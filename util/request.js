@@ -4,12 +4,18 @@ import store from "@/store/index";
 axios.defaults.headers.common['Apikey'] = store().state.api_key || "";
 axios.defaults.headers.common['Token'] = store().getters.token || "";
 class Request {
+  static defaultOptions(){
+    return {
+      showLoading: true,
+      showErrorNotification: true
+    }
+  }
   static getFile(vueInstance,
     action,
     params,
     fileName,
     successCallback = function() {},
-    errorCallback = function() {}){
+    errorCallback = function() {}, options = {}){
     axios({
       url: store().state.baseUrl + action,
       method: 'GET',
@@ -33,7 +39,7 @@ class Request {
       errorCallback(error);
     })
     .finally(() => {
-      Util.loading().close();
+      if(options.showLoading != false) Util.loading().close();
     });;
   }
   static get(
@@ -41,13 +47,14 @@ class Request {
     action,
     params,
     successCallback = function() {},
-    errorCallback = function() {}
+    errorCallback = function() {},
+    options = {},
   ) {
-    get(vueInstance, action, params, successCallback, errorCallback);
+    get(vueInstance, action, params, successCallback, errorCallback, options);
   }
-  static getAsync(vueInstance, action, params) {
+  static getAsync(vueInstance, action, params, options = Request.defaultOptions()) {
     return new Promise((resolve, reject) => {
-      get(vueInstance, action, params, resolve, reject);
+      get(vueInstance, action, params, resolve, reject, options);
     });
   }
   static post(
@@ -66,10 +73,12 @@ class Request {
         }
       })
       .then(res => {
-        if (isError(res)) throw new Error(res.data.data);
+        if (isError(res)) throw new NetworkError(res.data.message, res.data.code, res.data.data)
+        cleanCache()
         successCallback(res.data);
       })
       .catch(error => {
+        networkErrorHandling(error)
         vueInstance.$notify({
           title: "錯誤",
           message: error,
@@ -103,7 +112,7 @@ class Request {
           }
         })
         .then(res => {
-          if (res.data.code != 200) throw res.data.data;
+          if (res.data.code != 200) throw new NetworkError(res.data.message, res.data.code, res.data.data)
           successCallback(res.data);
         })
         .catch(error => {
@@ -125,6 +134,11 @@ class Request {
       });
     }
   }
+  static async requestAll(asyncTasks){
+    Util.loading()
+    await Promise.all(asyncTasks);
+    Util.loading().close()
+  }
 }
 
 function getFromCache(key){ 
@@ -133,12 +147,18 @@ function getFromCache(key){
   return store().state.cache.get(key);
 }
 
+function cleanCache(key){ 
+  if(store().state.cache != null)
+    store().state.cache.reset()
+}
 
-function get(vueInstance, action, params, successCallback, errorCallback) {
+
+function get(vueInstance, action, params, successCallback, errorCallback, options) {
+  options = assignOptions(options)
   if(getFromCache(store().state.baseUrl + action + "/" + JSON.stringify(params)) != null){
     successCallback(getFromCache(store().state.baseUrl + action + "/" + JSON.stringify(params)));
   }else{
-    Util.loading()
+    if(options.showLoading != false) Util.loading()
     axios.get(store().state.baseUrl + action, {
         params: params,
         headers: {
@@ -146,21 +166,19 @@ function get(vueInstance, action, params, successCallback, errorCallback) {
         }
       })
       .then(res => {
-        if (isError(res)) throw new Error(res.data.data);
+        if (isError(res)) throw new NetworkError(res.data.message, res.data.code, res.data.data);
         res.data = jsonParse(res.data)
         store().dispatch("setCache", {key: store().state.baseUrl + action + "/" + JSON.stringify(params), value: res.data});
         successCallback(res.data);
       })
       .catch(error => {
-        vueInstance.$notify({
-          title: "錯誤",
-          message: error,
-          type: "warning"
-        });
+        networkErrorHandling(error)
+        if(options.showErrorNotification == false)
+          vueInstance.$notify({title: "錯誤",message: error,type: "warning"});
         errorCallback(error);
       })
       .finally(() => {
-        Util.loading().close();
+        if(options.showLoading != false) Util.loading().close();
       });
   }
 }
@@ -199,4 +217,27 @@ function IsJsonString(str) {
   }
 }
 
+function assignOptions(options){
+  if(!"showLoading" in options) options.showLoading = true
+  if(!"showErrorNotification" in options) options.showErrorNotification = true
+  return options
+}
+
+function networkErrorHandling(error){
+  if(error instanceof NetworkError){
+    switch(error.code){
+      case -2:
+        store().dispatch('setToken', "")
+        store().dispatch('setUser', null)
+      break
+    }
+  }
+}
+
+function NetworkError(message, code, data) {
+  this.message = message
+  this.code = code
+  this.data = data
+}
+NetworkError.prototype = new Error();
 export default Request;
