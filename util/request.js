@@ -32,8 +32,8 @@ class Request {
        successCallback(res)
     }).catch(error => {
       vueInstance.$notify({
-        title: "錯誤",
-        message: error,
+        title: "Error",
+        message: error.data,
         type: "warning"
       });
       errorCallback(error);
@@ -79,9 +79,10 @@ class Request {
       })
       .catch(error => {
         networkErrorHandling(error)
+        console.log(error);
         vueInstance.$notify({
-          title: "錯誤",
-          message: error,
+          title: "Error",
+          message: error.data,
           type: "warning"
         });
         errorCallback(error);
@@ -118,7 +119,7 @@ class Request {
         .catch(error => {
           vueInstance.$notify({
             title: "Error",
-            message: error,
+            message: error.data,
             type: "warning"
           });
           errorCallback(error);
@@ -129,7 +130,7 @@ class Request {
     }catch(error){
       vueInstance.$notify({
         title: vueInstance.$t('Error'),
-        message: error,
+        message: error.data,
         type: "warning"
       });
     }
@@ -174,7 +175,7 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
       .catch(error => {
         networkErrorHandling(error)
         if(options.showErrorNotification == false)
-          vueInstance.$notify({title: "錯誤",message: error,type: "warning"});
+          vueInstance.$notify({title: "Error",message: error.data,type: "warning"});
         errorCallback(error);
       })
       .finally(() => {
