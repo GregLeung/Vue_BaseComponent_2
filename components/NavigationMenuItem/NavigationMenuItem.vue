@@ -1,5 +1,6 @@
 <template>
-    <el-submenu id="navigation-menu-item" :style="cssProps" v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
+<div v-if="(!menuItem.hasOwnProperty('auth') || menuItem['auth'])">
+  <el-submenu id="navigation-menu-item" :style="cssProps" v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
     <template slot="title">
       <i :class="menuItem['icon']"></i>
       <span class="sub-menu">{{menuItem['name']}}</span>
@@ -9,7 +10,7 @@
         v-if="child.hasOwnProperty('children')"
         :menuItem="child"
       ></navigation-menu-item>
-      <el-menu-item-group v-else>
+      <el-menu-item-group v-else-if="((!child.hasOwnProperty('auth') || child['auth']))">
         <el-menu-item :index="child['path']" class="menu-item">
           <i :class="child['icon']"></i>
           <span>{{child["name"]}}</span>
@@ -23,6 +24,7 @@
       <span slot="title">{{menuItem["name"]}}</span>
     </el-menu-item>
   </div>
+</div>
     
 </template>
 <script>

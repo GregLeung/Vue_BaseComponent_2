@@ -3,7 +3,82 @@ import { sha256 } from "js-sha256";
 const Plugin = {
   install(Vue, options) {
     Vue.mixin({
+      computed: {
+        mainTheme() {
+          return variables["main-theme"];
+        },
+        mainThemePlain() {
+          return variables["main-theme-plain"];
+        },
+        navigationBarWidth() {
+          return variables["navigation-bar-width"];
+        },
+        cmsHeaderWidth() {
+          return variables["cms-header-width"];
+        },
+        cmsHeaderWidthWithCollapseNavigationBar() {
+          return variables["cms-header-width-with-collapse-navigation-bar"];
+        },
+      },
       methods: {
+        checkPermission(userRight) {
+          return (
+            userRight.find(
+              (f) => this.$store.getters.userType.indexOf(f) != -1
+            ) != null
+          );
+        },
+        checkReadPermission(page) {
+          if (page == null)
+            return this.checkPermission(
+              this.$store.getters.userAuth.find(
+                (f) => f.page == this.$route.path
+              ).readAuth
+            );
+          else
+            return this.checkPermission(
+              this.$store.getters.userAuth.find((f) => f.page == page).readAuth
+            );
+        },
+        checkCreatePermission(page) {
+          if (page == null)
+            return this.checkPermission(
+              this.$store.getters.userAuth.find(
+                (f) => f.page == this.$route.path
+              ).createAuth
+            );
+          else
+            return this.checkPermission(
+              this.$store.getters.userAuth.find((f) => f.page == page)
+                .createAuth
+            );
+        },
+        checkUpdatePermission(page) {
+          if (page == null)
+            return this.checkPermission(
+              this.$store.getters.userAuth.find(
+                (f) => f.page == this.$route.path
+              ).updateAuth
+            );
+          else
+            return this.checkPermission(
+              this.$store.getters.userAuth.find((f) => f.page == page)
+                .updateAuth
+            );
+        },
+        checkDeletePermission(page) {
+          if (page == null)
+            return this.checkPermission(
+              this.$store.getters.userAuth.find(
+                (f) => f.page == this.$route.path
+              ).deleteAuth
+            );
+          else
+            return this.checkPermission(
+              this.$store.getters.userAuth.find((f) => f.page == page)
+                .deleteAuth
+            );
+        },
         successPrompt(title = this.$t("Success"), message = "") {
           this.$notify({
             title: title,
@@ -18,8 +93,8 @@ const Plugin = {
             type: type,
           });
         },
-        deepClone(object){
-          return JSON.parse(JSON.stringify(object))
+        deepClone(object) {
+          return JSON.parse(JSON.stringify(object));
         },
         isObjectEmpty(object) {
           return (
@@ -60,7 +135,7 @@ const Plugin = {
           return require("@/assets/" + image);
         },
         notNullNotEmpty(value) {
-          return !(value == null || value === '' || value.length == 0)
+          return !(value == null || value === "" || value.length == 0);
         },
       },
     });
