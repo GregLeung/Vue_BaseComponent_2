@@ -25,6 +25,7 @@ import Excel from "./util/excel";
 import Util from "./util/util";
 import GoogleMap from "./util/googleMap";
 import Plugin from "./plugin.js"
+import BaseStore from "./util/BaseStore"
 
 export {
   BaseFooter,
@@ -53,5 +54,6 @@ export {
   Excel,
   Util,
   GoogleMap,
-  Plugin
+  Plugin,
+  BaseStore
 };
