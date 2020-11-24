@@ -3,23 +3,6 @@ import { sha256 } from "js-sha256";
 const Plugin = {
   install(Vue, options) {
     Vue.mixin({
-      computed: {
-        mainTheme() {
-          return variables["main-theme"];
-        },
-        mainThemePlain() {
-          return variables["main-theme-plain"];
-        },
-        navigationBarWidth() {
-          return variables["navigation-bar-width"];
-        },
-        cmsHeaderWidth() {
-          return variables["cms-header-width"];
-        },
-        cmsHeaderWidthWithCollapseNavigationBar() {
-          return variables["cms-header-width-with-collapse-navigation-bar"];
-        },
-      },
       methods: {
         checkPermission(userRight) {
           return (
@@ -126,6 +109,13 @@ const Plugin = {
         formateDate(value) {
           if (value != null) return moment(value).format("yyyy-MM-DD");
           else return "";
+        },
+        formateDateTime(value) {
+          if (value != null){ 
+            value = new Date();
+            return moment(value).format("yyyy-MM-DD") + " " + value.getHours() + ":" + value.getMinutes() + ":" + value.getSeconds()
+          }
+          else {return ""}
         },
         hashPassword(password) {
           if (password === "" || password == null) return password;

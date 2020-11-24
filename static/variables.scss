@@ -1,0 +1,21 @@
+$navigation-bar-width: 14rem;
+$pc-width-ratio: 1;
+$pad-width-ratio: 0.916667;
+$small-pad-width-ratio: 0.8333333;
+$phone-width-ratio: 0.46;
+$cms-header-width: calc(100% - #{$navigation-bar-width});
+$cms-header-width-with-collapse-navigation-bar: calc(100% - 64px);
+$main-theme: linear-gradient(90deg, rgba(45,134,240,.95) 0%, rgba(45,134,240,.95) 5%, rgba(0,128,0,.7) 100%);
+$main-theme-plain: rgba(0,128,0,.7);
+:export{
+  navigation-bar-width: $navigation-bar-width;
+  pc-width-ratio: $pc-width-ratio;
+  pad-width-ratio: $pad-width-ratio;
+  small-pad-width-ratio: $small-pad-width-ratio;
+  phone-width-ratio: $phone-width-ratio;
+  cms-header-width: $cms-header-width;
+  cms-header-width-with-collapse-navigation-bar: $cms-header-width-with-collapse-navigation-bar;
+  main-theme: $main-theme;
+  main-theme-plain: $main-theme-plain;
+}
+
