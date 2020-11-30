@@ -106,11 +106,11 @@ const Plugin = {
           }
           return true;
         },
-        formateDate(value) {
+        formatDate(value) {
           if (value != null) return moment(value).format("yyyy-MM-DD");
           else return "";
         },
-        formateDateTime(value) {
+        formatDateTime(value) {
           if (value != null){ 
             value = new Date();
             return moment(value).format("yyyy-MM-DD") + " " + value.getHours() + ":" + value.getMinutes() + ":" + value.getSeconds()
