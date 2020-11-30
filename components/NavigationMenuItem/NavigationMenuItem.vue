@@ -1,6 +1,5 @@
 <template>
-<div v-if="(!menuItem.hasOwnProperty('auth') || menuItem['auth'])">
-  <el-submenu id="navigation-menu-item" :style="cssProps" v-if="menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
+  <el-submenu id="navigation-menu-item" :style="cssProps" v-if="isAuth && menuItem != null && menuItem.hasOwnProperty('children') && Array.isArray(menuItem['children'])" :index="menuItem['name']">
     <template slot="title">
       <i :class="menuItem['icon']"></i>
       <span class="sub-menu">{{menuItem['name']}}</span>
@@ -18,13 +17,13 @@
       </el-menu-item-group>
     </div>
   </el-submenu>
-  <div id="navigation-menu-item" :style="cssProps" v-else-if="menuItem != null">
+  <div id="navigation-menu-item" :style="cssProps" v-else-if="isAuth && menuItem != null">
     <el-menu-item :index="menuItem['path']" class="menu-item">
       <i :class="menuItem['icon']"></i>
       <span slot="title">{{menuItem["name"]}}</span>
     </el-menu-item>
   </div>
-</div>
+<!-- </div> -->
     
 </template>
 <script>
@@ -45,6 +44,9 @@ export default {
       return {
         '--height': this.lineHeight
       }
+    },
+    isAuth(){
+      return !this.menuItem.hasOwnProperty('auth') || this.menuItem['auth']
     }
   }
 };
