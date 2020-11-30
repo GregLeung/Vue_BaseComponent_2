@@ -65,22 +65,28 @@ export default{
             this.$emit('update:dialogVisible', false)
         },
         handleConfirm(){
+            
             var result = this.dataList
             this.columnList.forEach((column, index) => {
                 switch(column.advancedSearch.type){
                     case 'MULTI-SELECTION':
+                        console.log(result);
                         if(this.searchFilterSet[index].length > 0)
                             result = result.filter(f => {
-                                if(Array.isArray(f[column.prop]))
+                                if(Array.isArray(f[column.prop])){
                                     return f[column.prop].find(prop => this.searchFilterSet[index].includes(prop)) != null
+                                }
                                 else
                                     return this.searchFilterSet[index].includes(f[column.prop])
                             })
                         break;
                     case 'TIME-RANGE':
-                        if(this.searchFilterSet[index].length == 2)
+                        console.log(result);
+                        if(this.searchFilterSet[index][0] != null && this.searchFilterSet[index][1] != null)
                             result = result.filter(f => moment(f[column.prop]).valueOf() > this.searchFilterSet[index][0].valueOf() && moment(f[column.prop]).valueOf() < this.searchFilterSet[index][1].valueOf())
+                        break
                     case 'FREETEXT':
+                        console.log(result);
                         if(this.searchFilterSet[index].length > 0)
                             result = result.filter(f => {
                                 if(f[column.prop] == null || f[column.prop] == "")
@@ -88,14 +94,17 @@ export default{
                                 else
                                     return f[column.prop].includes(this.searchFilterSet[index]) || this.searchFilterSet[index].includes(f[column.prop])
                             })
+                        break
                     case 'NUMBER-RANGE':
-                        if(this.searchFilterSet[index].length == 2)
+                        console.log(this.searchFilterSet[index]);
+                        if(this.searchFilterSet[index][0] != null && this.searchFilterSet[index][1] != null)
                             result = result.filter(f => {
                                 if(!Util.isNumeric(f[column.prop]))
                                     return false
                                 else
                                     return f[column.prop] >= this.searchFilterSet[index][0] &&  f[column.prop] <= this.searchFilterSet[index][1]
                             })
+                        break
                 }
             })
             this.$emit('search-callback', result)
