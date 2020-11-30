@@ -22,7 +22,7 @@
       </div>
       <div class="row">
         <el-button icon="el-icon-refresh" type="success" @click="handleRefresh()" circle></el-button>
-        <el-button icon="el-icon-search" type="warning" @click="()=>{this.visibleAdvancedSearchDialog = true}" circle></el-button>
+        <el-button icon="el-icon-search" type="warning" @click="()=>{this.handleOpenAdnvancedSearchDialog()}" circle></el-button>
       </div>
     </div>
       <div v-else>
@@ -287,6 +287,10 @@ export default {
     };
   },
   methods: {
+    handleOpenAdnvancedSearchDialog(){
+      this.handleRefresh()
+      this.visibleAdvancedSearchDialog = true
+    },
     handleSearchChange() {
       if (this.autoSearch) this.confirmedSearch = this.search;
     },
