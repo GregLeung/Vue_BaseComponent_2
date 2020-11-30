@@ -28,6 +28,11 @@ class Util {
       return value * ratio + "%";
     }
   }
+  static isNumeric(str) {
+    console.log((typeof str != "string"));
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+           !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+  }
 }
 
 export default Util;

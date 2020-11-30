@@ -1,22 +1,48 @@
 <template>
   <div id="base-table" class="container">
     <h1>{{ title }}</h1>
-    <el-input
-      @input="handleSearchChange"
-      @change="handleEnterChange"
-      class="mb-8 search-input"
-      v-model="search"
-      size="medium"
-      :placeholder="$t('Search')"
-    />
-    <el-button
-      v-if="!autoSearch"
-      type="primary"
-      size="medium"
-      icon="el-icon-search"
-      @click="handleEnterChange"
-      >Search</el-button
-    >
+    <div v-if="isAdvancedSearch" class="space-between-row">
+      <div style="width: 100%">
+        <el-input
+          @input="handleSearchChange"
+          @change="handleEnterChange"
+          class="mb-8 search-input"
+          v-model="search"
+          size="medium"
+          :placeholder="$t('Search')"
+        />
+        <el-button
+          v-if="!autoSearch"
+          type="primary"
+          size="medium"
+          icon="el-icon-search"
+          @click="handleEnterChange"
+          >Search</el-button
+        >
+      </div>
+      <div class="row">
+        <el-button icon="el-icon-refresh" type="success" @click="handleRefresh()" circle></el-button>
+        <el-button icon="el-icon-search" type="warning" @click="()=>{this.visibleAdvancedSearchDialog = true}" circle></el-button>
+      </div>
+    </div>
+      <div v-else>
+        <el-input
+          @input="handleSearchChange"
+          @change="handleEnterChange"
+          class="mb-8 search-input"
+          v-model="search"
+          size="medium"
+          :placeholder="$t('Search')"
+        />
+        <el-button
+          v-if="!autoSearch"
+          type="primary"
+          size="medium"
+          icon="el-icon-search"
+          @click="handleEnterChange"
+          >Search</el-button
+        >
+      </div>
     <div class="table-wrapper">
       <el-table
         :max-height="windowHeight*0.75"
@@ -159,15 +185,24 @@
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
+    <advanced-search-dialog @search-callback="(data)=>{dataList = data}" :dataList="dataList" :columnList="columnList.filter(f => f.hasOwnProperty('advancedSearch'))" :dialogVisible.sync="visibleAdvancedSearchDialog"/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import AdvancedSearchDialog from "./AdvancedSearchDialog";
 import { Request, Util } from "vue_basecomponent";
 
 export default {
+  components: {
+    AdvancedSearchDialog
+  },
   props: {
+    isAdvancedSearch: {
+      type: Boolean,
+      default: false,
+    },
     showManipulation: {
       type: Boolean,
       required: false,
@@ -247,7 +282,8 @@ export default {
       currentSelection: null,
       multipleSelection: [],
       dataList: [],
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
+      visibleAdvancedSearchDialog: false,
     };
   },
   methods: {
