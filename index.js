@@ -20,6 +20,7 @@ import LanguageButton from "./components/LanguageButton/LanguageButton.vue";
 import HalfRow from "./components/HalfRow/HalfRow.vue";
 import IconButton from "./components/IconButton/IconButton.vue";
 import SignaturePad from "./components/SignaturePad/SignaturePad.vue";
+import CustomFormInput from "./components/CustomFormInput/CustomFormInput.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -50,6 +51,7 @@ export {
   HalfRow,
   IconButton,
   SignaturePad,
+  CustomFormInput,
   Request,
   Excel,
   Util,
