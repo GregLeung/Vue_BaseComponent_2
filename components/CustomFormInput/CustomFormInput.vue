@@ -113,7 +113,7 @@ export default Vue.extend({
     },
     mounted(){
         this.type = "text";
-        (this.sperateSign != '')?this.$emit("update:value", this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign)) :console.log('');
+        if(this.sperateSign != '') this.$emit("update:value", this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
     },
     methods:{
         handleOnChange(value){
@@ -126,7 +126,7 @@ export default Vue.extend({
         },
         handleBlur(){
             this.type = "text";
-            (this.sperateSign != '')?this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign) :console.log('');
+            if(this.sperateSign != '') this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign)
         }
     },
     data(){
