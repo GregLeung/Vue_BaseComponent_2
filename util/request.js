@@ -73,8 +73,6 @@ class Request {
                 }
             })
             .then(res => {
-                console.log(res);
-                console.log(res.data);
                 if (isError(res)) throw new NetworkError(res)
                 cleanCache()
                 successCallback(res.data);
