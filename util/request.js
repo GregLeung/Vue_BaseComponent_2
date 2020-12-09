@@ -237,9 +237,9 @@ function networkErrorHandling(error) {
 
 function NetworkError(response) {
     if (Util.isJSONObject(response.data)) {
-        this.message = response.message
-        this.code = response.code
-        this.data = response.data
+        this.message = response.data.message
+        this.code = response.data.code
+        this.data = response.data.data
     } else
         this.error = response.data
 }
