@@ -1,8 +1,23 @@
 <template>
-<div class="container" :style="{'width': width, 'height': height}" @touchend="(event)=>this.$emit('drawEnd', event)" @mouseleave="(event)=>this.$emit('drawEnd', event)" @mouseup="(event)=>this.$emit('drawEnd', event)">
+  <div
+    class="container"
+    :style="{ width: width, height: height }"
+    @touchend="(event) => this.$emit('drawEnd', event)"
+    @mouseleave="(event) => this.$emit('drawEnd', event)"
+    @mouseup="(event) => this.$emit('drawEnd', event)"
+  >
     <button class="button" type="button" @click="clearSignature"></button>
-    <VueSignaturePad ref="signature_pad"  :width="width" :height="height"/>
-</div>
+    <VueSignaturePad
+      ref="signature_pad"
+      :width="width"
+      :height="height"
+      :options="{
+        onBegin: () => {
+          $refs.signature_pad.resizeCanvas();
+        },
+      }"
+    />
+  </div>
 </template>
 
 <script lang="js">
@@ -24,7 +39,10 @@ export default {
     },
     methods: {
         getSignatureData(){
-            return this.isEmpty() ? null : this.dataURLtoFile(this.$refs.signature_pad.saveSignature().data, "sigmature.png")
+            return this.isEmpty() ? null : this.dataURLtoFile(this.$refs.signature_pad.saveSignature().data, "signature.png")
+        },
+        resizeCanvas(){            
+            this.$refs.signature_pad.resizeCanvas()
         },
         downloadSignature(fileName) {
             var {
@@ -48,31 +66,31 @@ export default {
             return this.$refs.signature_pad.isEmpty()
         },
         dataURLtoFile(dataurl, filename) {
-            var arr = dataurl.split(','),
+            if(dataurl.split(':')[1] != ","){
+                var arr = dataurl.split(','),
                 mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]),
                 n = bstr.length,
                 u8arr = new Uint8Array(n);
-
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new File([u8arr], filename, {
+                    type: mime
+                });
             }
-
-            return new File([u8arr], filename, {
-                type: mime
-            });
         },
     }
 }
 </script>
 
 <style lang="sass" scoped>
-.container 
+.container
     border: double 3px black
     border-radius: 5px
     background-origin: border-box
     background-clip: content-box, border-box
-    .button 
+    .button
         display: inline-block
         text-align: center
         vertical-align: middle
@@ -90,7 +108,7 @@ export default {
         margin-top: .2em
         position: absolute
     .button:before
-        content:  "\0000a0"
+        content: "\0000a0"
         display: inline-block
         height: .6em
         width: .6em
