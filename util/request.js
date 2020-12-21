@@ -170,6 +170,7 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
                 if (isError(res)) throw new NetworkError(res);
                 res.data = jsonParse(res.data)
                 store().dispatch("setCache", { key: store().state.baseUrl + action + "/" + JSON.stringify(params), value: res.data });
+                setPayloadToCache(res.data)
                 successCallback(res.data);
             })
             .catch(error => {
@@ -182,6 +183,31 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
                 if (options.showLoading != false) Util.loading().close();
             });
     }
+}
+
+function setPayloadToCache(response) {
+    if (response.hasOwnProperty("payload") && response.payload == true) {
+        for (const [key, value] of Object.entries(response.data)) {
+            var result = dataModelArrayToMap(value)
+            var cacheData = getFromCache(key)
+            if (cacheData == null) {
+                store().dispatch("setCache", { key: key, value: result });
+            } else {
+                for (key in Object.keys(result)) {
+                    cacheData[key] = result[key]
+                }
+                store().dispatch("setCache", { key: key, value: cacheData });
+            }
+        }
+    }
+}
+
+function dataModelArrayToMap(array) {
+    var result = {};
+    array.forEach(f => {
+        result[f.ID] = f
+    })
+    return result
 }
 
 function isError(res) {
