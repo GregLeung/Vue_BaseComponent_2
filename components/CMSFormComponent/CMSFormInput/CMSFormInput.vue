@@ -57,7 +57,7 @@ export default Vue.extend({
         maxlength: {
             type: Number,
             required: false,
-            default: 50
+            default: 1000000000000
         },
         placeholder: {
             type: String,
