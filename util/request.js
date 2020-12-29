@@ -193,7 +193,7 @@ function setPayloadToCache(response) {
             if (cacheData == null) {
                 store().dispatch("setCache", { key: key, value: result });
             } else {
-                for (key in Object.keys(result)) {
+                for (const key in Object.keys(result)) {
                     cacheData[key] = result[key]
                 }
                 store().dispatch("setCache", { key: key, value: cacheData });
