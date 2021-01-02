@@ -1,13 +1,21 @@
 <template>
   <el-dialog :visible="dialogVisible" width="80%" @close="handleDialogClose">
-      <h3>Advanced Search</h3>
+      <div slot="title">
+         <h3>Advanced Search</h3>
+      </div>
       <div v-for="(item, index) in columnList" :key="index">
+        <el-card>
           <h4>{{item.label}}</h4>
             <div v-if="item.hasOwnProperty('advancedSearch')">
                 <div v-if="item.advancedSearch.type == 'MULTI-SELECTION'">
                     <el-checkbox-group v-model="searchFilterSet[index]">
                         <el-checkbox v-for="(checkBoxValue, checkBoxIndex) in item.advancedSearch.options" :key="checkBoxIndex" :label="checkBoxValue"></el-checkbox>
                     </el-checkbox-group>
+                </div>
+                <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
+                    <el-select v-model="searchFilterSet[index]" multiple filterable remote reserve-keyword>
+                        <el-option v-for="(optionValue, optionIndex) in item.advancedSearch.options" :key="optionIndex" :label="optionValue.label" :value="optionValue" />
+                    </el-select>
                 </div>
                 <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
                         <el-date-picker
@@ -33,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <el-divider/>
+          </el-card>
       </div>
       <el-button @click="handleConfirm">Confirm</el-button>
   </el-dialog>
@@ -70,7 +78,18 @@ export default{
             this.columnList.forEach((column, index) => {
                 switch(column.advancedSearch.type){
                     case 'MULTI-SELECTION':
-                        console.log(result);
+                        // console.log(result);
+                        if(this.searchFilterSet[index].length > 0)
+                            result = result.filter(f => {
+                                if(Array.isArray(f[column.prop])){
+                                    return f[column.prop].find(prop => this.searchFilterSet[index].includes(prop)) != null
+                                }
+                                else
+                                    return this.searchFilterSet[index].includes(f[column.prop])
+                            })
+                        break;
+                    case 'MULTI-SELECTION-SELECTOR':
+                        // console.log(result);
                         if(this.searchFilterSet[index].length > 0)
                             result = result.filter(f => {
                                 if(Array.isArray(f[column.prop])){
@@ -114,6 +133,9 @@ export default{
             return this.columnList.map(f => {
                 switch(f.advancedSearch.type){
                     case 'MULTI-SELECTION':
+                        return [];
+                        break;
+                    case 'MULTI-SELECTION-SELECTOR':
                         return [];
                         break;
                     case 'TIME-RANGE':
