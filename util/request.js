@@ -202,11 +202,14 @@ function setPayloadToCache(response) {
     }
 }
 
-function dataModelArrayToMap(array) {
+function dataModelArrayToMap(data) {
     var result = {};
-    array.forEach(f => {
-        result[f.ID] = f
-    })
+    if (Array.isArray(data)) {
+        data.forEach(f => {
+            result[f.ID] = f
+        })
+    } else
+        result[data.ID] = data
     return result
 }
 
