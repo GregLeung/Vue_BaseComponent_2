@@ -4,11 +4,15 @@
     <div v-if="isAdvancedSearch" class="space-between-row">
       <div style="width: 100%">
         <el-input @input="handleSearchChange" @change="handleEnterChange"  class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
-        <el-button v-if="!autoSearch" type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange" >Search</el-button>
+        <el-button v-if="!autoSearch" type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
       </div>
       <div class="row">
-        <el-button icon="el-icon-refresh" type="success" @click="handleRefresh()" circle></el-button>
-        <el-button icon="el-icon-search" type="warning" @click="handleOpenAdvancedSearchDialog" circle></el-button>
+        <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
+          <el-button icon="el-icon-refresh" type="success" @click="handleRefresh()" circle></el-button>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="Advance Search" placement="top">
+          <el-button icon="el-icon-search" type="warning" @click="handleOpenAdvancedSearchDialog" circle></el-button>
+        </el-tooltip>
       </div>
     </div>
     <div v-else>
@@ -69,7 +73,7 @@
     <div class="pagination-wrapper">
       <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage" ></el-pagination>
     </div>
-    <advanced-search-dialog @search-callback="(data)=>{dataList = data}" :dataList="dataList" :columnList="columnList.filter(f => f.hasOwnProperty('advancedSearch'))" :dialogVisible.sync="visibleAdvancedSearchDialog"/>
+    <advanced-search-dialog @search-callback="(data)=>{dataList = data}" :dataList="dataList" :columnList="columnList.filter(f => f.hasOwnProperty('advancedSearch'))" :dialogVisible.sync="visibleAdvancedSearchDialog" :width="advanceSearchDialogWidth" :top="advanceSearchDialogTop" />
   </div>
 </template>
 
@@ -156,6 +160,16 @@ export default {
       type: Boolean,
       requried: false,
       default: false,
+    },
+    advanceSearchDialogWidth: {
+      type: String,
+      required: false,
+      default: '50%'
+    },
+    advanceSearchDialogTop: {
+      type: String,
+      required: false,
+      default: '0vh'
     }
   },
   mounted() {
