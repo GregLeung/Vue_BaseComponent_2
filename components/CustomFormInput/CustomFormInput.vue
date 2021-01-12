@@ -30,9 +30,6 @@ export default Vue.extend({
             requored: false,
             default: false
         },
-        value: {
-            type: [String, Number]
-        },
         direction: {
             type: String,
             required: false,
@@ -79,11 +76,9 @@ export default Vue.extend({
         },
         appendSelect: {
             type: String,
-            required: true
         },
         value: {
-            type: String,
-            required: true,
+            type: [String, Number],
             default: ""
         },
         appendWidth: {
@@ -104,7 +99,10 @@ export default Vue.extend({
             }
         },
         value(val){
-            this.localValue = val
+            if(val === "")
+                this.localValue = null
+            else
+                this.localValue = val
         },
         localValue(val){
             this.$emit("update:value", val)
@@ -112,7 +110,7 @@ export default Vue.extend({
     },
     mounted(){
         this.type = "text";
-        if(this.sperateSign != '') this.$emit("update:value", this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
+        if(this.sperateSign != '') this.$emit("update:value", this.localValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
     },
     methods:{
         handleOnChange(value){
