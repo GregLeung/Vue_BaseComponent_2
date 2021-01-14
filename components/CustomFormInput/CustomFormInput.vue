@@ -4,7 +4,7 @@
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue" @input="handleOnChange">
-        <el-select v-if="options != null" v-model="appendSelect" :options="options" slot="prepend" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
+        <el-select v-if="options != null" v-model="appendSelect" :options="options" :slot="selectorPosition" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
@@ -29,6 +29,9 @@ export default Vue.extend({
             type: Boolean,
             requored: false,
             default: false
+        },
+        value: {
+            type: [String, Number]
         },
         direction: {
             type: String,
@@ -76,9 +79,11 @@ export default Vue.extend({
         },
         appendSelect: {
             type: String,
+            required: true
         },
         value: {
-            type: [String, Number],
+            type: String,
+            required: true,
             default: ""
         },
         appendWidth: {
@@ -90,6 +95,11 @@ export default Vue.extend({
             type: String,
             required: false,
             default: ''
+        },
+        selectorPosition: {
+            type: String,
+            required: false,
+            default: "prepend"
         }
     },
     watch:{
@@ -99,10 +109,7 @@ export default Vue.extend({
             }
         },
         value(val){
-            if(val === "")
-                this.localValue = null
-            else
-                this.localValue = val
+            this.localValue = val
         },
         localValue(val){
             this.$emit("update:value", val)
@@ -110,7 +117,7 @@ export default Vue.extend({
     },
     mounted(){
         this.type = "text";
-        if(this.sperateSign != '') this.$emit("update:value", this.localValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
+        if(this.sperateSign != '') this.$emit("update:value", this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
     },
     methods:{
         handleOnChange(value){

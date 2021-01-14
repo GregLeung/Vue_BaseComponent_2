@@ -11,6 +11,7 @@ import CMSForm from "./components/CMSFormComponent/CMSForm/CMSForm.vue";
 import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInput.vue";
 import CMSDatePicker from "./components/CMSFormComponent/CMSDatePicker/CMSDatePicker.vue";
 import CMSSelector from "./components/CMSFormComponent/CMSSelector/CMSSelector.vue";
+import CMSPhotoUpload from "./components/CMSFormComponent/CMSPhotoUpload/CMSPhotoUpload.vue";
 import CMSRadioBox from "./components/CMSRadioBox/CMSRadioBox";
 import CMSInputNumber from "./components/CMSFormComponent/CMSInputNumber/CMSInputNumber.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
@@ -29,33 +30,34 @@ import Plugin from "./plugin.js"
 import BaseStore from "./util/BaseStore"
 
 export {
-  BaseFooter,
-  BaseTable,
-  BaseUploadButton,
-  CMSHeader,
-  NavigationBar,
-  NavigationBarToggleButton,
-  LoginContainerBox,
-  LoginInput,
-  BaseCamera,
-  CMSForm,
-  CMSFormInput,
-  CMSDatePicker,
-  CMSSelector,
-  CMSRadioBox,
-  CMSInputNumber,
-  BaseLabel,
-  IconField,
-  BaseFab,
-  LanguageButton,
-  HalfRow,
-  IconButton,
-  SignaturePad,
-  CustomFormInput,
-  Request,
-  Excel,
-  Util,
-  GoogleMap,
-  Plugin,
-  BaseStore
+    BaseFooter,
+    BaseTable,
+    BaseUploadButton,
+    CMSHeader,
+    NavigationBar,
+    NavigationBarToggleButton,
+    LoginContainerBox,
+    LoginInput,
+    BaseCamera,
+    CMSForm,
+    CMSFormInput,
+    CMSDatePicker,
+    CMSSelector,
+    CMSPhotoUpload,
+    CMSRadioBox,
+    CMSInputNumber,
+    BaseLabel,
+    IconField,
+    BaseFab,
+    LanguageButton,
+    HalfRow,
+    IconButton,
+    SignaturePad,
+    CustomFormInput,
+    Request,
+    Excel,
+    Util,
+    GoogleMap,
+    Plugin,
+    BaseStore
 };
