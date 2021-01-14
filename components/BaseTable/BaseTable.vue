@@ -24,7 +24,21 @@
         <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
-            <slot name="expand" :row="scope.row" />
+            <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
+            <el-card v-else-if="expandOptions.type == 'GENERAL'">
+              <h3>{{$t('Detail')}}</h3>
+              <el-table :data="scope.row[expandOptions.childrenProp]" class="mt-4" border>
+                <el-table-column :label="column.label" v-for="(column, index) in expandOptions.columnList" v-bind:key="index" sortable="custom" :min-width="column.width" :prop="scope.row[column.prop]" :fixed="column.fixed" >
+                  <template slot-scope="scope">
+                      <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
+                        <el-tag :type="parseData(scope.row, column, column.prop).type">{{ parseData(scope.row, column, column.prop).label }}</el-tag>
+                      </span>
+                      <span v-else-if="column.hasOwnProperty('format')">{{ column.format(scope.row[column.prop]) }}</span>
+                      <span v-else>{{ scope.row[column.prop] }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
           </template>
         </el-table-column>
         <el-table-column :label="column.label" v-for="(column, index) in columnList" v-bind:key="index" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
@@ -161,6 +175,13 @@ export default {
       requried: false,
       default: false,
     },
+    expandOptions: {
+      type: Object,
+      requried: false,
+      default: function() {
+        return {type: 'CUSTOM'}
+      },
+    },
     advanceSearchDialogWidth: {
       type: String,
       required: false,
@@ -280,6 +301,7 @@ export default {
           this.dataList = await this.customRefresh();
         else{
             var result = await Request.getAsync(this, "get_" + this.tableName + "_all", {});
+            console.log(result.data);
             this.dataList = result.data[this.tableName.toString()]
         }
         this.handleDefaultSorting(); 
