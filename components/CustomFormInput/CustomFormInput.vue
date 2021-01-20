@@ -4,7 +4,7 @@
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue" @input="handleOnChange">
-        <el-select v-if="options != null" v-model="appendSelect" :options="options" :slot="selectorPosition" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
+        <el-select v-if="options != null" v-model="appendSelect" :options="options" slot="prepend" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
@@ -29,9 +29,6 @@ export default Vue.extend({
             type: Boolean,
             requored: false,
             default: false
-        },
-        value: {
-            type: [String, Number]
         },
         direction: {
             type: String,
@@ -79,11 +76,9 @@ export default Vue.extend({
         },
         appendSelect: {
             type: String,
-            required: true
         },
         value: {
-            type: String,
-            required: true,
+            type: [String, Number],
             default: ""
         },
         appendWidth: {
@@ -95,11 +90,6 @@ export default Vue.extend({
             type: String,
             required: false,
             default: ''
-        },
-        selectorPosition: {
-            type: String,
-            required: false,
-            default: "prepend"
         }
     },
     watch:{
@@ -109,27 +99,47 @@ export default Vue.extend({
             }
         },
         value(val){
-            this.localValue = val
+            if(val === "")
+                this.localValue = null
+            else
+                this.localValue = this.convertNumberWithSeperation(val)
         },
-        localValue(val){
-            this.$emit("update:value", val)
+        localValue(val, oldValue){
+            if(val != null && this.convertOriginalNumber(val).toString().length > 11 ){
+                this.localValue = oldValue
+            }
         }
     },
     mounted(){
         this.type = "text";
-        if(this.sperateSign != '') this.$emit("update:value", this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign));
+        if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.value)
     },
     methods:{
         handleOnChange(value){
             this.localValue = value
         },
         handleFocus(event){
-            this.type = "number";
-            if(this.sperateSign != '') this.localValue = this.localValue.toString().replaceAll(this.sperateSign, "")
+            try{
+                this.type = "number";
+                if(this.sperateSign != '') this.localValue = this.convertOriginalNumber(this.localValue)
+            }catch(error){
+                console.log(error);
+            }
         },
         handleBlur(){
-            this.type = "text";
-            if(this.sperateSign != '') this.localValue = this.localValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign)
+            try{
+                this.type = "text";
+                this.$emit("update:value", this.convertOriginalNumber(this.localValue))
+                if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.localValue)
+            }catch(error){
+                console.log(error);
+            }
+        },
+        convertNumberWithSeperation(val, defaultValue = ""){
+            return (val != null) ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.sperateSign): defaultValue
+        },
+        convertOriginalNumber(val, defaultValue = ""){
+            return (val != null) ? val.toString().replaceAll(this.sperateSign, ""): defaultValue
         }
     },
     data(){
