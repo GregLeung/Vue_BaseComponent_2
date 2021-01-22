@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible="dialogVisible" width="80%" @close="handleDialogClose">
+  <el-dialog :visible="dialogVisible" :width="width" :top="top" @close="handleDialogClose" >
       <div slot="title">
          <h3>Advanced Search</h3>
       </div>
@@ -66,6 +66,16 @@ export default{
             type: Array,
             required: true,
             default: []
+        },
+        width: {
+            type: String,
+            required: false,
+            default: '50%'
+        },
+        top: {
+            type: String,
+            required: false,
+            default: '0vh'
         }
     },
     methods: {
