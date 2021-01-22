@@ -230,7 +230,12 @@ export default {
       }
     },
     ascendingSorting(prop) {
-      var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      try{
+        var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      }catch(e){
+        console.log(e);
+        var sortType = "String"
+      }
       switch(sortType){
         case "Number":
           this.dataList.sort(function (a, b) {
@@ -244,7 +249,12 @@ export default {
       }
     },
     descendignSorting(prop) {
-      var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      try{
+        var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      }catch(e){
+        console.log(e);
+        var sortType = "String"
+      }
       switch(sortType){
         case "Number":
           this.dataList.sort(function (a, b) {
