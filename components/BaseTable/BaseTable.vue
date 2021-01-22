@@ -230,14 +230,32 @@ export default {
       }
     },
     ascendingSorting(prop) {
-      this.dataList.sort(function (a, b) {
-        return ("" + a[prop]).localeCompare(b[prop]);
-      });
+      var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      switch(sortType){
+        case "Number":
+          this.dataList.sort(function (a, b) {
+            return a[prop] - b[prop];
+          });
+        break;
+        case "String":
+          this.dataList.sort(function (a, b) {
+            return ("" + a[prop]).localeCompare(b[prop]);
+          });
+      }
     },
     descendignSorting(prop) {
-      this.dataList.sort(function (a, b) {
-        return ("" + b[prop]).localeCompare(a[prop]);
-      });
+      var sortType = this.columnList.find(f => f.prop == prop).sortType || "String"
+      switch(sortType){
+        case "Number":
+          this.dataList.sort(function (a, b) {
+            return b[prop] - a[prop];
+          });
+        break;
+        case "String":
+          this.dataList.sort(function (a, b) {
+            return ("" + b[prop]).localeCompare(a[prop]);
+          });
+      }
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === this.$refs.table.columns.length - 1) {
