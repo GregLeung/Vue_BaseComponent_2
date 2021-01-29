@@ -41,7 +41,7 @@
             </el-card>
           </template>
         </el-table-column>
-        <el-table-column  v-for="(column, index) in columnList" v-bind:key="index" v-if="!column.isHidden || false" :label="column.label" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
+        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
           <template slot-scope="scope">
             <slot :name="column.prop" :row="scope.row">
               <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
@@ -365,6 +365,9 @@ export default {
     },
   },
   computed: {
+    visibleColumn: function(){
+      return this.columnList.filter(f => !f.isHidden || false)
+    },
     dataListForShow: function () {
       if (this.confirmedSearch == "")
         return this.dataList.slice(
