@@ -41,7 +41,7 @@
             </el-card>
           </template>
         </el-table-column>
-        <el-table-column :label="column.label" v-for="(column, index) in columnList" v-bind:key="index" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
+        <el-table-column  v-for="(column, index) in columnList" v-bind:key="index" v-if="!column.isHidden || false" :label="column.label" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
           <template slot-scope="scope">
             <slot :name="column.prop" :row="scope.row">
               <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
@@ -275,7 +275,7 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    sortChange: function (column, prop, order) {
+    sortChange: function (column) {
       var columnObject = this.columnList.find((f) => f.prop == column.prop);
       if (typeof columnObject.customSort === "function") {
           this.columnCustomSort(columnObject, column.order)
@@ -334,6 +334,7 @@ export default {
         }
         this.handleDefaultSorting(); 
       } catch (error) {
+        console.log(error)
         this.dataList = [];
       }
     },

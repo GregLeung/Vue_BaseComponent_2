@@ -55,6 +55,8 @@ class Request {
     static getAsync(vueInstance, action, params, options = Request.defaultOptions()) {
         return new Promise((resolve, reject) => {
             get(vueInstance, action, params, resolve, reject, options);
+        }).catch(error => {
+            throw error
         });
     }
     static post(
@@ -134,6 +136,13 @@ class Request {
                 type: "warning"
             });
         }
+    }
+    static uploadFileAsync(vueInstance, url, file, limitSize, limitType) {
+        return new Promise((resolve, reject) => {
+            this.uploadFile(vueInstance, url, file, limitSize, limitType, resolve, reject);
+        }).catch(error => {
+            throw error
+        });
     }
     static async requestAll(asyncTasks) {
         Util.loading()
