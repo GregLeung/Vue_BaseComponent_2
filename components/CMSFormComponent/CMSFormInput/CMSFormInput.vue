@@ -3,8 +3,8 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange">
-        <el-button v-if="icon != null" slot="append" :icon="icon" @click="iconClick"></el-button>
+    <el-input :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange">
+        <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
 </template>
@@ -71,6 +71,11 @@ export default Vue.extend({
         icon: {
             type: String,
             required: false
+        },
+        textTransform: {
+            type: String,
+            required: false,
+            default: "none"
         }
     },
     model:{
@@ -81,6 +86,13 @@ export default Vue.extend({
         handleOnChange(value){
             this.$emit("update", value)
             this.$emit("input", value)
+        },
+    },
+    computed: {
+        cssVars() {
+            return {
+                '--textTransform': this.textTransform,
+            }
         }
     }
 })
@@ -88,4 +100,7 @@ export default Vue.extend({
 
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
+
+/deep/ .el-input__inner
+    text-transform: var(--textTransform)
 </style>
