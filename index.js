@@ -1,5 +1,6 @@
 import BaseFooter from "./components/BaseFooter/BaseFooter.vue";
 import BaseTable from "./components/BaseTable/BaseTable.vue";
+import BasePagingTable from "./components/BaseTable/BasePagingTable.vue";
 import BaseUploadButton from "./components/BaseUploadButton/BaseUploadButton.vue";
 import CMSHeader from "./components/CMSHeader/CMSHeader.vue";
 import NavigationBar from "./components/NavigationBar/NavigationBar.vue";
@@ -32,6 +33,7 @@ import BaseStore from "./util/BaseStore"
 export {
     BaseFooter,
     BaseTable,
+    BasePagingTable,
     BaseUploadButton,
     CMSHeader,
     NavigationBar,
