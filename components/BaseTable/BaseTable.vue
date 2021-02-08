@@ -368,6 +368,24 @@ export default {
     visibleColumn: function(){
       return this.columnList.filter(f => !f.isHidden || false)
     },
+    filteredData: function(){
+      if (this.confirmedSearch == "") return this.dataList;
+      else
+        return this.dataList
+          .filter((val) => {
+            for (let i = 0; i < Object.keys(val).length; i++) {
+              if (
+                val[Object.keys(val)[i]] != null &&
+                val[Object.keys(val)[i]]
+                  .toString()
+                  .toLowerCase()
+                  .includes(this.confirmedSearch.toLowerCase())
+              )
+                return true;
+            }
+            return false;
+          })
+    },
     dataListForShow: function () {
       if (this.confirmedSearch == "")
         return this.dataList.slice(
