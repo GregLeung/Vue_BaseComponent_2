@@ -73,9 +73,13 @@ export default {
       type: String,
       required: false,
     },
+    tableName: {
+      type: String,
+      required: false,
+    },
     customRefresh: {
       type: Function,
-      required: true,
+      required: false,
       default: null,
     },
     rowClick: {
@@ -121,11 +125,8 @@ export default {
     },
     handleDefaultSorting() {
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
-        // if (this.defaultSort == "ascending"){
           this.currentSortProp = this.defaultSortProp
           this.currentSortOrder = this.defaultSort
-        // }
-        // else this.descendignSorting(this.defaultSortProp);
       }
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
@@ -137,7 +138,6 @@ export default {
       this.multipleSelection = val;
     },
     sortChange: function (column) {
-      console.log(column);
       this.currentSortProp = column.prop
       this.currentSortOrder = column.order
       this.handleRefresh()
@@ -161,6 +161,10 @@ export default {
           var result = await this.customRefresh();
           this.dataList = result.data
           this.dataListForShowLength = result.totalRow
+        }else{
+          var result = await Request.getAsync(this, "get_" + this.tableName + "_all_paging", {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }}, {showLoading: true});
+          this.dataList = result.data[this.tableName.toString()].data
+          this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
       } catch (error) {
         console.log(error)

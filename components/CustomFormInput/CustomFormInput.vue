@@ -113,6 +113,7 @@ export default Vue.extend({
     mounted(){
         this.type = "text";
         if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.value)
+        else this.localValue = this.value
     },
     methods:{
         handleOnChange(value){
