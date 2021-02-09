@@ -179,7 +179,7 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
                 if (isError(res)) throw new NetworkError(res);
                 res.data = jsonParse(res.data)
                 store().dispatch("setCache", { key: store().state.baseUrl + action + "/" + JSON.stringify(params), value: res.data });
-                setPayloadToCache(res.data)
+                // setPayloadToCache(res.data)
                 successCallback(res.data);
             })
             .catch(error => {

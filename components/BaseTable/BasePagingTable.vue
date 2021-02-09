@@ -5,6 +5,25 @@
       <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
     <div class="table-wrapper">
       <el-table :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" >
+        <el-table-column v-if="showExpand" type="expand">
+          <template slot-scope="scope">
+            <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
+            <el-card v-else-if="expandOptions.type == 'GENERAL'" class="expand-table">
+              <h5 class="expand-title">{{$t('Detail')}}</h5>
+              <el-table :data="scope.row[expandOptions.childrenProp]" class="mt-4" border>
+                <el-table-column :label="column.label" v-for="(column, index) in expandOptions.columnList" v-bind:key="index" :min-width="column.width" :fixed="column.fixed" >
+                  <template slot-scope="scope">
+                      <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
+                        <el-tag :type="parseData(scope.row, column, column.prop).type">{{ parseData(scope.row, column, column.prop).label }}</el-tag>
+                      </span>
+                      <span v-else-if="column.hasOwnProperty('format')">{{ column.format(scope.row[column.prop]) }}</span>
+                      <span v-else>{{ scope.row[column.prop] }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
+          </template>
+        </el-table-column>
         <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
           <template slot-scope="scope">
             <slot :name="column.prop" :row="scope.row">
@@ -96,7 +115,26 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
+    showExpand: {
+      type: Boolean,
+      requried: false,
+      default: false,
+    },
+    joinClass: {
+      type: Array,
+      requried: false,
+      default: function(){
+        return []
+      },
+    },
+    expandOptions: {
+      type: Object,
+      requried: false,
+      default: function() {
+        return {type: 'CUSTOM'}
+      },
+    },
   },
   mounted() {
     this.handleDefaultSorting()
@@ -162,7 +200,10 @@ export default {
           this.dataList = result.data
           this.dataListForShowLength = result.totalRow
         }else{
-          var result = await Request.getAsync(this, "get_" + this.tableName + "_all_paging", {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }}, {showLoading: true});
+          var result = await Request.getAsync(this, "get_" + this.tableName + "detail_all_paging", {
+            paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
+            joinClass: this.joinClass
+          }, {showLoading: true});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }

@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange">
+    <el-input :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit">
         <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
@@ -76,6 +76,11 @@ export default Vue.extend({
             type: String,
             required: false,
             default: "none"
+        },
+        showWordLimit: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     model:{
