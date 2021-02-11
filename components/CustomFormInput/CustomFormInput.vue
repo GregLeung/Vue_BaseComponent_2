@@ -3,8 +3,8 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue" @input="handleOnChange">
-        <el-select v-if="options != null" v-model="appendSelect" :options="options" slot="prepend" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
+    <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue">
+        <el-select v-if="options != null" v-model="localAppendSelect" :options="options" slot="prepend" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
@@ -93,20 +93,16 @@ export default Vue.extend({
         }
     },
     watch:{
-        appendSelect: {
+        localAppendSelect: {
             handler(val, oldValue){
                 this.$emit("update:appendSelect", val);
             }
         },
-        value(val){
-            if(val === "")
-                this.localValue = null
-            else
-                this.localValue = this.convertNumberWithSeperation(val)
-        },
         localValue(val, oldValue){
-            if(val != null && this.convertOriginalNumber(val).toString().length > 11 ){
+            if(val != null && this.convertOriginalNumber(val).toString().length > 11 )
                 this.localValue = oldValue
+            if(this.isNumeric(val)){
+                this.$emit("update:value", val);
             }
         }
     },
@@ -114,10 +110,12 @@ export default Vue.extend({
         this.type = "text";
         if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.value)
         else this.localValue = this.value
+        this.localAppendSelect = this.appendSelect
     },
     methods:{
-        handleOnChange(value){
-            this.localValue = value
+        isNumeric(str) {
+            if (typeof str != "string") return false // we only process strings!  
+            return !isNaN(str) && !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
         },
         handleFocus(event){
             try{
@@ -130,7 +128,6 @@ export default Vue.extend({
         handleBlur(){
             try{
                 this.type = "text";
-                this.$emit("update:value", this.convertOriginalNumber(this.localValue))
                 if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.localValue)
             }catch(error){
                 console.log(error);
@@ -146,7 +143,8 @@ export default Vue.extend({
     data(){
         return{
             type: "",
-            localValue: ""
+            localValue: null,
+            localAppendSelect: null,
         }
     }
 })
