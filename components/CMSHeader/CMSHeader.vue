@@ -66,7 +66,7 @@ export default {
         align-items: center
         .space
             width: 2em
-        .el-breadcrumb /deep/ .el-breadcrumb__inner
+        .el-breadcrumb >>> .el-breadcrumb__inner
             color: white
             font-size: 1rem
             a
