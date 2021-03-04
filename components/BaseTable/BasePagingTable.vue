@@ -135,6 +135,13 @@ export default {
         return {type: 'CUSTOM'}
       },
     },
+    parameters: {
+      type: Object,
+      requried: false,
+      default: function() {
+        return {}
+      },
+    }
   },
   mounted() {
     this.handleDefaultSorting()
@@ -200,10 +207,13 @@ export default {
           this.dataList = result.data
           this.dataListForShowLength = result.totalRow
         }else{
-          var result = await Request.getAsync(this, "get_" + this.tableName + "detail_all_paging", {
+          var parameters = Object.assign({
             paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
-            joinClass: this.joinClass
-          }, {showLoading: true});
+            joinClass: this.joinClass,
+            type: 1
+          }, this.parameters)
+          console.log(parameters);
+          var result = await Request.postAsync(this, "get_" + this.tableName + "_all_paging", parameters, {showLoading: true});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }

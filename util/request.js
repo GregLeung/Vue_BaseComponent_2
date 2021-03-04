@@ -64,7 +64,8 @@ class Request {
         action,
         body,
         successCallback = function() {},
-        errorCallback = function() {}
+        errorCallback = function() {},
+        options = {}
     ) {
         Util.loading();
         axios
@@ -90,8 +91,15 @@ class Request {
                 errorCallback(error);
             })
             .finally(() => {
-                Util.loading().close();
+                if (options.showLoading != false) Util.loading().close();
             });
+    }
+    static postAsync(vueInstance, action, body, options = Request.defaultOptions()) {
+        return new Promise((resolve, reject) => {
+            Request.post(vueInstance, action, body, resolve, reject, options);
+        }).catch(error => {
+            throw error
+        });
     }
     static uploadFile(
         vueInstance,
