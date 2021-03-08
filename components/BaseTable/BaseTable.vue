@@ -437,7 +437,7 @@ export default {
 #base-table
     .el-table
         font-size: .7rem
-        >>>  td, th
+        ::v-deep  td, th
           padding: 0
     .el-table__row
         cursor: pointer

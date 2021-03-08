@@ -53,7 +53,7 @@ export default {
     height: 0em
     transition: height 1s
     overflow: hidden
-    width: 100%
+    width: calc(100% - 64px)
     align-items: center
     justify-content: space-between
     background: $main-theme
@@ -66,7 +66,7 @@ export default {
         align-items: center
         .space
             width: 2em
-        .el-breadcrumb >>> .el-breadcrumb__inner
+        .el-breadcrumb ::v-deep .el-breadcrumb__inner
             color: white
             font-size: 1rem
             a

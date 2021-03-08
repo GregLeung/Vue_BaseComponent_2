@@ -1,7 +1,7 @@
 #base-table
     .el-table
         font-size: .7rem
-        >>>  td, th
+        ::v-deep  td, th
           padding: 0
     .el-table__row
         cursor: pointer
@@ -25,7 +25,7 @@
     .expand-title
         padding: 0px
     .expand-table
-        >>> .el-card__body
+        ::v-deep .el-card__body
             padding-top: 0em
             padding-left: 4em
             padding-right: 4em

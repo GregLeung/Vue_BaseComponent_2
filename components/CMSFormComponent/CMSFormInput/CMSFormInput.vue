@@ -106,6 +106,6 @@ export default Vue.extend({
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
 
->>> .el-input__inner
+::v-deep .el-input__inner
     text-transform: var(--textTransform)
 </style>
