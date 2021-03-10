@@ -23,6 +23,7 @@ import HalfRow from "./components/HalfRow/HalfRow.vue";
 import IconButton from "./components/IconButton/IconButton.vue";
 import SignaturePad from "./components/SignaturePad/SignaturePad.vue";
 import CustomFormInput from "./components/CustomFormInput/CustomFormInput.vue";
+import SimpleTable from "./components/SimpleTable/SimpleTable.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -56,6 +57,7 @@ export {
     IconButton,
     SignaturePad,
     CustomFormInput,
+    SimpleTable,
     Request,
     Excel,
     Util,
