@@ -12,7 +12,7 @@ import CMSForm from "./components/CMSFormComponent/CMSForm/CMSForm.vue";
 import CMSFormInput from "./components/CMSFormComponent/CMSFormInput/CMSFormInput.vue";
 import CMSDatePicker from "./components/CMSFormComponent/CMSDatePicker/CMSDatePicker.vue";
 import CMSSelector from "./components/CMSFormComponent/CMSSelector/CMSSelector.vue";
-// import CMSPhotoUpload from "./components/CMSFormComponent/CMSPhotoUpload/CMSPhotoUpload.vue";
+import CMSPhotoUpload from "./components/CMSFormComponent/CMSPhotoUpload/CMSPhotoUpload.vue";
 import CMSRadioBox from "./components/CMSRadioBox/CMSRadioBox";
 import CMSInputNumber from "./components/CMSFormComponent/CMSInputNumber/CMSInputNumber.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
@@ -46,7 +46,7 @@ export {
     CMSFormInput,
     CMSDatePicker,
     CMSSelector,
-    // CMSPhotoUpload,
+    CMSPhotoUpload,
     CMSRadioBox,
     CMSInputNumber,
     BaseLabel,

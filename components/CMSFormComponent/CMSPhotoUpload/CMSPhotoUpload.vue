@@ -42,10 +42,6 @@ export default Vue.extend({
         Request
     },
     props: {
-        fileList: {
-            type: Array,
-            required: true
-        },
         photoPath: {
             type: Array,
             required: true
@@ -89,6 +85,7 @@ export default Vue.extend({
             this.fileList.push(file)
             this.photoPath.push(url);
             this.processing = false
+            console.log(this.fileList);
         },
         handleRemove(file, fileList) {
             this.processing = true
@@ -107,13 +104,34 @@ export default Vue.extend({
         handleExceed(files, fileList) {
             this.$message.warning('You are not allowed upload more than ' + this.limit + ' files');
         },
+        async convertURLToFile(url){
+            try{
+                console.log(url);
+                let response = await fetch(url);
+                let data = await response.blob();
+                let metadata = {
+                    type: 'image/jpg'
+                };
+                return new File([data], "test.jpg", metadata);
+            }catch(error){
+                console.log(error);
+            }
+        }
+    },
+    mounted(){
+         this.fileList = this.photoPath.map(f => {
+            return {
+                name: f,
+                url: f
+            }
+        })
     },
     data(){
         return{
             dialogVisible: false,
             dialogImageUrl: '',
-            processing: false
-            // photoPath: []
+            processing: false,
+            fileList: []
         }
     }
 });
