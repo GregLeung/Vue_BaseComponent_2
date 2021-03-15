@@ -1,6 +1,6 @@
 <template>
 <div class="page-wrapper p-t-45 p-b-50">
-    <div class="wrapper wrapper--w790">
+    <div class="wrapper wrapper--w790" :style="wrapperStyle">
         <div class="card card-5">
             <div class="card-heading" :style="headingStyle">
                 <h2 class="title">{{title}}</h2>
@@ -25,7 +25,8 @@ export default {
     },
     data() {
         return {
-            title: "Title"
+            title: "Title",
+            wrapperStyle: {},
         }
     },
 };
