@@ -16,17 +16,17 @@ class BaseStore extends Vuex.Store {
     static initState(options) {
         if (!options.hasOwnProperty("state")) options.state = {};
         options.state.cache = initCache();
-        options.state.user = Cookies.get("user") || null;
-        options.state.token = Cookies.get("token") || "";
+        options.state.user = Cookies.get(options.state.frontEntry + "user") || null;
+        options.state.token = Cookies.get(options.state.frontEntry + "token") || "";
         options.state.loadingText = "Loading";
         options.state.loadingIcon = "el-icon-loading";
         options.state.loadingBackground = "rgba(0, 0, 0, 0.7)";
         (options.state.baseUrl = options.state.baseUrlEntry + "?ACTION="),
         (options.state.navigationBar = {
-            isOpen: Cookies.get("isNavigationBarOpened") ?
-                !!+Cookies.get("isNavigationBarOpened") : true
+            isOpen: Cookies.get(options.state.frontEntry + "isNavigationBarOpened") ?
+                !!+Cookies.get(options.state.frontEntry + "isNavigationBarOpened") : true
         });
-        options.state.locale = Cookies.get("locale") || "en";
+        options.state.locale = Cookies.get(options.state.frontEntry + "locale") || "en";
         options.state.userAuth = [];
         options.state.currentPage = [];
     }
@@ -35,22 +35,22 @@ class BaseStore extends Vuex.Store {
         options.mutations.TOGGLE_SIDEBAR = state => {
             state.navigationBar.isOpen = !state.navigationBar.isOpen;
             if (state.navigationBar.isOpen) {
-                Cookies.set("isNavigationBarOpened", 1);
+                Cookies.set(options.state.frontEntry + "isNavigationBarOpened", 1);
             } else {
-                Cookies.set("isNavigationBarOpened", 0);
+                Cookies.set(options.state.frontEntry + "isNavigationBarOpened", 0);
             }
         };
         options.mutations.SET_LOCALE = (state, locale) => {
             state.locale = locale;
-            Cookies.set("locale", locale);
+            Cookies.set(options.state.frontEntry + "locale", locale);
         };
         options.mutations.SET_TOKEN = (state, token) => {
-            Cookies.set("token", token);
-            state.token = Cookies.get("token");
+            Cookies.set(options.state.frontEntry + "token", token);
+            state.token = Cookies.get(options.state.frontEntry + "token");
         };
         options.mutations.SET_USER = (state, user) => {
-            Cookies.set("user", user);
-            state.user = Cookies.get("user");
+            Cookies.set(options.state.frontEntry + "user", user);
+            state.user = Cookies.get(options.state.frontEntry + "user");
         };
         options.mutations.SET_CACHE = (state, data) => {
             state.cache.set(data.key, data.value);
