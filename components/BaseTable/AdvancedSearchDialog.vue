@@ -80,6 +80,7 @@ export default{
     },
     methods: {
         handleDialogClose() {
+            this.$el.scrollTop = 0
             this.$emit('update:dialogVisible', false)
         },
         handleConfirm(){
