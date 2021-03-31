@@ -13,7 +13,7 @@
                     </el-checkbox-group>
                 </div>
                 <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
-                    <el-select v-model="searchFilterSet[index]" multiple filterable remote reserve-keyword>
+                    <el-select v-model="searchFilterSet[index]" multiple filterable remote>
                         <el-option v-for="(optionValue, optionIndex) in item.advancedSearch.options" :key="optionIndex" :label="optionValue.label" :value="optionValue" />
                     </el-select>
                 </div>
@@ -50,7 +50,7 @@
 import Vue from "vue"
 import moment from "moment";
 import {Util} from "vue_basecomponent";
-export default{
+export default {
     props: {
         dialogVisible: {
             type: Boolean,
