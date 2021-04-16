@@ -168,6 +168,16 @@ function checkValidationRules(vueInstance, prop) {
                     return false;
                 }
                 break;
+            case "REQUIRED_SOME":
+                var validData = [];
+                prop.value.forEach(f => {
+                    if (f != null && f !== "") { validData.push(f); }
+                });
+                if (validData.length < rule.required) {
+                    vueInstance.$message.error(rule.message);
+                    return false;
+                }
+                break;
         }
     }
     return true;
