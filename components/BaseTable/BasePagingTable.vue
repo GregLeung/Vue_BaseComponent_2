@@ -213,7 +213,7 @@ export default {
             type: 1
           }, this.parameters)
           console.log(parameters);
-          var result = await Request.postAsync(this, "get_" + this.tableName + "_all_paging", parameters, {showLoading: true});
+          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
