@@ -4,7 +4,7 @@
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
     <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue">
-        <el-select v-if="options != null" v-model="localAppendSelect" :options="options" slot="prepend" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
+        <el-select v-if="options != null" v-model="localAppendSelect" :options="options" :slot="place" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
     </el-input>
@@ -90,7 +90,12 @@ export default Vue.extend({
             type: String,
             required: false,
             default: ''
-        }
+        },
+        place: {
+            type: String,
+            required: false,
+            default: 'append'
+        },
     },
     watch:{
         localAppendSelect: {

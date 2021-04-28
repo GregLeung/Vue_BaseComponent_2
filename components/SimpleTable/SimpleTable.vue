@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-input slot="first" v-model="search" placeholder="Search" />
+    <el-input v-if="showSearch" slot="first" v-model="search" placeholder="Search" />
     <el-table @selection-change="handleMultiSelection" class="mt-12" :data="filteredList">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
       <el-pagination
-        :page-sizes="[25, 50, 100, 500]"
+        :page-sizes="pageSizes"
         :page-size="pageSize"
         :current-page.sync="currentPage"
         @size-change="handleSizeChange"
@@ -36,6 +36,11 @@ export default{
             default: function(){
                 return [25, 50, 100, 500]
             }
+        },
+        showSearch: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     computed: {
