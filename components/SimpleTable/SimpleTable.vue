@@ -52,11 +52,14 @@ export default{
                 return this.dataList.filter(f => {
                     for(let i = 0; i < Object.entries(f).length; i++){
                         var item = Object.entries(f)[i]
-                        try{
-                            if(stringSimilarity(item[1].toString(), this.search) > 0.2)
-                                return true
-                        }catch(error){
-                            console.log(error);
+                        if(item[1] != null){
+                            try{
+                                if(stringSimilarity(item[1].toString(), this.search) > 0.2)
+                                    return true
+                                return  item[1].toString().includes(this.search)
+                            }catch(error){
+                                console.log(error);
+                            }
                         }
                     }
                     return false

@@ -141,6 +141,11 @@ export default {
       default: function() {
         return {}
       },
+    },
+    request: {
+      type: String,
+      requried: false,
+      default: ""
     }
   },
   mounted() {
@@ -212,8 +217,10 @@ export default {
             joinClass: this.joinClass,
             type: 1
           }, this.parameters)
-          console.log(parameters);
-          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
+          if(this.request != "" && this.request != null)
+            var result = await Request.postAsync(this, this.request, parameters, {showLoading: true});
+          else
+            var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }

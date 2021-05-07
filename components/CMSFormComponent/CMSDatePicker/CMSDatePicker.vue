@@ -40,7 +40,7 @@ export default {
             default: "horizontal"
         },
         value:{
-            type: String
+            type: [String, Array]
         },
         fontSize: {
             type: Number,
