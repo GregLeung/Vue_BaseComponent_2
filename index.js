@@ -15,6 +15,7 @@ import CMSSelector from "./components/CMSFormComponent/CMSSelector/CMSSelector.v
 // import CMSPhotoUpload from "./components/CMSFormComponent/CMSPhotoUpload/CMSPhotoUpload.vue";
 import CMSRadioBox from "./components/CMSRadioBox/CMSRadioBox";
 import CMSInputNumber from "./components/CMSFormComponent/CMSInputNumber/CMSInputNumber.vue";
+import NewCMSSelector from "./components/CMSFormComponent/NewCMSSelector/NewCMSSelector.vue";
 import BaseLabel from "./components/BaseLabel/BaseLabel.vue";
 import IconField from "./components/IconField/IconField.vue";
 import BaseFab from "./components/BaseFab/BaseFab.vue";
@@ -49,6 +50,7 @@ export {
     // CMSPhotoUpload,
     CMSRadioBox,
     CMSInputNumber,
+    NewCMSSelector,
     BaseLabel,
     IconField,
     BaseFab,

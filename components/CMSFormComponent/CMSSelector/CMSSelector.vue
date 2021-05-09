@@ -41,7 +41,9 @@ export default {
         },
         options: {
             type: Array,
-            default: []
+            default: function(){
+                return []
+            }
         },
         clearable: {
             type: Boolean,
