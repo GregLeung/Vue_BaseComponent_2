@@ -10,6 +10,7 @@
       :remote="remote"
       :remote-method="remoteMethod"
       @clear="handleClear"
+      @focus="handleFocus"
       :clearable="clearable"
       :multiple="multiple"
       filterable
@@ -121,6 +122,11 @@ export default{
                 this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
                 this.loading = false
             })
+        },
+        handleFocus(event){
+            if(this.remote)
+                this.remoteMethod(null)
+            this.$emit("focus", event)
         }
     },
     created(){
