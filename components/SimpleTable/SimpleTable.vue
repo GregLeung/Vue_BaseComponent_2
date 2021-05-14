@@ -78,7 +78,7 @@ export default{
         },
         handleCurrentChange(val) {
             this.currentPage = val;
-        },
+        }
     },
     data(){
         return {

@@ -4,6 +4,20 @@ const Plugin = {
     install(Vue, options) {
         Vue.mixin({
             methods: {
+                isPropExisted(object, prop) {
+                    if (!object.hasOwnProperty(prop))
+                        return false
+                    if (object[prop] == null || object[prop] === "")
+                        return false
+                    return true
+                },
+                getDeepObjectProp(object, properties) {
+                    var propertiesArray = properties.split(".")
+                    propertiesArray.forEach(f => {
+                        object = object[f]
+                    })
+                    return object
+                },
                 checkPermission(userRight) {
                     return (
                         userRight.find(
@@ -199,5 +213,7 @@ function isInt(value) {
 function isLengthLessThan(value, length) {
     return value.length <= length;
 }
+
+
 
 export default Plugin;
