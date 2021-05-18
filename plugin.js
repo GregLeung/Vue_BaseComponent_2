@@ -4,6 +4,9 @@ const Plugin = {
     install(Vue, options) {
         Vue.mixin({
             methods: {
+                isJSONObject() {
+                    return obj !== undefined && obj !== null && obj.constructor == Object
+                },
                 isPropExisted(object, prop) {
                     if (!object.hasOwnProperty(prop))
                         return false
@@ -17,6 +20,15 @@ const Plugin = {
                         object = object[f]
                     })
                     return object
+                },
+                generateRandomString(length) {
+                    var result = [];
+                    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    var charactersLength = characters.length;
+                    for (var i = 0; i < length; i++) {
+                        result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+                    }
+                    return result.join('');
                 },
                 checkPermission(userRight) {
                     return (

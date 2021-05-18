@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-input v-if="showSearch" slot="first" v-model="search" placeholder="Search" />
-    <el-table @selection-change="handleMultiSelection" class="mt-12" :data="filteredList">
+    <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
+    <el-table :border="border" @selection-change="handleMultiSelection" class="mt-12" :data="filteredList" @sort-change="handleSortChange">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -41,32 +41,48 @@ export default{
             type: Boolean,
             required: false,
             default: true
+        },
+        border: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     computed: {
         pagingLength(){
-            return this.dataList.length
+            return this.localDataList.length
         },
         filteredList(){
-            if(this.search != "")
-                return this.dataList.filter(f => {
-                    for(let i = 0; i < Object.entries(f).length; i++){
-                        var item = Object.entries(f)[i]
-                        if(item[1] != null){
-                            try{
-                                if(stringSimilarity(item[1].toString(), this.search) > 0.2)
-                                    return true
-                                return  item[1].toString().includes(this.search)
-                            }catch(error){
-                                console.log(error);
-                            }
-                        }
-                    }
-                    return false
-                }).slice(this.currentPage * this.pageSize - this.pageSize,this.currentPage * this.pageSize)
-            else
-                return this.dataList.slice(this.currentPage * this.pageSize - this.pageSize,this.currentPage * this.pageSize)
+            var tmp = this.deepClone(this.localDataList)
+            if(this.searchValue != "" && this.searchValue != null)
+                tmp = tmp.filter(f => {return this.recursiveSearch(f)})
+            if(this.currentSortObject != null && this.currentSortObject.column.sortMethod == null){
+                this.localDataList.sort((a,b)=>{
+                    a = this.getDeepObjectProp(a, this.currentSortObject.prop)
+                    b = this.getDeepObjectProp(b, this.currentSortObject.prop)
+                    if (a === b) 
+                        return 0;
+                    else if (a === null || a === "") 
+                        return 1;
+                    
+                    else if (b === null || b === "") 
+                        return -1;
+                    
+                    else if (this.currentSortObject.order == "ascending") 
+                        return a < b ? -1 : 1;
+                    
+                    else if (this.currentSortObject.order == "descending") 
+                        return a < b ? 1 : -1;
+                    
+                    return 0
+                    // return (this.getDeepObjectProp(a, this.currentSortObject.prop) < this.getDeepObjectProp(b, this.currentSortObject.prop))?1:-1
+                })
+            }
+            return this.localDataList.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
         }
+    },
+    created(){
+        this.localDataList = this.deepClone(this.dataList)
     },
     methods: {
         handleMultiSelection(val){
@@ -78,14 +94,36 @@ export default{
         },
         handleCurrentChange(val) {
             this.currentPage = val;
+        },
+        handleSortChange(sortObject){
+            this.currentSortObject = sortObject
+        },
+        recursiveSearch(value){
+            try{
+                if(this.isJSONObject(value)){
+                    for(let i = 0; i < Object.entries(value).length; i++){
+                        var item = Object.entries(value)[i]
+                        if(item[1] != null)
+                            if(this.recursiveSearch(item[1])) return true
+                    }
+                }else if(value != null){
+                    // if(stringSimilarity(value.toString(), this.searchValue) > 0.1)
+                    //     return true
+                    return  value.toString().includes(this.searchValue)
+                }else
+                    return false
+            }catch(error){
+                return false
+            }
         }
     },
     data(){
         return {
-            search: "",
+            searchValue: "",
             pageSize: 25,
             currentPage: 1,
-            multipleSelection: []
+            multipleSelection: [],
+            currentSortObject: null
         }
     }
 }
