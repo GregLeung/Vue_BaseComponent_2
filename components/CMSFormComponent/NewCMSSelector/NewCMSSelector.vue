@@ -1,5 +1,6 @@
 <template>
   <div :class="{ 'basic-information-field': direction == 'horizontal' }" :style="customStyle">
+      
     <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
       <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
@@ -97,7 +98,7 @@ export default{
     },
     watch: {
         value(val, oldVal){
-            this.localValue = this.value
+            this.localValue = parseInt(this.value)
         },
         options(val, oldVal){
             var tmp = this.deepClone(this.options)
@@ -130,6 +131,8 @@ export default{
         }
     },
     created(){
+        if(this.remote)
+            this.remoteMethod(this.value)
         this.localOptions = this.deepClone(this.options)
         this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
         this.localValue = this.value

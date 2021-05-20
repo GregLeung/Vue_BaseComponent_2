@@ -1,6 +1,6 @@
 {
     "name": "vue_basecomponent",
-    "version": "0.16.15",
+    "version": "0.16.16",
     "description": "",
     "main": "./index.js",
     "scripts": {
