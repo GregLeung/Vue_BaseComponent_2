@@ -57,7 +57,7 @@ export default{
             if(this.searchValue != "" && this.searchValue != null)
                 tmp = tmp.filter(f => {return this.recursiveSearch(f)})
             if(this.currentSortObject != null && this.currentSortObject.column.sortMethod == null){
-                this.localDataList.sort((a,b)=>{
+                tmp.sort((a,b)=>{
                     a = this.getDeepObjectProp(a, this.currentSortObject.prop)
                     b = this.getDeepObjectProp(b, this.currentSortObject.prop)
                     if (a === b) 
@@ -78,7 +78,7 @@ export default{
                     // return (this.getDeepObjectProp(a, this.currentSortObject.prop) < this.getDeepObjectProp(b, this.currentSortObject.prop))?1:-1
                 })
             }
-            return this.localDataList.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
+            return tmp.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
         }
     },
     created(){

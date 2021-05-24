@@ -4,7 +4,7 @@ const Plugin = {
     install(Vue, options) {
         Vue.mixin({
             methods: {
-                isJSONObject() {
+                isJSONObject(obj) {
                     return obj !== undefined && obj !== null && obj.constructor == Object
                 },
                 isPropExisted(object, prop) {
