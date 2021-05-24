@@ -1,10 +1,23 @@
 <template>
   <div id="base-table" class="container">
     <h1>{{ title }}</h1>
-      <el-input @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')"/>
-      <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
+      <div class="space-between-row">
+        <div class="search-bar">
+          <el-input  @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')"/>
+          <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
+        </div>
+        <div class="row" v-if="isAdvancedSearch">
+          <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
+            <el-button icon="el-icon-refresh" type="success" @click="handleClearAdvancedSearchFilter" circle></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Advance Search" placement="top">
+            <el-button icon="el-icon-search" type="warning" @click="handleOpenAdvancedSearchDialog" circle></el-button>
+          </el-tooltip>
+        </div>
+      </div>
     <div class="table-wrapper">
       <el-table :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" >
+        <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
             <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
@@ -45,16 +58,19 @@
     <div class="pagination-wrapper">
       <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage" ></el-pagination>
     </div>
+    <advanced-search-dialog-paging :paging="{
+      page: 1, pageSize: this.pageSize, sort: {order: this.currentSortOrder, prop:this.currentSortProp }
+    }" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :visible.sync="visibleAdvancedSearchDialog"/>
   </div>
 </template>
 
 <script>
-import AdvancedSearchDialog from "./AdvancedSearchDialog";
+import AdvancedSearchDialogPaging from "./AdvancedSearchDialogPaging";
 import { Request, Util } from "vue_basecomponent";
 
 export default {
   components: {
-    AdvancedSearchDialog
+    AdvancedSearchDialogPaging
   },
   props: {
     isAdvancedSearch: {
@@ -146,6 +162,11 @@ export default {
       type: String,
       requried: false,
       default: ""
+    },
+    isBatchSelection: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   mounted() {
@@ -163,7 +184,9 @@ export default {
       windowHeight: window.innerHeight,
       dataListForShowLength: 0,
       currentSortProp: null,
+      visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
+      searchFilterSet: {}
     };
   },
   methods: {
@@ -215,7 +238,7 @@ export default {
           var parameters = Object.assign({
             paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
             joinClass: this.joinClass,
-            type: 1
+            advancedSearch:  this.searchFilterSet,
           }, this.parameters)
           if(this.request != "" && this.request != null)
             var result = await Request.postAsync(this, this.request, parameters, {showLoading: true});
@@ -238,6 +261,20 @@ export default {
       }
       return row[currentProp];
     },
+    handleOpenAdvancedSearchDialog(){
+      this.visibleAdvancedSearchDialog = true
+    },
+    handleAdvancedSearchConfirm(dataList, totalRow, searchFilterSet){
+      this.currentPage = 1
+      this.dataList = dataList
+      this.dataListForShowLength = totalRow
+      this.searchFilterSet = searchFilterSet
+    },
+    handleClearAdvancedSearchFilter(){
+      this.searchFilterSet = {}
+      this.currentPage = 1
+      this.handleRefresh()
+    }
   },
   computed: {
     visibleColumn: function(){
@@ -248,4 +285,6 @@ export default {
 </script>
 <style scoped lang="sass">
 @import "./baseTable.sass"
+.search-bar
+  width: 100%
 </style>
