@@ -125,7 +125,7 @@ export default{
         },
         handleFocus(event){
             if(this.remote)
-                this.remoteMethod(null)
+                this.remoteMethod(this.localValue)
             this.$emit("focus", event)
         }
     },

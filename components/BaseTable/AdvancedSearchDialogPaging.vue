@@ -56,7 +56,6 @@ import moment from "moment";
 import Request from "../../util/request.js"
 import Util from "../../util/util.js"
 import NewCMSSelector from "../CMSFormComponent/NewCMSSelector/NewCMSSelector"
-console.log(Request);
 export default{
     props: {
         visible: {

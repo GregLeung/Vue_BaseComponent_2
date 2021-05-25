@@ -37,7 +37,7 @@
             </el-card>
           </template>
         </el-table-column>
-        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" sortable="custom" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
+        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
           <template slot-scope="scope">
             <slot :name="column.prop" :row="scope.row">
               <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
@@ -144,6 +144,13 @@ export default {
         return []
       },
     },
+    whereCondition: {
+      type: Array,
+      requried: false,
+      default: function(){
+        return []
+      },
+    },
     expandOptions: {
       type: Object,
       requried: false,
@@ -215,11 +222,6 @@ export default {
       this.currentSortOrder = column.order
       this.handleRefresh()
     },
-    columnCustomSort(columnObject,order){
-        this.dataList.sort(function (a, b) {
-            return columnObject.customSort(a, b, order)
-        });
-    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.handleRefresh()
@@ -240,10 +242,13 @@ export default {
             joinClass: this.joinClass,
             advancedSearch:  this.searchFilterSet,
           }, this.parameters)
+          if(this.whereCondition.length > 0)
+            parameters["whereCondition"] = this.whereCondition
           if(this.request != "" && this.request != null)
             var result = await Request.postAsync(this, this.request, parameters, {showLoading: true});
           else
             var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
+          console.log(result)
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
