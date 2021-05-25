@@ -60,7 +60,7 @@
     </div>
     <advanced-search-dialog-paging :paging="{
       page: 1, pageSize: this.pageSize, sort: {order: this.currentSortOrder, prop:this.currentSortProp }
-    }" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :visible.sync="visibleAdvancedSearchDialog"/>
+    }" ref="advancedSearchDialog" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :visible.sync="visibleAdvancedSearchDialog"/>
   </div>
 </template>
 
@@ -248,7 +248,6 @@ export default {
             var result = await Request.postAsync(this, this.request, parameters, {showLoading: true});
           else
             var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
-          console.log(result)
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
@@ -277,6 +276,9 @@ export default {
     },
     handleClearAdvancedSearchFilter(){
       this.searchFilterSet = {}
+      this.search = ""
+      this.confirmedSearch = ""
+      this.$refs.advancedSearchDialog.searchFilterSet = this.$refs.advancedSearchDialog.initSearchFilterSet()
       this.currentPage = 1
       this.handleRefresh()
     }
