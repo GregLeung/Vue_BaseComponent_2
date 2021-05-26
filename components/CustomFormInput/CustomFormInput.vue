@@ -107,9 +107,13 @@ export default Vue.extend({
             if(val != null && this.convertOriginalNumber(val).toString().length > 11 )
                 this.localValue = oldValue
             if(this.isNumeric(val)){
+                console.log(val);
                 this.$emit("update:value", val);
             }
-        }
+        },
+        value(val, oldVal){
+            this.localValue = this.value
+        },
     },
     mounted(){
         this.type = "text";

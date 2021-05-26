@@ -43,8 +43,8 @@
               <span v-if="column.hasOwnProperty('parseValue') && parseData(scope.row, column, column.prop) != null" >
                 <el-tag :type="parseData(scope.row, column, column.prop).type">{{ parseData(scope.row, column, column.prop).label }}</el-tag>
               </span>
-              <span v-else-if="column.hasOwnProperty('format')">{{ column.format(scope.row[column.prop]) }}</span>
-              <span v-else>{{ scope.row[column.prop] }}</span>
+              <span class="word-break" v-else-if="column.hasOwnProperty('format')">{{ column.format(scope.row[column.prop]) }}</span>
+              <span class="word-break" v-else>{{ scope.row[column.prop] }}</span>
             </slot>
           </template>
         </el-table-column>
