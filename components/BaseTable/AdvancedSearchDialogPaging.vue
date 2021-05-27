@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-if="visible" :title="$t('Search')" :visible="visible" width="60%" @close="handleDialogClose">
+    <el-dialog v-if="visible" :title="$t('Search')" :visible="visible" width="60%" @close="handleDialogClose" top="0vh">
         <div slot="title">
          <h3>Advanced Search</h3>
         </div>
@@ -56,7 +56,7 @@ import moment from "moment";
 import Request from "../../util/request.js"
 import Util from "../../util/util.js"
 import NewCMSSelector from "../CMSFormComponent/NewCMSSelector/NewCMSSelector"
-export default{
+export default {
     props: {
         visible: {
             type: Boolean,
