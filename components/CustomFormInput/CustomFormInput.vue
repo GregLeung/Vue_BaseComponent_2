@@ -114,6 +114,9 @@ export default Vue.extend({
         value(val, oldVal){
             this.localValue = this.value
         },
+        appendSelect(val, oldVal){
+            this.localAppendSelect = this.appendSelect
+        }
     },
     mounted(){
         this.type = "text";
