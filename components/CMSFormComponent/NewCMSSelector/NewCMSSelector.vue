@@ -98,6 +98,8 @@ export default{
     watch: {
         value(val, oldVal){
             this.localValue = this.value
+            if(this.remote)
+                this.remoteMethod(this.localValue)
         },
         options(val, oldVal){
             var tmp = this.deepClone(this.options)
