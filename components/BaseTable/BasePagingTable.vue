@@ -5,6 +5,7 @@
         <div class="search-bar">
           <el-input  @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')"/>
           <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
+          <slot name="searchSlot"/>
         </div>
         <div class="row" v-if="isAdvancedSearch">
           <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
