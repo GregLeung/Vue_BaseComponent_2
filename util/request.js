@@ -119,7 +119,8 @@ class Request {
             axios
                 .post(store().state.baseUrl + url, formData, {
                     headers: {
-                        "Content-Type": "multipart/form-data"
+                        "Content-Type": "multipart/form-data",
+                        Token: store().getters.token
                     }
                 })
                 .then(res => {
