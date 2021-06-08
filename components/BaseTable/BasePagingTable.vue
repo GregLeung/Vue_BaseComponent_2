@@ -113,11 +113,6 @@ export default {
       type: String,
       required: false,
     },
-    customRefresh: {
-      type: Function,
-      required: false,
-      default: null,
-    },
     rowClick: {
       type: Function,
       required: false,
@@ -166,15 +161,20 @@ export default {
         return {}
       },
     },
-    request: {
-      type: String,
-      requried: false,
-      default: ""
-    },
     isBatchSelection: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    isCustomRequest: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isServerSidePaging: {
+      type: Boolean,
+      required: false,
+      default: true,
     }
   },
   mounted() {
@@ -189,12 +189,13 @@ export default {
       pageSize: 20,
       multipleSelection: [],
       dataList: [],
+      originalDataList: [],
       windowHeight: window.innerHeight,
       dataListForShowLength: 0,
       currentSortProp: null,
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
-      searchFilterSet: {}
+      searchFilterSet: {},
     };
   },
   methods: {
@@ -206,8 +207,15 @@ export default {
     },
     handleDefaultSorting() {
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
+        if(this.isServerSidePaging){
           this.currentSortProp = this.defaultSortProp
           this.currentSortOrder = this.defaultSort
+        }else{
+          if (this.defaultSort == "descending") 
+            this.dataList = this.paging(this.originalDataList.sort((a, b)=> {return (""+ this.getPropByString(b, this.defaultSortProp)).localeCompare("" + this.getPropByString(a, this.defaultSortProp))}))
+          else
+            this.dataList = this.paging(this.originalDataList.sort( (a, b)=> {return (""+this.getPropByString(a, this.defaultSortProp)).localeCompare("" + this.getPropByString(b, this.defaultSortProp))}))
+        }
       }
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
@@ -219,36 +227,60 @@ export default {
       this.multipleSelection = val;
     },
     sortChange: function (column) {
-      this.currentSortProp = column.prop
-      this.currentSortOrder = column.order
-      this.handleRefresh()
+      if(this.isServerSidePaging){
+        this.currentSortProp = column.prop
+        this.currentSortOrder = column.order
+        this.handleRefresh()
+      }else{
+        if (column.order == "descending") 
+          this.dataList = this.paging(this.originalDataList.sort((a, b)=> {return (""+ this.getPropByString(b, column.prop)).localeCompare("" + this.getPropByString(a, column.prop))}))
+        else
+          this.dataList = this.paging(this.originalDataList.sort( (a, b)=> {return (""+this.getPropByString(a, column.prop)).localeCompare("" + this.getPropByString(b, column.prop))}))
+      }
+    },
+    getPropByString(instance, prop){
+      prop.split(".").forEach(f => {
+        instance = instance[f]
+        if(instance == null) return instance;
+      })
+      return instance;
     },
     handleSizeChange(val) {
-      this.pageSize = val;
-      this.handleRefresh()
+      if(this.isServerSidePaging){
+        this.pageSize = val;
+        this.handleRefresh()
+      }else
+        this.dataList = this.paging(this.originalDataList);
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-      this.handleRefresh()
+      if(this.isServerSidePaging){
+        this.currentPage = val;
+        this.handleRefresh()
+      }else
+        this.dataList = this.paging(this.originalDataList);
     },
     async handleRefresh() {
       try {
-        if (this.customRefresh){
-          var result = await this.customRefresh();
-          this.dataList = result.data
-          this.dataListForShowLength = result.totalRow
+        var parameters = Object.assign({
+          paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
+          joinClass: this.joinClass,
+          advancedSearch:  this.searchFilterSet,
+        }, this.parameters)
+        if(this.whereCondition.length > 0)
+          parameters["whereCondition"] = this.whereCondition
+        if(this.isCustomRequest){
+          this.$emit("customRequest",parameters,(result, totalRow) => {
+            this.dataListForShowLength = totalRow
+            if(!this.isServerSidePaging){
+               this.originalDataList = result
+               this.dataList = this.paging(this.originalDataList)
+               this.handleDefaultSorting()
+            }else{
+              this.dataList = result
+            }
+          })
         }else{
-          var parameters = Object.assign({
-            paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
-            joinClass: this.joinClass,
-            advancedSearch:  this.searchFilterSet,
-          }, this.parameters)
-          if(this.whereCondition.length > 0)
-            parameters["whereCondition"] = this.whereCondition
-          if(this.request != "" && this.request != null)
-            var result = await Request.postAsync(this, this.request, parameters, {showLoading: true});
-          else
-            var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
+          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
@@ -256,6 +288,9 @@ export default {
         console.log(error)
         this.dataList = [];
       }
+    },
+    paging(dataList){
+      return dataList.slice(this.currentPage * this.pageSize - this.pageSize,this.currentPage * this.pageSize)
     },
     parseData(row, property, currentProp) {
       if (property.hasOwnProperty("parseValue")) {
