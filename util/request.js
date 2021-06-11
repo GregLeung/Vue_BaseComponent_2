@@ -21,7 +21,7 @@ class Request {
                 method: 'GET',
                 responseType: 'blob',
                 params: params,
-                headers: { Token: store().getters.token }
+                headers: { Token: store().getters.token, Apikey: store().state.api_key }
             }).then((res) => {
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
@@ -67,12 +67,13 @@ class Request {
         errorCallback = function() {},
         options = {}
     ) {
-        Util.loading();
+        if (options.showLoading != false) Util.loading();
         axios
             .post(store().state.baseUrl + action, body, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Token": store().getters.token
+                    "Token": store().getters.token,
+                    Apikey: store().state.api_key
                 }
             })
             .then(res => {
@@ -113,14 +114,14 @@ class Request {
         try {
             if (file.size / 1024 / 1024 > limitSize) throw new Error(vueInstance.$t("File Size Too large"))
             if (!limitType.includes(file.type)) throw new Error(vueInstance.$t("Wrong File Type"))
-            Util.loading();
+            if (options.showLoading != false) Util.loading();
             let formData = new FormData();
             formData.append("file", file);
             axios
                 .post(store().state.baseUrl + url, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Token: store().getters.token
+                        Apikey: store().state.api_key
                     }
                 })
                 .then(res => {
@@ -136,7 +137,7 @@ class Request {
                     errorCallback(error);
                 })
                 .finally(() => {
-                    Util.loading().close();
+                    if (options.showLoading != false) Util.loading().close();
                 });
         } catch (error) {
             vueInstance.$notify({
@@ -181,7 +182,8 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
         axios.get(store().state.baseUrl + action, {
                 params: params,
                 headers: {
-                    "Token": store().getters.token
+                    "Token": store().getters.token,
+                    Apikey: store().state.api_key
                 }
             })
             .then(res => {
