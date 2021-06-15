@@ -109,7 +109,8 @@ class Request {
         limitSize,
         limitType,
         successCallback = function() {},
-        errorCallback = function() {}
+        errorCallback = function() {},
+        options = {}
     ) {
         try {
             if (file.size / 1024 / 1024 > limitSize) throw new Error(vueInstance.$t("File Size Too large"))
@@ -129,6 +130,7 @@ class Request {
                     successCallback(res.data);
                 })
                 .catch(error => {
+                    console.log(error)
                     vueInstance.$notify({
                         title: "Error",
                         message: error.data,
@@ -140,6 +142,7 @@ class Request {
                     if (options.showLoading != false) Util.loading().close();
                 });
         } catch (error) {
+            console.log(error)
             vueInstance.$notify({
                 title: vueInstance.$t('Error'),
                 message: error.data,
@@ -151,6 +154,7 @@ class Request {
         return new Promise((resolve, reject) => {
             this.uploadFile(vueInstance, url, file, limitSize, limitType, resolve, reject);
         }).catch(error => {
+            console.log(error)
             throw error
         });
     }
