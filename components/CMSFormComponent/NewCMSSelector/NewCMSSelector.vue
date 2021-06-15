@@ -13,7 +13,7 @@
       @focus="handleFocus"
       :clearable="clearable"
       :multiple="multiple"
-      filterable
+      :filterable="filterable"
       :disabled="disabled"
     >
     <el-option
@@ -29,7 +29,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-export default{
+export default {
     props: {
         showLabel: {
             type: Boolean,
@@ -84,6 +84,11 @@ export default{
             type: Boolean,
             require: true,
             default: false
+        },
+        filterable: {
+            type: Boolean,
+            require: false,
+            default: true
         },
         multiple: {
             type: Boolean,
@@ -151,5 +156,4 @@ export default{
 
 ::v-deep .el-input__inner
     text-transform: var(--textTransform)
-</style>
 </style>
