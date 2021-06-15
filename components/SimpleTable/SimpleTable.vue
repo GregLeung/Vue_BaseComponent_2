@@ -6,6 +6,7 @@
     </el-table>
     <div class="pagination-wrapper mt-12">
       <el-pagination
+        v-if="showPagination"
         :page-sizes="pageSizes"
         :page-size="pageSize"
         :current-page.sync="currentPage"
@@ -21,7 +22,7 @@
 <script lang="js">
 import Vue from "vue";
 import { stringSimilarity } from "string-similarity-js";
-export default{
+export default {
     props: {
         dataList: {
             type: Array,
@@ -42,10 +43,25 @@ export default{
             required: false,
             default: true
         },
+        showPagination:{
+            type: Boolean,
+            required: false,
+            default: true
+        },
         border: {
             type: Boolean,
             required: false,
             default: true
+        }
+    },
+    watch: {
+        showPagination:{
+            handler(val, oldValue){
+                if(this.showPagination)
+                    this.pageSize = 25
+                else
+                    this.pageSize = 9999999
+            }
         }
     },
     computed: {
