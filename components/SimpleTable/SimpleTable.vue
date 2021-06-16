@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="search" placeholder="Search" />
-    <el-table :border='border' @selection-change="handleMultiSelection" class="mt-12" :data="filteredList()">
+    <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -53,6 +53,12 @@ export default {
             required: false,
             default: false
         },
+        headerCellStyle: {
+            type: Object,
+            required: false,
+            default: { background: '#FFFFFF' }
+        }
+        
     },
     watch: {
         showPagination:{
