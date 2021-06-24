@@ -51,20 +51,12 @@ export default {
         border: {
             type: Boolean,
             required: false,
-<<<<<<< HEAD
-            default: true
-        },
-        headerCellStyle: {
-            type: Object,
-            required: false
-=======
             default: false
         },
         headerCellStyle: {
             type: Object,
             required: false,
             default: { background: '#FFFFFF' }
->>>>>>> bc4c31cca1fbdc2a3f248c16c8044f975985d346
         }
         
     },
