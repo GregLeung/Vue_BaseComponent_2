@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table :border="border" @selection-change="handleMultiSelection" class="mt-12" :data="filteredList" @sort-change="handleSortChange" :header-cell-style="headerCellStyle">
+    <el-input v-if="showSearch" slot="first" v-model="search" placeholder="Search" />
+    <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -51,12 +51,22 @@ export default {
         border: {
             type: Boolean,
             required: false,
+<<<<<<< HEAD
             default: true
         },
         headerCellStyle: {
             type: Object,
             required: false
+=======
+            default: false
+        },
+        headerCellStyle: {
+            type: Object,
+            required: false,
+            default: { background: '#FFFFFF' }
+>>>>>>> bc4c31cca1fbdc2a3f248c16c8044f975985d346
         }
+        
     },
     watch: {
         showPagination:{
@@ -70,39 +80,18 @@ export default {
     },
     computed: {
         pagingLength(){
-            return this.localDataList.length
+            return this.dataList.length
         },
-        filteredList(){
-            var tmp = this.deepClone(this.localDataList)
-            if(this.searchValue != "" && this.searchValue != null)
-                tmp = tmp.filter(f => {return this.recursiveSearch(f)})
-            if(this.currentSortObject != null && this.currentSortObject.column.sortMethod == null){
-                tmp.sort((a,b)=>{
-                    a = this.getDeepObjectProp(a, this.currentSortObject.prop)
-                    b = this.getDeepObjectProp(b, this.currentSortObject.prop)
-                    if (a === b) 
-                        return 0;
-                    else if (a === null || a === "") 
-                        return 1;
-                    
-                    else if (b === null || b === "") 
-                        return -1;
-                    
-                    else if (this.currentSortObject.order == "ascending") 
-                        return a < b ? -1 : 1;
-                    
-                    else if (this.currentSortObject.order == "descending") 
-                        return a < b ? 1 : -1;
-                    
-                    return 0
-                    // return (this.getDeepObjectProp(a, this.currentSortObject.prop) < this.getDeepObjectProp(b, this.currentSortObject.prop))?1:-1
-                })
-            }
-            return tmp.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
-        }
     },
     created(){
         this.localDataList = this.deepClone(this.dataList)
+    },
+    watch:{
+        dataList: {
+            handler(val, oldValue){
+                this.localDataList = this.deepClone(val)
+            }
+        }
     },
     methods: {
         handleMultiSelection(val){
@@ -135,11 +124,39 @@ export default {
             }catch(error){
                 return false
             }
+        },
+        filteredList(){
+            var tmp = this.deepClone(this.localDataList)
+            if(this.searchValue != "" && this.searchValue != null)
+                tmp = tmp.filter(f => {return this.recursiveSearch(f)})
+            if(this.currentSortObject != null && this.currentSortObject.column.sortMethod == null){
+                tmp.sort((a,b)=>{
+                    a = this.getDeepObjectProp(a, this.currentSortObject.prop)
+                    b = this.getDeepObjectProp(b, this.currentSortObject.prop)
+                    if (a === b) 
+                        return 0;
+                    else if (a === null || a === "") 
+                        return 1;
+                    
+                    else if (b === null || b === "") 
+                        return -1;
+                    
+                    else if (this.currentSortObject.order == "ascending") 
+                        return a < b ? -1 : 1;
+                    
+                    else if (this.currentSortObject.order == "descending") 
+                        return a < b ? 1 : -1;
+                    
+                    return 0
+                    // return (this.getDeepObjectProp(a, this.currentSortObject.prop) < this.getDeepObjectProp(b, this.currentSortObject.prop))?1:-1
+                })
+            }
+            return tmp.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
         }
     },
     data(){
         return {
-            searchValue: "",
+            search: "",
             pageSize: 25,
             currentPage: 1,
             multipleSelection: [],
