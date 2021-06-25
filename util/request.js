@@ -150,9 +150,9 @@ class Request {
             });
         }
     }
-    static uploadFileAsync(vueInstance, url, file, limitSize, limitType) {
+    static uploadFileAsync(vueInstance, url, file, limitSize, limitType, options = {}) {
         return new Promise((resolve, reject) => {
-            this.uploadFile(vueInstance, url, file, limitSize, limitType, resolve, reject);
+            this.uploadFile(vueInstance, url, file, limitSize, limitType, resolve, reject, options);
         }).catch(error => {
             console.log(error)
             throw error
