@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input v-if="showSearch" slot="first" v-model="search" placeholder="Search" />
+    <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
     <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange">
       <slot></slot>
     </el-table>
@@ -110,7 +110,7 @@ export default {
                 }else if(value != null){
                     // if(stringSimilarity(value.toString(), this.searchValue) > 0.1)
                     //     return true
-                    return  value.toString().includes(this.searchValue)
+                    return value.toString().toLowerCase().includes(this.searchValue.toLowerCase())
                 }else
                     return false
             }catch(error){
@@ -148,7 +148,7 @@ export default {
     },
     data(){
         return {
-            search: "",
+            searchValue: "",
             pageSize: 25,
             currentPage: 1,
             multipleSelection: [],
