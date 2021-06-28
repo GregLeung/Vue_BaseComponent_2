@@ -33,7 +33,7 @@ class Request {
             }).catch(error => {
                 vueInstance.$notify({
                     title: "Error",
-                    message: error.data,
+                    message: getErrorMessage(error),
                     type: "warning"
                 });
                 errorCallback(error);
@@ -86,7 +86,7 @@ class Request {
                 console.log(error);
                 vueInstance.$notify({
                     title: "Error",
-                    message: error.data,
+                    message: getErrorMessage(error),
                     type: "warning"
                 });
                 errorCallback(error);
@@ -133,7 +133,7 @@ class Request {
                     console.log(error)
                     vueInstance.$notify({
                         title: "Error",
-                        message: error.data,
+                        message: getErrorMessage(error),
                         type: "warning"
                     });
                     errorCallback(error);
@@ -142,10 +142,10 @@ class Request {
                     if (options.showLoading != false) Util.loading().close();
                 });
         } catch (error) {
-            console.log(error)
+            errorCallback(error);
             vueInstance.$notify({
                 title: vueInstance.$t('Error'),
-                message: error.data,
+                message: getErrorMessage(error),
                 type: "warning"
             });
         }
@@ -200,7 +200,7 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
             .catch(error => {
                 networkErrorHandling(error)
                 if (options.showErrorNotification == false)
-                    vueInstance.$notify({ title: "Error", message: error.data, type: "warning" });
+                    vueInstance.$notify({ title: "Error", message: getErrorMessage(error), type: "warning" });
                 errorCallback(error);
             })
             .finally(() => {
@@ -224,6 +224,14 @@ function setPayloadToCache(response) {
             }
         }
     }
+}
+
+function getErrorMessage(error) {
+    if (error.data != null)
+        var message = error.data
+    else
+        message = error
+    return message
 }
 
 function dataModelArrayToMap(data) {

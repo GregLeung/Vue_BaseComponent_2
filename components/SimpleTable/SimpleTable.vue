@@ -56,7 +56,9 @@ export default {
         headerCellStyle: {
             type: Object,
             required: false,
-            default: { background: '#FFFFFF' }
+            default: () =>{
+                return { background: '#FFFFFF' }
+            }
         }
         
     },
@@ -123,8 +125,16 @@ export default {
                 tmp = tmp.filter(f => {return this.recursiveSearch(f)})
             if(this.currentSortObject != null && this.currentSortObject.column.sortMethod == null){
                 tmp.sort((a,b)=>{
-                    a = this.getDeepObjectProp(a, this.currentSortObject.prop)
-                    b = this.getDeepObjectProp(b, this.currentSortObject.prop)
+                    try{
+                        a = this.getDeepObjectProp(a, this.currentSortObject.prop)
+                    }catch(e){
+                        a = "";
+                    }
+                    try{
+                        b = this.getDeepObjectProp(b, this.currentSortObject.prop)
+                    }catch(e){
+                        b = "";
+                    }
                     if (a === b) 
                         return 0;
                     else if (a === null || a === "") 
