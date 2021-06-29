@@ -23,7 +23,7 @@
           <template slot-scope="scope">
             <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
             <el-card v-else-if="expandOptions.type == 'GENERAL'" class="expand-table">
-              <h5 class="expand-title">{{$t('Detail')}}</h5>
+              <h5 class="expand-title">{{expandTitle}}</h5>
               <el-table :data="scope.row[expandOptions.childrenProp]" class="mt-4" border>
                 <el-table-column :label="column.label" v-for="(column, index) in expandOptions.columnList" v-bind:key="index" :min-width="column.width" :fixed="column.fixed" >
                   <template slot-scope="scope">
@@ -132,6 +132,11 @@ export default {
       type: Boolean,
       requried: false,
       default: false,
+    },
+    expandTitle: {
+      type: String,
+      required: false,
+      default: 'Detail'
     },
     joinClass: {
       type: Array,
