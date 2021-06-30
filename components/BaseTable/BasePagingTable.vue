@@ -259,7 +259,7 @@ export default {
       }else
         this.dataList = this.paging(this.originalDataList);
     },
-    async handleRefresh() {
+    async handleRefresh(isDefaultSorting = true) {
       try {
         var parameters = Object.assign({
           paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
@@ -274,7 +274,8 @@ export default {
             if(!this.isServerSidePaging){
                this.originalDataList = result
                this.dataList = this.paging(this.originalDataList)
-               this.handleDefaultSorting()
+               if(isDefaultSorting)
+                this.handleDefaultSorting()
             }else{
               this.dataList = result
             }
