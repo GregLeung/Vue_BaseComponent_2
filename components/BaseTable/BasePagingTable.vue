@@ -180,6 +180,10 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    beforeClear: {
+      type: Function,
+      required: false,
     }
   },
   mounted() {
@@ -265,6 +269,7 @@ export default {
         this.dataList = this.paging(this.originalDataList);
     },
     async handleRefresh(isDefaultSorting = true) {
+      Util.loading();
       try {
         var parameters = Object.assign({
           paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
@@ -286,13 +291,15 @@ export default {
             }
           })
         }else{
-          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: true});
+          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: false});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
       } catch (error) {
         console.log(error)
         this.dataList = [];
+      }finally{
+        Util.loading().close();
       }
     },
     paging(dataList){
@@ -322,7 +329,11 @@ export default {
       this.confirmedSearch = ""
       this.$refs.advancedSearchDialog.searchFilterSet = this.$refs.advancedSearchDialog.initSearchFilterSet()
       this.currentPage = 1
-      this.handleRefresh()
+      if(this.beforeClear != null){
+        this.beforeClear()
+      }else{
+        this.handleRefresh()
+      }
     }
   },
   computed: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange">
+    <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -59,7 +59,12 @@ export default {
             default: () =>{
                 return { background: '#FFFFFF' }
             }
-        }
+        },
+        rowClick: {
+            type: Function,
+            required: false,
+            default: (row, column, event) => {},
+        },
         
     },
     watch: {
