@@ -26,6 +26,7 @@ import IconButton from "./components/IconButton/IconButton.vue";
 import SignaturePad from "./components/SignaturePad/SignaturePad.vue";
 import CustomFormInput from "./components/CustomFormInput/CustomFormInput.vue";
 import SimpleTable from "./components/SimpleTable/SimpleTable.vue";
+import PanelBox from "./components/PanelBox/PanelBox.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -61,6 +62,7 @@ export {
     SignaturePad,
     CustomFormInput,
     SimpleTable,
+    PanelBox,
     Request,
     Excel,
     Util,
