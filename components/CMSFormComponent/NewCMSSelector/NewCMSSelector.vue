@@ -126,7 +126,6 @@ export default {
             this.loading = true
             this.$emit('remoteMethod', value, (options) => {
                 this.localOptions = options
-                this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
                 this.loading = false
             })
         },

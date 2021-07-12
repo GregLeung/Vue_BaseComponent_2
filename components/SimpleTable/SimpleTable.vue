@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
+    <el-table  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -71,7 +71,7 @@ export default {
         showPagination:{
             handler(val, oldValue){
                 if(this.showPagination)
-                    this.pageSize = 25
+                    this.pageSize = 20
                 else
                     this.pageSize = 9999999
             }
@@ -164,7 +164,7 @@ export default {
     data(){
         return {
             searchValue: "",
-            pageSize: 25,
+            pageSize: 20,
             currentPage: 1,
             multipleSelection: [],
             currentSortObject: null
@@ -176,4 +176,10 @@ export default {
 .pagination-wrapper
     display: flex
     justify-content: flex-end
+.el-table
+    font-size: .7rem
+    ::v-deep  td, th
+        padding: 0
+    .el-table__row
+        word-break: break-word
 </style>

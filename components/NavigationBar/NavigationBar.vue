@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed" >
+  <div :class="isCollaspe ? 'collaspe' : 'open'" >
     <el-menu
       class="height-100"
       default-active="2"
@@ -73,11 +73,22 @@ export default {
 <style scoped lang="sass">
 @import "@/static/variables.scss"
 @import "@/static/main.sass"
-.fixed
+.open
   position: fixed
   z-index: 2
   height: 100%
   overflow: scroll
+  width: $navigation-bar-width
+  &::-webkit-scrollbar
+    display: none
+    -ms-overflow-style: none
+    scrollbar-width: none
+.collaspe
+  position: fixed
+  z-index: 2
+  height: 100%
+  overflow: scroll
+  width: 64px
   &::-webkit-scrollbar
     display: none
     -ms-overflow-style: none

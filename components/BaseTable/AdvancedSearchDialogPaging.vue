@@ -23,11 +23,17 @@
                 </div>
                 <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
                         <el-date-picker
-                            v-model="searchFilterSet[item.prop].value"
-                            :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'datetimerange'"
-                            range-separator="To"
-                            start-placeholder="Start"
-                            end-placeholder="End">
+                            v-model="searchFilterSet[item.prop].value[0]"
+                            :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
+                            placeholder="Start"
+                            align="right">
+                        </el-date-picker>
+                        <span> To </span>
+                        <el-date-picker
+                            v-model="searchFilterSet[item.prop].value[1]"
+                            :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
+                            placeholder="End"
+                            align="right">
                         </el-date-picker>
                 </div>
                 <div v-if="item.advancedSearch.type == 'FREETEXT'">
@@ -140,37 +146,43 @@ export default {
                     case 'MULTI-SELECTION':
                         result[f.prop] = {
                             type: "MULTI-SELECTION",
-                            value: []
+                            value: [],
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                     case 'SELECTION':
                         result[f.prop] = {
                             type: "SELECTION",
-                            value: []
+                            value: [],
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                     case 'MULTI-SELECTION-SELECTOR':
                         result[f.prop] = {
                             type: "MULTI-SELECTION-SELECTOR",
-                            value: []
+                            value: [],
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                     case 'TIME-RANGE':
                         result[f.prop] = {
                             type: "TIME-RANGE",
-                            value: []
+                            value: [],
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                     case 'FREETEXT':
                         result[f.prop] = {
                             type: "FREETEXT",
-                            value: ""
+                            value: "",
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                     case 'NUMBER-RANGE':
                         result[f.prop] = {
                             type: "NUMBER-RANGE",
-                            value: []
+                            value: [],
+                            multiFields: f.advancedSearch["multiFields"] ?? [] 
                         }
                         break
                 }

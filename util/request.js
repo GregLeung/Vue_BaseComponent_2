@@ -292,6 +292,10 @@ function networkErrorHandling(error) {
                 store().dispatch('setToken', "")
                 store().dispatch('setUser', null)
                 break
+            case -3:
+                store().dispatch('setToken', "")
+                store().dispatch('setUser', null)
+                break
         }
     }
 }
