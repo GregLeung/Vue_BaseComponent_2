@@ -108,7 +108,7 @@ export default {
         },
         options(val, oldVal){
             var tmp = this.deepClone(this.options)
-            tmp.sort((a,b) => a.label.localeCompare(b.label))
+            // tmp.sort((a,b) => a.label.localeCompare(b.label))
             this.localOptions = tmp
         },
         localOptions(val, oldVal){
@@ -137,7 +137,7 @@ export default {
     },
     created(){
         this.localOptions = this.deepClone(this.options)
-        this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
+        // this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
         this.localValue = this.value
         this.handleFocus()
     },
