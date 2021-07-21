@@ -99,7 +99,7 @@ export default Vue.extend({
     },
     methods:{
         handleOnChange(value){
-            if(this.textTransform == "uppercase")
+            if(this.textTransform == "uppercase" && value != null)
                 value = value.toUpperCase()
             this.$emit("update", value)
             this.$emit("input", value)

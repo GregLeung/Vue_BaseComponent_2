@@ -82,7 +82,7 @@ class Request {
                 successCallback(res.data);
             })
             .catch(error => {
-                networkErrorHandling(error)
+                networkErrorHandling(vueInstance, error)
                 console.log(error);
                 vueInstance.$notify({
                     title: "Error",
@@ -198,7 +198,7 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
                 successCallback(res.data);
             })
             .catch(error => {
-                networkErrorHandling(error)
+                networkErrorHandling(vueInstance, error)
                 if (options.showErrorNotification == false)
                     vueInstance.$notify({ title: "Error", message: getErrorMessage(error), type: "warning" });
                 errorCallback(error);
@@ -285,7 +285,7 @@ function assignOptions(options) {
     return options
 }
 
-function networkErrorHandling(error) {
+function networkErrorHandling(vueInstance, error) {
     if (error instanceof NetworkError) {
         switch (error.code) {
             case -2:
@@ -293,8 +293,8 @@ function networkErrorHandling(error) {
                 store().dispatch('setUser', null)
                 break
             case -3:
-                store().dispatch('setToken', "")
-                store().dispatch('setUser', null)
+                vueInstance.$router.push({ "path": "/Exception/no_permission" });
+                Util.loading().close()
                 break
         }
     }

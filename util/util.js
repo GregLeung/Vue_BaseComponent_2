@@ -14,10 +14,9 @@ class Util {
         url.search = new URLSearchParams(parameters);
         location.href = url.href;
     }
-    static openNewTabUrl(url, parameters) {
-        var url = new URL(url);
-        url.search = new URLSearchParams(parameters);
-        window.open(url.href);
+    static openNewTabUrl(vueInstance, parameters) {
+        let routeData = vueInstance.$router.resolve(parameters);
+        window.open(routeData.href, '_blank');
     }
     static cssRatioCalculate(cssString, ratio) {
         if (cssString.includes("px")) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
+    <el-table :max-height="windowHeight*0.75"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -167,7 +167,8 @@ export default {
             pageSize: 20,
             currentPage: 1,
             multipleSelection: [],
-            currentSortObject: null
+            currentSortObject: null,
+            windowHeight: window.innerHeight,
         }
     }
 }
