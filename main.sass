@@ -89,5 +89,22 @@ body
     opacity: 0
   100%
     opacity: 1
+.layout-enter-active, .layout-leave-active 
+  transition: opacity .8s
+
+.layout-enter, .layout-leave-active 
+  opacity: 0
+.slide-fade-enter-active 
+  height: 100%
+  transition: all 2s ease
+
+.slide-fade-leave-active 
+  height: 100%
+  transition: all 2s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+
+.slide-fade-enter, .slide-fade-leave-to
+  height: 100%
+  transform: translateX(10px)
+  opacity: 0
 
 
