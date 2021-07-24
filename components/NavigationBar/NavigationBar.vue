@@ -71,8 +71,8 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-@import "@/static/variables.scss"
-@import "@/static/main.sass"
+@import "vue_basecomponent/static/variables.scss"
+@import "vue_basecomponent/static/main.sass"
 .open
   position: fixed
   z-index: 2

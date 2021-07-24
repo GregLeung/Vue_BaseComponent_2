@@ -52,8 +52,8 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-@import "@/static/variables.scss"
-@import "@/static/main.sass"
+@import "vue_basecomponent/static/variables.scss"
+@import "vue_basecomponent/static/main.sass"
 $font-size: .8rem
 .el-menu:not(.el-menu--collapse)
   .el-submenu

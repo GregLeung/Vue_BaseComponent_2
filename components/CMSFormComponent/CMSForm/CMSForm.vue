@@ -20,8 +20,8 @@ export default Vue.extend({
 </script>
 
 <style lang="sass" scoped>
-@import "@/static/variables.scss"
-@import "@/static/main.sass"
+@import "vue_basecomponent/static/variables.scss"
+@import "vue_basecomponent/static/main.sass"
 .container
     border-radius: 8px
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1)

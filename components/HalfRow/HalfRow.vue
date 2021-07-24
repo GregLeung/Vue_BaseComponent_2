@@ -29,6 +29,6 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-@import "vue_basecomponent/main.sass"
+@import "vue_basecomponent/static/main.sass"
 
 </style>
