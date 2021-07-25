@@ -1,5 +1,6 @@
 <template>
   <div>
+      {{pageSize}}
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
     <el-table :max-height="windowHeight*0.75"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
@@ -71,7 +72,7 @@ export default {
         showPagination:{
             handler(val, oldValue){
                 if(this.showPagination)
-                    this.pageSize = 20
+                    this.pageSize = this.pageSizes[0]
                 else
                     this.pageSize = 9999999
             }
@@ -164,7 +165,7 @@ export default {
     data(){
         return {
             searchValue: "",
-            pageSize: 20,
+            pageSize: this.pageSizes[0],
             currentPage: 1,
             multipleSelection: [],
             currentSortObject: null,
