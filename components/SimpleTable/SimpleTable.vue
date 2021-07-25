@@ -1,6 +1,5 @@
 <template>
   <div>
-      {{pageSize}}
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
     <el-table :max-height="windowHeight*0.75"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
