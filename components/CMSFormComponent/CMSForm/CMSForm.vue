@@ -22,6 +22,7 @@ export default Vue.extend({
 <style lang="sass" scoped>
 @import "vue_basecomponent/static/variables.scss"
 @import "vue_basecomponent/static/main.sass"
+@import "@/static/variables.scss"
 .container
     border-radius: 8px
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1)

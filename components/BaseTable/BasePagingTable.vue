@@ -184,6 +184,13 @@ export default {
     beforeClear: {
       type: Function,
       required: false,
+    },
+    computed: {
+      type: Array,
+      required: false,
+      default: function(){
+        return []
+      }
     }
   },
   mounted() {
@@ -274,6 +281,7 @@ export default {
         var parameters = Object.assign({
           paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
           joinClass: this.joinClass,
+          computed: this.computed,
           advancedSearch:  this.searchFilterSet,
         }, this.parameters)
         if(this.whereCondition.length > 0)
