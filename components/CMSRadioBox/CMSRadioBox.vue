@@ -5,7 +5,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-export default Vue.extend({
+export default {
     props: {
          value: {
             type: [String, Number, Boolean]
@@ -25,7 +25,7 @@ export default Vue.extend({
             this.$emit("customChange", value)
         }
     }
-})
+}
 </script>
 <style lang="sass">
 #cms-radio-box

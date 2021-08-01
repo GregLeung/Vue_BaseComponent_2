@@ -2,8 +2,7 @@
   <span class="label" :style="{'background': color, 'font-size': fontSize + 'rem'}">{{value}}</span>
 </template>
 <script lang="js">
-import Vue from "vue";
-export default Vue.extend({
+export default {
     props: {
         value:{
             type: String,
@@ -19,7 +18,7 @@ export default Vue.extend({
         }
     },
     
-})
+}
 </script>
 <style lang="sass" scoped>
 .label

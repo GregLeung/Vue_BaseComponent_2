@@ -36,7 +36,7 @@
 <script>
 import Vue from "vue";
 import {Util, Request} from "vue_basecomponent";
-export default Vue.extend({
+export default {
     components: {
         Util,
         Request
@@ -134,7 +134,7 @@ export default Vue.extend({
             fileList: []
         }
     }
-});
+};
 </script>
 <style>
 .hide .el-upload--picture-card {

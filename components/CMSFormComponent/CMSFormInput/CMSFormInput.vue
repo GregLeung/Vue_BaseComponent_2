@@ -10,8 +10,7 @@
 </template>
 
 <script lang="js">
-import Vue from "vue";
-export default Vue.extend({
+export default {
     props: {
         label: {
             type: String,
@@ -112,7 +111,7 @@ export default Vue.extend({
             }
         }
     }
-})
+}
 </script>
 
 <style lang="sass" scoped>
