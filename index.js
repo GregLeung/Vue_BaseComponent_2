@@ -27,6 +27,9 @@ import SignaturePad from "./components/SignaturePad/SignaturePad.vue";
 import CustomFormInput from "./components/CustomFormInput/CustomFormInput.vue";
 import SimpleTable from "./components/SimpleTable/SimpleTable.vue";
 import PanelBox from "./components/PanelBox/PanelBox.vue";
+import DefaultLayouts from "./components/DefaultLayouts/defaultLayout.vue";
+import MyAccount from "./components/DefaultComponents/MyAccount.vue";
+import ChangePassword from "./components/DefaultComponents/ChangePassword.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -63,6 +66,9 @@ export {
     CustomFormInput,
     SimpleTable,
     PanelBox,
+    DefaultLayouts,
+    MyAccount,
+    ChangePassword,
     Request,
     Excel,
     Util,

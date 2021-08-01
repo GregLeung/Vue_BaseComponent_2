@@ -218,6 +218,7 @@ export default {
     handleEnterChange() {
       if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;
+        this.currentPage = 1
         this.handleRefresh()
       }
     },

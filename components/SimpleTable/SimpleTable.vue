@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table :max-height="windowHeight*0.75"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList()" @sort-change="handleSortChange" @row-click="rowClick">
+    <el-table :max-height="windowHeight*0.75"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -13,7 +13,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         layout="total, sizes, prev, pager, next"
-        :total="pagingLength"
+        :total="totalLength"
       >
       </el-pagination>
     </div>
@@ -67,21 +67,11 @@ export default {
         },
         
     },
-    watch: {
-        showPagination:{
-            handler(val, oldValue){
-                if(this.showPagination)
-                    this.pageSize = this.pageSizes[0]
-                else
-                    this.pageSize = 9999999
-            }
-        }
-    },
-    computed: {
-        pagingLength(){
-            return this.dataList.length
-        },
-    },
+    // computed: {
+    //     pagingLength(){
+    //         return this.filteredList().length
+    //     },
+    // },
     created(){
         this.localDataList = this.deepClone(this.dataList)
     },
@@ -89,6 +79,19 @@ export default {
         dataList: {
             handler(val, oldValue){
                 this.localDataList = this.deepClone(val)
+            }
+        },
+        showPagination:{
+            handler(val, oldValue){
+                if(this.showPagination)
+                    this.pageSize = this.pageSizes[0]
+                else
+                    this.pageSize = 9999999
+            }
+        },
+        searchValue: {
+            handler(val, oldValue){
+                this.currentPage = 1
             }
         }
     },
@@ -155,10 +158,11 @@ export default {
                         return a < b ? 1 : -1;
                     
                     return 0
-                    // return (this.getDeepObjectProp(a, this.currentSortObject.prop) < this.getDeepObjectProp(b, this.currentSortObject.prop))?1:-1
                 })
             }
-            return tmp.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
+            this.totalLength = tmp.length
+            return tmp
+            // return tmp.slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )
         }
     },
     data(){
@@ -169,6 +173,7 @@ export default {
             multipleSelection: [],
             currentSortObject: null,
             windowHeight: window.innerHeight,
+            totalLength: 0
         }
     }
 }
