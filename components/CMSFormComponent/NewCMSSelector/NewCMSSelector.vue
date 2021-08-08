@@ -11,6 +11,7 @@
       :remote-method="remoteMethod"
       @clear="handleClear"
       @focus="handleFocus"
+      @blur="$emit('blur', $event)"
       :clearable="clearable"
       :multiple="multiple"
       :filterable="filterable"
