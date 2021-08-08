@@ -36,6 +36,7 @@ import {
     NavigationBar,
     NavigationBarToggleButton,
     CMSHeader, 
+    IconButton, 
     Request
 } from "vue_basecomponent";
 export default {
@@ -43,7 +44,8 @@ export default {
     components: {
         NavigationBar,
         CMSHeader,
-        NavigationBarToggleButton
+        NavigationBarToggleButton,
+        IconButton
     },
     props: {
         menu: {
