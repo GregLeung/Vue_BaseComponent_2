@@ -69,11 +69,11 @@ export {
     DefaultLayout,
     MyAccount,
     ChangePassword,
+    CMSCheckBox,
     Request,
     Excel,
     Util,
     GoogleMap,
     Plugin,
     BaseStore,
-    CMSCheckBox
 };
