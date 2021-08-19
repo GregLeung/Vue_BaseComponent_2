@@ -1,9 +1,9 @@
 <template>
 <div :class="{'basic-information-field': (direction == 'horizontal')}">
-    <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
-        <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
+    <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
+      <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
-    <el-input :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit">
+    <el-input @keyup.enter.native="handleKeyUpEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit">
         <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
@@ -14,13 +14,18 @@ export default {
     props: {
         label: {
             type: String,
-            required: true,
+            required: false,
             default: ""
         },
         disabled: {
             type: Boolean,
             require: true,
             default: false
+        },
+        showLabel: {
+            type: Boolean,
+            required: false,
+            default: true
         },
         showPassword: {
             type: Boolean,
@@ -103,6 +108,12 @@ export default {
             this.$emit("update", value)
             this.$emit("input", value)
         },
+        focus(){
+            this.$refs.input.focus()
+        },
+        handleKeyUpEnter(event){
+            this.$emit("keyup-enter", event, this.value)
+        }
     },
     computed: {
         cssVars() {

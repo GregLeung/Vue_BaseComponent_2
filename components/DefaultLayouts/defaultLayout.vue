@@ -10,9 +10,9 @@
                 <div slot="right" class="right-cms-header">
                     <slot name="header"></slot>
                     <el-tooltip class="item" effect="dark" content="Account" placement="top-start">
-                        <icon-button @click="$router.push({path: '/crm/my_account'})" class="mr-8" color="white" icon="mi-person"/>
+                        <icon-button @click="$router.push({path: basePath + '/my_account'})" class="mr-8" color="white" icon="mi-person"/>
                     </el-tooltip>
-                    <el-button class="text-button mr-8" type="text" style="color:black" >{{$store.getters.user.username}}</el-button>
+                    <el-button class="text-button mr-8" type="text" style="color:white" >{{displayName}}</el-button>
                     <el-tooltip class="item" effect="dark" content="Logout" placement="top-start">
                         <icon-button @click="handleLogOut" class="mr-8" color="white" icon="mi-exit-to-app"/>
                     </el-tooltip>
@@ -54,6 +54,16 @@ export default {
             default: ()=>{
                 return []
             }
+        },
+        basePath: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        displayName: {
+            type: String,
+            required: false,
+            default: ""
         }
     },
     computed: {
@@ -86,7 +96,7 @@ export default {
                 this.$store.dispatch('setToken', "")
                 this.$store.dispatch('setUser', null)
                 this.$router.push({
-                    path: "/crm/login",
+                    path: this.basePath +  "/login",
                 });
             })
         }

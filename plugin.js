@@ -1,5 +1,8 @@
 import moment from "moment";
 import Vue from 'vue'
+import _ from 'lodash';
+import $ from 'jquery'
+
 import {
     BaseFooter,
     BaseTable,
@@ -90,6 +93,15 @@ const Plugin = {
                         object = object[f]
                     })
                     return object
+                },
+                assignDeepValue(object, properties, value) {
+                    _.set(object, properties, value);
+                    // var i;
+                    // var obj = object
+                    // properties = properties.split('.');
+                    // for (let i = 0; i < properties.length - 1; i++)
+                    //     obj = obj[properties[i]];
+                    // obj[properties[i]] = value;
                 },
                 generateRandomString(length) {
                     var result = [];

@@ -2,17 +2,12 @@
   <c-m-s-form :title="$t('Staff')" class="ml-24 mr-24 mt-12" v-if="isMounted">
     <div class="p-12">
       <c-m-s-form-input
-        class="mt-12"
-        :label-width="cms_label_width"
-        v-model="data.name"
-        :label="$t('User Name')"
-      />
-      <c-m-s-form-input
         :label-width="cms_label_width"
         class="mt-12"
         v-model="data.loginName"
         :label="$t('Login Name')"
       />
+      <slot name="content" :data="data"></slot>
       <el-divider></el-divider>
       <div class="space-between-row">
         <div>
@@ -38,6 +33,15 @@ import {
     Request,
 } from "vue_basecomponent";
 export default {
+  props: {
+    validateCallback: {
+      type: Function,
+      required: false,
+      default: () => {
+        return true
+      }
+    }
+  },
     data() {
         return {
             cms_label_width: '7em',
@@ -63,15 +67,9 @@ export default {
                                 message: this.$t('Login Name') + " " + this.$t("Cannot Be Empty")
                             }]
                         },
-                        {
-                            value: this.data.userName,
-                            rules: [{
-                                type: "REQUIRED",
-                                message: this.$t('User Name') + " " + this.$t("Cannot Be Empty")
-                            }]
-                        },
                     ])) {
-                        this.handleUpdate()
+                    if(this.validateCallback(this.data))
+                      this.handleUpdate()
                 }
             }
         },
@@ -82,7 +80,7 @@ export default {
         },
         goChangePassword() {
             this.$router.push({
-                path: "/changePassword",
+                path: this.basePath + "/changePassword",
             });
         }
     }
