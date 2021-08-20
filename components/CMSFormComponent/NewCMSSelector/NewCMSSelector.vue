@@ -16,6 +16,8 @@
       :multiple="multiple"
       :filterable="filterable"
       :disabled="disabled"
+      :placeholder="placeholder"
+      :style="{'width': width}"
     >
     <el-option
       v-for="item in localOptions"
@@ -45,7 +47,7 @@ export default {
         },
         label: {
             type: String,
-            require: true,
+            require: false,
             default: ""
         },
         labelWidth: {
@@ -96,6 +98,15 @@ export default {
             require: true,
             default: false
         },
+        placeholder: {
+            type: String,
+            require: false,
+        },
+        width: {
+            type: String,
+            require: false,
+            default: "100%"
+        }
     },
     model: {
         prop: "value",
