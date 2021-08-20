@@ -40,6 +40,11 @@ export default {
       default: () => {
         return true
       }
+    },
+    basePath: {
+      type: String,
+      required: false,
+      default: ""
     }
   },
     data() {
@@ -74,8 +79,11 @@ export default {
             }
         },
         handleUpdate() {
-            Request.post(this, "update_self", this.data, res => {
+            Request.post(this, "update_self", this.data, _ => {
+              Request.get(this, "get_self", {}, res => {
+                this.$store.dispatch('setUser', res.data)
                 this.successPrompt()
+              })
             })
         },
         goChangePassword() {
