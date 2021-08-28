@@ -243,6 +243,9 @@ const Plugin = {
                 notNullNotEmpty(value) {
                     return !(value == null || value === "" || value.length == 0);
                 },
+                numberWithCommas(x) {
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
         });
     },

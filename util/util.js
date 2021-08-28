@@ -34,6 +34,9 @@ class Util {
     static isJSONObject(object) {
         return typeof object === 'object' && object !== null
     }
+    static numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 }
 
 export default Util;

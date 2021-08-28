@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table :max-height="maxHeight"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick">
+    <el-table :tree-props="treeProps" :row-key="rowKey" :default-expand-all="defaultExpandAll" :max-height="maxHeight"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
@@ -66,17 +66,21 @@ export default {
             default: (row, column, event) => {},
         },
         maxHeight: {
-            type: String,
+            type: String | Number,
             required: false,
             default: window.innerHeight * 0.75
-        }
-        
+        },
+        rowKey: {
+            type: String,
+        },
+        defaultExpandAll: {
+            type: Boolean,
+            required: false
+        },
+        treeProps: {
+            type: Object
+        }  
     },
-    // computed: {
-    //     pagingLength(){
-    //         return this.filteredList().length
-    //     },
-    // },
     created(){
         this.localDataList = this.deepClone(this.dataList)
     },
