@@ -88,11 +88,16 @@ const Plugin = {
                     return true
                 },
                 getDeepObjectProp(object, properties) {
-                    var propertiesArray = properties.split(".")
-                    propertiesArray.forEach(f => {
-                        object = object[f]
-                    })
-                    return object
+                    try {
+                        var propertiesArray = properties.split(".")
+                        propertiesArray.forEach(f => {
+                            object = object[f]
+                        })
+                        return object
+                    } catch (e) {
+                        console.log(e);
+                        return null
+                    }
                 },
                 assignDeepValue(object, properties, value) {
                     _.set(object, properties, value);
@@ -110,6 +115,7 @@ const Plugin = {
                     for (var i = 0; i < length; i++) {
                         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
                     }
+                    x
                     return result.join('');
                 },
                 checkPermission(userRight) {
