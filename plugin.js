@@ -117,7 +117,6 @@ const Plugin = {
                     for (var i = 0; i < length; i++) {
                         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
                     }
-                    x
                     return result.join('');
                 },
                 checkPermission(userRight) {
