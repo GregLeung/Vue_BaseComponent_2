@@ -35,6 +35,7 @@ import {
     MyAccount,
     ChangePassword,
     CMSCheckBox,
+    BaseGridTable,
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -69,6 +70,7 @@ const components = {
     MyAccount,
     ChangePassword,
     CMSCheckBox,
+    BaseGridTable
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
