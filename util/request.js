@@ -10,6 +10,16 @@ class Request {
             showErrorNotification: true
         }
     }
+    static getBase64(vueInstance, url, params, successCallback = function(res) {}, errorCallback = function(error) {}, options = Request.defaultOptions()) {
+        getBase64(vueInstance, url, params, successCallback, errorCallback, options)
+    }
+    static getBase64Async(vueInstance, url, params, options = Request.defaultOptions()) {
+        return new Promise((resolve, reject) => {
+            getBase64(vueInstance, url, params, resolve, reject, options);
+        }).catch(error => {
+            throw error
+        });
+    }
     static getFile(vueInstance,
         action,
         params,
@@ -176,6 +186,21 @@ function cleanCache(key) {
         store().state.cache.reset()
 }
 
+function getBase64(vueInstance, url, params, successCallback, errorCallback, options) {
+    options = assignOptions(options)
+    axios.get(url, { params: params, responseType: "arraybuffer" }, ).then((res) => {
+        successCallback("data:image/jpeg;base64," + Buffer.from(res.data, 'binary').toString('base64'))
+    }).catch(e => {
+        vueInstance.$notify({
+            title: "Error",
+            message: getErrorMessage(error),
+            type: "warning"
+        });
+        errorCallback(error);
+    }).finally(() => {
+        if (options.showLoading != false) Util.loading().close();
+    });
+}
 
 function get(vueInstance, action, params, successCallback, errorCallback, options) {
     options = assignOptions(options)
