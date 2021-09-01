@@ -33,10 +33,6 @@ export default {
       required: false,
       default: "ascending",
     },
-    tableName: {
-      type: String,
-      required: false,
-    },
     rowClick: {
       type: Function,
       required: false,
@@ -47,32 +43,6 @@ export default {
       required: false,
       default: ({ row, Object }) => {},
     },
-    isCircleButton: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    expandTitle: {
-      type: String,
-      required: false,
-      default: 'Detail'
-    },
-    parameters: {
-      type: Object,
-      requried: true,
-      default: function() {
-        return {}
-      },
-    },
-    isCustomRequest: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    beforeClear: {
-      type: Function,
-      required: false,
-    },
     cellUpdate: {
       type: Function,
       required: false,
@@ -80,10 +50,16 @@ export default {
     rowUpdate: {
       type: Function,
       required: false,
+    },
+    dataList: {
+      type: Array,
+      required: true,
+      default: function(){
+        return []
+      }
     }
   },
   async mounted() {
-    await this.handleRefresh();
     this.handleDefaultSorting()
     this.totalColumnNumber = this.$refs.table.columns.length
     this.addKeyListener()
@@ -91,7 +67,6 @@ export default {
   },
   data() {
     return {
-      dataList: [],
       windowHeight: window.innerHeight,
       currentSortProp: null,
       visibleAdvancedSearchDialog: false,
@@ -324,12 +299,6 @@ export default {
     handleRowClick(row, column, event){
       this.$emit("row-click",row, column, event)
     },
-    handleEnterChange() {
-      if (this.confirmedSearch != this.search){
-        this.confirmedSearch = this.search;
-        this.handleRefresh()
-      }
-    },
     handleDefaultSorting() {
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
         if (this.defaultSort == "descending"){
@@ -351,25 +320,6 @@ export default {
         if(instance == null) return instance;
       })
       return instance;
-    },
-    async handleRefresh(isDefaultSorting = true) {
-      Util.loading();
-      try {
-        var parameters = this.parameters
-        if(this.isCustomRequest){
-          this.$emit("customRequest",parameters,(result, totalRow) => {
-            this.dataList = result
-          })
-        }else{
-          var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: false});
-          this.dataList = result.data[this.tableName.toString()]
-        }
-      } catch (error) {
-        console.log(error)
-        this.dataList = [];
-      }finally{
-        Util.loading().close();
-      }
     },
     addNewLine(){
       this.dataList.push({
@@ -404,7 +354,7 @@ export default {
       var indexColumn = {
         label: "",
         type: String,
-        width: 40,
+        width: 20,
         showValue: (column, row, columnIndex, rowIndex) => {
           return rowIndex + 1
         },
@@ -442,6 +392,9 @@ export default {
         margin-bottom: .2em
     .title-font
         font-size: 1rem
+    // .table-wrapper
+    //     height: 70vh
+    //     overflow: scroll
     .row
         display: flex
         align-items: center
