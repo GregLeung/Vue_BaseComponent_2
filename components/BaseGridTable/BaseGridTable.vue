@@ -11,6 +11,9 @@
                 <div :slot="column.prop + '-inactive'" slot-scope="scope">
                   <slot :name="column.prop  + '-inactive'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
                 </div>
+                <div :slot="column.prop + '-popOver'" slot-scope="scope">
+                  <slot :name="column.prop  + '-popOver'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
+                </div>
             </cell>
           </template>
         </el-table-column>
@@ -222,10 +225,11 @@ export default {
       cellRef.isSelected = true
       this.triggerRowClassName()
     },
-    handleCellUpdate(value, columnProp, updatedRow, row){ 
-      if(this.cellUpdate != null){
-        var updatedRow = this.cellUpdate(value, columnProp, updatedRow, row)
-      }
+    handleCellUpdate(value, columnProp, updatedRow, row, column){ 
+      if(column.update != null)
+        var updatedRow = column.update(value, columnProp, updatedRow, row, column);
+      else if(this.cellUpdate != null)
+        var updatedRow = this.cellUpdate(value, columnProp, updatedRow, row, column)
       var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == updatedRow.innerProperty.rowIndex)
       this.dataList[index] = updatedRow
       this.$refs.table.setCurrentRow(this.dataList[index])
@@ -398,13 +402,17 @@ export default {
 <style scoped lang="sass">
 
 ::v-deep .el-table .el-table__header thead tr th:first-child
-  background-color: #CCCCCC !important
+  background-color: #BBBBBB !important
 ::v-deep .el-table__body-wrapper td:first-child .cell
     padding-left: 0px
     padding-right: 0px
-    background: #DDDDDD
-    span
-      margin-left: .8em
+    background: #CCCCCC
+    color: #909399
+    font-size: .8rem
+    font-weight: bold
+    text-align: center
+    // span
+    //   margin-left: .8em
 ::v-deep .el-table__body-wrapper .cell
     padding-left: 0px
     padding-right: 0px
@@ -415,7 +423,7 @@ export default {
     border-top: 1px solid green
     border-bottom: 1px solid green
 ::v-deep .el-table .el-table__body tbody tr td:first-child
-  background: #DDDDDD
+  background: #CCCCCC
 #base-table
     .word-break
         word-break: break-word

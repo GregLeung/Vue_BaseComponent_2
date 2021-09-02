@@ -25,6 +25,17 @@
       :label="item.label"
       :value="item.value"
       :disabled="item.disabled">
+      <div v-if="isPopOver">
+        <el-popover
+        placement="right"
+        width="400"
+        trigger="hover">
+            <slot name="popOver" :value="item.value" :label="item.label"></slot>
+            <div slot="reference" style="width: 100%;">
+                <span>{{ item.label }}</span>
+            </div>
+        </el-popover>
+      </div>
     </el-option>
     </el-select>
     <slot></slot>
@@ -106,6 +117,11 @@ export default {
             type: String,
             require: false,
             default: "100%"
+        },
+        isPopOver: {
+            type: Boolean,
+            require: false,
+            default: false
         }
     },
     model: {
