@@ -70,6 +70,13 @@ export default {
     createDefaultValue: {
       type: Function,
       required: true,
+    },
+    isAllowCreate: {
+      type: Function,
+      required: false,
+      default: () => {
+        return true
+      }
     }
   },
   async mounted() {
@@ -136,9 +143,14 @@ export default {
                 this.moveCursor(nextRowIndex, nextColumnIndex)
             }
             else if (key === 'ArrowDown') {
-                nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
-                if(nextRowIndex >= this.dataList.length)
+                if(currentCellRef.row.innerProperty.rowIndex + 1 >= this.dataList.length){
+                  if(this.isAllowCreate(this.dataList)){
                     this.addNewLine()
+                    nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
+                  }
+                }else{
+                  nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
+                }
                 var nextColumnIndex = columnIndex
                 this.moveCursor(nextRowIndex, nextColumnIndex)
             }
@@ -387,7 +399,7 @@ export default {
       var indexColumn = {
         label: "",
         type: String,
-        width: 30,
+        width: 40,
         showValue: (column, row, columnIndex, rowIndex) => {
           return rowIndex + 1
         },
