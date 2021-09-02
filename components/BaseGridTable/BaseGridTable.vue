@@ -75,7 +75,7 @@ export default {
       type: Function,
       required: false,
       default: () => {
-        return true
+        return false
       }
     }
   },
