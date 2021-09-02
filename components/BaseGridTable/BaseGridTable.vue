@@ -2,7 +2,7 @@
   <div id="base-table" class="container">
     <div class="table-wrapper" v-click-outside="handleClickOutside">
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
-        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
+        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
           <template slot-scope="scope">
             <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" @cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig">
                 <div :slot="column.prop + '-active'" slot-scope="scope">
@@ -387,7 +387,7 @@ export default {
       var indexColumn = {
         label: "",
         type: String,
-        width: 25,
+        width: 30,
         showValue: (column, row, columnIndex, rowIndex) => {
           return rowIndex + 1
         },
