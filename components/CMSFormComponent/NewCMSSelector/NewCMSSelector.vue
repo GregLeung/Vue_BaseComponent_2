@@ -133,6 +133,7 @@ export default {
     methods: {
         handleClear(){
             this.localValue = null
+            this.$emit('clear', this.localValue)
         },
         remoteMethod(value){
             this.loading = true

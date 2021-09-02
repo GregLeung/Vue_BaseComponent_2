@@ -3,7 +3,7 @@
     <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
       <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
-    <el-input @keyup.enter.native="handleKeyUpEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit">
+    <el-input @keyup.enter.native="handleKeyUpEnter" @keydown.enter.native="handleKeyDownEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit">
         <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
@@ -113,6 +113,9 @@ export default {
         },
         handleKeyUpEnter(event){
             this.$emit("keyup-enter", event, this.value)
+        },
+        handleKeyDownEnter(event){
+            this.$emit("keydown-enter", event, this.value)
         }
     },
     computed: {

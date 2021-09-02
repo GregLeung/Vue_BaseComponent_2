@@ -1,10 +1,17 @@
 <template>
   <div id="base-table" class="container">
     <div class="table-wrapper" v-click-outside="handleClickOutside">
-      <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName">
+      <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
         <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" >
           <template slot-scope="scope">
-            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" @cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig"></cell>
+            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" @cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig">
+                <div :slot="column.prop + '-active'" slot-scope="scope">
+                  <slot :name="column.prop  + '-active'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
+                </div>
+                <div :slot="column.prop + '-inactive'" slot-scope="scope">
+                  <slot :name="column.prop  + '-inactive'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
+                </div>
+            </cell>
           </template>
         </el-table-column>
       </el-table>
@@ -14,7 +21,6 @@
 
 <script>
 import Cell from "./Cell";
-import { Request, Util } from "vue_basecomponent";
 export default {
   components: {
     Cell
@@ -57,6 +63,10 @@ export default {
       default: function(){
         return []
       }
+    },
+    createDefaultValue: {
+      type: Function,
+      required: true,
     }
   },
   async mounted() {
@@ -99,44 +109,56 @@ export default {
             var currentCellRef = this.getSelectedCellRef()
             var columnIndex = currentCellRef.columnIndex
             var rowIndex = currentCellRef.row.innerProperty.rowIndex
-            if (key === 'ArrowRight' || key === 'Tab') {
-                var nextRowIndex = rowIndex
-                if(columnIndex + 1 > this.totalColumnNumber)
-                    var nextColumnIndex = columnIndex;
+            var nextRowIndex = rowIndex
+            var nextColumnIndex = columnIndex
+            if (key === 'ArrowRight') {
+                nextRowIndex = rowIndex
+                if(columnIndex + 1 >= this.totalColumnNumber)
+                    nextColumnIndex = columnIndex;
                 else
-                    var nextColumnIndex = columnIndex + 1
+                    nextColumnIndex = columnIndex + 1
+                this.moveCursor(nextRowIndex, nextColumnIndex)
             }else if(key === 'ArrowLeft'){
-                var nextRowIndex = rowIndex
+                nextRowIndex = rowIndex
                 if(columnIndex - 1 < 0)
                     var nextColumnIndex = columnIndex;
                 else
                     var nextColumnIndex = columnIndex - 1
+                this.moveCursor(nextRowIndex, nextColumnIndex)
             }else if (key === 'ArrowUp') {
-                var nextRowIndex = currentCellRef.row.innerProperty.rowIndex - 1
+                nextRowIndex = currentCellRef.row.innerProperty.rowIndex - 1
                 if(nextRowIndex < 0)
                     nextRowIndex = rowIndex
-                var nextColumnIndex = columnIndex
+                nextColumnIndex = columnIndex
+                this.moveCursor(nextRowIndex, nextColumnIndex)
             }
             else if (key === 'ArrowDown') {
-                var nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
+                nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
                 if(nextRowIndex >= this.dataList.length)
                     this.addNewLine()
                 var nextColumnIndex = columnIndex
+                this.moveCursor(nextRowIndex, nextColumnIndex)
             }
-            else if(key == "Backspace"){
+            else if(key == "Backspace" || event.keyCode == 46){
               var selectedRowIndex = this.getSelectedRowIndex()
               if(selectedRowIndex != null && confirm("Confirm To Delete"))
                 this.dataList.splice(this.getSelectedRowIndex(), 1);
+              this.moveCursor(nextRowIndex, nextColumnIndex)
             }
-            event.preventDefault
-            this.unFoucs()
-            setTimeout(() =>{
-              var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
-              nextCellRef.isSelected = true
-              this.$refs.table.setCurrentRow(nextCellRef.row)
-            }, 10);
+            else if(key == "Enter"){
+              this.focusCell(currentCellRef.row, Object.assign(currentCellRef.column, {index: columnIndex}), event)
+            }
+            event.preventDefault()
         }
     })
+    },
+    moveCursor(nextRowIndex, nextColumnIndex){
+      this.unFoucs()
+      setTimeout(() =>{
+        var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
+        nextCellRef.isSelected = true
+        this.$refs.table.setCurrentRow(nextCellRef.row)
+      }, 10);
     },
     // addScrollDetector(){
     //   const el = this.$refs.table.$el;
@@ -151,11 +173,11 @@ export default {
         return object.innerProperty.rowIndex
     },
     isValidKey(key){
-      return key == "ArrowRight" || key == "Tab" || key == "ArrowLeft" || key == "ArrowUp" || key == "ArrowDown" || key == "Backspace"
+      return key == "ArrowRight"  || key == "ArrowLeft" || key == "ArrowUp" || key == "ArrowDown" || key == "Backspace" || key == "Enter"
     },
     isSelecting(){
         for (let key in this.$refs) {
-            if(key.includes("el-table") && this.$refs[key][0].isSelected)
+            if(key.includes("el-table") &&  this.$refs[key].length > 0 &&  this.$refs[key][0].isSelected)
                 return true
         }
         return false
@@ -198,6 +220,7 @@ export default {
         cellRef.row.innerProperty.isSelected = true
       this.removeUnselectedCellFocus(row,column, event)
       cellRef.isSelected = true
+      this.triggerRowClassName()
     },
     handleCellUpdate(value, columnProp, updatedRow, row){ 
       if(this.cellUpdate != null){
@@ -288,7 +311,7 @@ export default {
     },
     unFoucs(){
       for (let key in this.$refs) {
-        if(key.includes("el-table")){
+        if(key.includes("el-table") &&  this.$refs[key].length > 0){
           this.$refs[key][0].unFocus()
         }
       }
@@ -322,11 +345,13 @@ export default {
       return instance;
     },
     addNewLine(){
-      this.dataList.push({
+      this.dataList.push(Object.assign(this.createDefaultValue(), {
         innerProperty: {
-          isCreatedRow : true
+          isCreatedRow : true,
+          isSelected: false,
+          rowIndex: this.dataList.length + 1
         }
-      })
+      }))
       setTimeout(() =>{
          this.scrollToBottom()
       }, 10);
@@ -343,6 +368,10 @@ export default {
         console.log(e);
       }
     },
+    triggerRowClassName(rowIndex){
+      this.$refs.table.setCurrentRow()
+      this.$refs.table.setCurrentRow(rowIndex)
+    }
     // scrollToLastPosition(){
     //   const el = this.$refs.table.$el;
     //   var tableWrapper = el.querySelector('.el-table__body-wrapper');
@@ -354,7 +383,7 @@ export default {
       var indexColumn = {
         label: "",
         type: String,
-        width: 20,
+        width: 25,
         showValue: (column, row, columnIndex, rowIndex) => {
           return rowIndex + 1
         },
@@ -367,21 +396,31 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-::v-deep .el-table__body-wrapper .cell
-    padding-left: 0
-    padding-right: 0
-    min-height: 2em
+
+::v-deep .el-table .el-table__header thead tr th:first-child
+  background-color: #CCCCCC !important
 ::v-deep .el-table__body-wrapper td:first-child .cell
-    padding-left: 0
+    padding-left: 0px
+    padding-right: 0px
+    background: #DDDDDD
+    span
+      margin-left: .8em
+::v-deep .el-table__body-wrapper .cell
+    padding-left: 0px
+    padding-right: 0px
+    .word-break
+      margin-left: .8em
 ::v-deep .el-table .selected-row 
   td
     border-top: 1px solid green
     border-bottom: 1px solid green
+::v-deep .el-table .el-table__body tbody tr td:first-child
+  background: #DDDDDD
 #base-table
     .word-break
         word-break: break-word
     .el-table
-        font-size: .7rem
+        font-size: .8rem
         ::v-deep  td, th
           padding: 0
     .el-table__row
