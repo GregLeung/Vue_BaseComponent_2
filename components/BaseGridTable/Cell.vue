@@ -73,6 +73,13 @@ export default {
                     type: "input"
                 }
             }
+        },
+        cellUpdate: {
+            type: Object,
+            required: false,
+            default: function(){
+                
+            }
         }
     },
     watch: {
@@ -88,12 +95,12 @@ export default {
             if(this.$refs.cellEditItem != null)
                 this.$refs.cellEditItem.focus();
         },
-        editSubmit(isRemoveEditFocus = true){
+        async editSubmit(isRemoveEditFocus = true){
             if(isRemoveEditFocus)
                 this.sibilingRefList.forEach(f => f.isEditing = false)
             var cloneRow = this.deepClone(this.row)
             this.assignDeepValue(cloneRow, this.columnProp, this.localValue)
-            this.$emit("cell-update", this.localValue, this.columnProp, cloneRow, this.row, this.column)
+            await this.cellUpdate(this.localValue, this.columnProp, cloneRow, this.row, this.column)
             setTimeout(() =>{
                 this.isSelected = true
             },10)

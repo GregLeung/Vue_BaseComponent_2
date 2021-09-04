@@ -4,7 +4,7 @@
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
         <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
           <template slot-scope="scope">
-            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" @cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig">
+            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" :cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig">
                 <div :slot="column.prop + '-active'" slot-scope="scope">
                   <slot :name="column.prop  + '-active'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
                 </div>
@@ -235,11 +235,11 @@ export default {
       cellRef.isSelected = true
       this.triggerRowClassName()
     },
-    handleCellUpdate(value, columnProp, updatedRow, row, column){ 
+    async handleCellUpdate(value, columnProp, updatedRow, row, column){ 
       if(column.update != null)
-        var updatedRow = column.update(value, columnProp, updatedRow, row, column);
+        var updatedRow = await column.update(value, columnProp, updatedRow, row, column);
       else if(this.cellUpdate != null)
-        var updatedRow = this.cellUpdate(value, columnProp, updatedRow, row, column)
+        var updatedRow = await this.cellUpdate(value, columnProp, updatedRow, row, column)
       var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == updatedRow.innerProperty.rowIndex)
       this.dataList[index] = updatedRow
       this.$refs.table.setCurrentRow(this.dataList[index])
