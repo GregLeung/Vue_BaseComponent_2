@@ -81,7 +81,6 @@ export default {
   },
   async mounted() {
     this.handleDefaultSorting()
-    this.totalColumnNumber = this.$refs.table.columns.length
     this.addKeyListener()
     // this.addScrollDetector()
   },
@@ -91,7 +90,6 @@ export default {
       currentSortProp: null,
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
-      totalColumnNumber: 0,
       key: "",
       // lastScrollYPosition: 0
     };
@@ -407,6 +405,9 @@ export default {
         isEditable: false
       }
       return [indexColumn].concat(this.columnList.filter(f => !f.isHidden || false))
+    },
+    totalColumnNumber: function(){
+      return this.columnList.length + 1
     }
   },
 };
