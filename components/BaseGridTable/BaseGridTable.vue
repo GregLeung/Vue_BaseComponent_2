@@ -1,5 +1,6 @@
 <template>
   <div id="base-table" class="container">
+    {{dataList}}
     <div class="table-wrapper" v-click-outside="handleClickOutside">
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
         <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
@@ -235,11 +236,11 @@ export default {
       cellRef.isSelected = true
       this.triggerRowClassName()
     },
-    async handleCellUpdate(value, columnProp, updatedRow, row, column){ 
+    handleCellUpdate(value, columnProp, updatedRow, row, column){ 
       if(column.update != null)
-        var updatedRow = await column.update(value, columnProp, updatedRow, row, column);
+        var updatedRow = column.update(value, columnProp, updatedRow, row, column);
       else if(this.cellUpdate != null)
-        var updatedRow = await this.cellUpdate(value, columnProp, updatedRow, row, column)
+        var updatedRow = this.cellUpdate(value, columnProp, updatedRow, row, column)
       var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == updatedRow.innerProperty.rowIndex)
       this.dataList[index] = updatedRow
       this.$refs.table.setCurrentRow(this.dataList[index])

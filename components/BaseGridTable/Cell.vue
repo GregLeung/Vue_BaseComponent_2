@@ -75,7 +75,7 @@ export default {
             }
         },
         cellUpdate: {
-            type: Object,
+            type: Function,
             required: false,
             default: function(){
                 
@@ -95,12 +95,12 @@ export default {
             if(this.$refs.cellEditItem != null)
                 this.$refs.cellEditItem.focus();
         },
-        async editSubmit(isRemoveEditFocus = true){
+        editSubmit(isRemoveEditFocus = true){
             if(isRemoveEditFocus)
                 this.sibilingRefList.forEach(f => f.isEditing = false)
             var cloneRow = this.deepClone(this.row)
             this.assignDeepValue(cloneRow, this.columnProp, this.localValue)
-            await this.cellUpdate(this.localValue, this.columnProp, cloneRow, this.row, this.column)
+            this.cellUpdate(this.localValue, this.columnProp, cloneRow, this.row, this.column)
             setTimeout(() =>{
                 this.isSelected = true
             },10)
@@ -117,11 +117,16 @@ export default {
                 this.editSubmit(true)
         },
         convertValueToLabel(value, options){
-            var selectedOption = options.find(f => f.value == value)
-            if(selectedOption == null)
-                return value
-            else
+            try{
+                var selectedOption = options.find(f => f.value == value)
+                if(selectedOption == null)
+                    return value
+                else
                 return selectedOption.label
+            }catch(e){
+                console.log(e);
+                return value
+            }
         },
     },
     data() {
