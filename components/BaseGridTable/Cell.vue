@@ -3,12 +3,12 @@
     <div :class="{'is-selected': isSelected}">
         <div v-if="isEditing && isEditable">
             <c-m-s-form-input v-if="editConfig.type == 'input'" @keydown-enter="editSubmit" ref="cellEditItem" :showLabel="false" v-model="localValue"></c-m-s-form-input>
-            <new-c-m-s-selector v-else-if="editConfig.type == 'select'"  :showLabel="false" @change="(value)=> editSubmitSelector(value, editConfig, row)" :options="editConfig.options(row)" :clearable="editConfig.clearable != null ?  editConfig.clearable(row): true" :multiple="editConfig.multiple != null ?  editConfig.multiple(row): false" @clear="()=>{if(editConfig.clear != null) editConfig.clear(row)}" :isPopOver="editConfig.isPopOver != null ?  editConfig.isPopOver(row): false" v-model="localValue">
+            <new-c-m-s-selector ref="cellEditItem" v-else-if="editConfig.type == 'select'"  :showLabel="false" @change="(value)=> editSubmitSelector(value, editConfig, row)" :options="editConfig.options(row)" :clearable="editConfig.clearable != null ?  editConfig.clearable(row): true" :multiple="editConfig.multiple != null ?  editConfig.multiple(row): false" @clear="()=>{if(editConfig.clear != null) editConfig.clear(row)}" :isPopOver="editConfig.isPopOver != null ?  editConfig.isPopOver(row): false" v-model="localValue">
                 <div slot="popOver">
                     <slot :name="column.prop + '-popOver'" :row="row" :isEditing="isEditing" :isEditable="isEditable" :editConfig="editConfig" :isSelected="isSelected"></slot>
                 </div>
             </new-c-m-s-selector>
-            <c-m-s-date-picker v-else-if="editConfig.type == 'date'" :type="editConfig.pickerType != null ?  editConfig.pickerType(row): 'date'" @update="editSubmit" :showLabel="false" v-model="localValue"></c-m-s-date-picker>
+            <c-m-s-date-picker ref="cellEditItem" v-else-if="editConfig.type == 'date'" :type="editConfig.pickerType != null ?  editConfig.pickerType(row): 'date'" @confirm="editSubmit" :showLabel="false" v-model="localValue"></c-m-s-date-picker>
             <slot :name="column.prop + '-active'" :row="row" :isEditing="isEditing" :isEditable="isEditable" :editConfig="editConfig" :isSelected="isSelected"></slot>
         </div>
         <div v-else>

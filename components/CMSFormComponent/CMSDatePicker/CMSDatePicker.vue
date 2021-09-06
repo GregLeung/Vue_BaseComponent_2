@@ -3,7 +3,7 @@
     <label v-if="showLabel" :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-date-picker unlink-panels :format="format" :disabled="disabled" @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
+    <el-date-picker ref="picker" unlink-panels :format="format" :disabled="disabled" @change="handleConfirm" @input="handleOnChange" v-bind:value="value" :type="type" :placeholder="placeholder" :value-format="setValueFormat()"></el-date-picker>
 </div>
 </template>
 
@@ -74,6 +74,12 @@ export default {
         },
         handleOnChange(value){
             this.$emit("update", value)
+        },
+        focus(){
+            this.$refs.picker.focus()
+        },
+        handleConfirm(value){
+            this.$emit("confirm", value)
         }
     }
 };

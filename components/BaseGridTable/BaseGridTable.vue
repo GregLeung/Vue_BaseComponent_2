@@ -233,6 +233,7 @@ export default {
         cellRef.row.innerProperty.isSelected = true
       this.removeUnselectedCellFocus(row,column, event)
       cellRef.isSelected = true
+      this.$emit("cell-click", row, column, cell, event)
       this.triggerRowClassName()
     },
     handleCellUpdate(value, columnProp, updatedRow, row, column){ 

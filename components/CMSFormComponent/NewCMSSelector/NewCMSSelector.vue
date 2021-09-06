@@ -5,6 +5,7 @@
     </label>
     <el-select
       v-model="localValue"
+      ref="select"
       @change="$emit('change', $event)"
       :loading="loading"
       :remote="remote"
@@ -162,7 +163,10 @@ export default {
             if(this.remote)
                 this.remoteMethod(this.localValue)
             this.$emit("focus", event)
-        }
+        },
+        focus(){
+            this.$refs.select.focus()
+        },
     },
     created(){
         this.localOptions = this.deepClone(this.options)
