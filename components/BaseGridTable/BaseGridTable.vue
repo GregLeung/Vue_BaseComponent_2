@@ -241,9 +241,17 @@ export default {
         var updatedRow = column.update(value, columnProp, updatedRow, row, column);
       else if(this.cellUpdate != null)
         var updatedRow = this.cellUpdate(value, columnProp, updatedRow, row, column)
-      var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == updatedRow.innerProperty.rowIndex)
-      this.dataList[index] = updatedRow
-      this.$refs.table.setCurrentRow(this.dataList[index])
+      if(updatedRow instanceof Promise)
+        updatedRow.then(res => {
+          var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == res.innerProperty.rowIndex)
+          this.dataList[index] = res
+          this.$refs.table.setCurrentRow(this.dataList[index])
+        })
+      else{
+        var index = this.dataList.findIndex(f => f.innerProperty.rowIndex == updatedRow.innerProperty.rowIndex)
+        this.dataList[index] = updatedRow
+        this.$refs.table.setCurrentRow(this.dataList[index])
+      }
     },
     handleClickOutside(event){
         this.unFoucs()
