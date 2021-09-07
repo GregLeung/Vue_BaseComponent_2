@@ -2,9 +2,9 @@
   <div id="base-table" class="container">
     <div class="table-wrapper" v-click-outside="handleClickOutside">
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
-        <el-table-column  v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
+        <el-table-column v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
           <template slot-scope="scope">
-            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" :cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig">
+            <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" :cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig" :cellStyle="column.cellStyle">
                 <div :slot="column.prop + '-active'" slot-scope="scope">
                   <slot :name="column.prop  + '-active'" :row="scope.row" :isEditing="scope.isEditing" :isEditable="scope.isEditable" :editConfig="scope.editConfig" :isSelected="scope.isSelected"></slot>
                 </div>
@@ -77,6 +77,11 @@ export default {
       default: () => {
         return false
       }
+    },
+    indexWidth: {
+      type: String,
+      required: false,
+      default: "60"
     }
   },
   async mounted() {
@@ -406,12 +411,16 @@ export default {
       var indexColumn = {
         label: "",
         type: String,
-        width: 40,
         showValue: (column, row, columnIndex, rowIndex) => {
           return rowIndex + 1
         },
         sortable: false,
-        isEditable: false
+        isEditable: false,
+        width: this.indexWidth,
+        fixed: true,
+        cellStyle: {
+          "width": "100%"
+        }
       }
       return [indexColumn].concat(this.columnList.filter(f => !f.isHidden || false))
     },
@@ -425,7 +434,7 @@ export default {
 
 ::v-deep .el-table .el-table__header thead tr th:first-child
   background-color: #BBBBBB !important
-::v-deep .el-table__body-wrapper td:first-child .cell
+::v-deep .el-table__body-wrapper td:first-child .cell, ::v-deep .el-table__fixed-body-wrapper td:first-child .cell
     padding-left: 0px
     padding-right: 0px
     background: #CCCCCC
@@ -440,6 +449,7 @@ export default {
     padding-right: 0px
     .word-break
       margin-left: .8em
+
 ::v-deep .el-table .selected-row 
   td
     border-top: 1px solid green

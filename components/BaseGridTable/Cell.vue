@@ -11,7 +11,7 @@
             <c-m-s-date-picker ref="cellEditItem" v-else-if="editConfig.type == 'date'" :type="editConfig.pickerType != null ?  editConfig.pickerType(row): 'date'" @confirm="editSubmit" :showLabel="false" v-model="localValue"></c-m-s-date-picker>
             <slot :name="column.prop + '-active'" :row="row" :isEditing="isEditing" :isEditable="isEditable" :editConfig="editConfig" :isSelected="isSelected"></slot>
         </div>
-        <div v-else>
+        <div :style="cellStyle" v-else>
             <span v-if="column.hasOwnProperty('parseValue') && parseData(row, column, column.prop) != null">
             <el-tag :type="parseData(row, column, column.prop).type">{{ parseData(row, column, column.prop).label }}</el-tag>
             </span>
@@ -76,6 +76,13 @@ export default {
         },
         cellUpdate: {
             type: Function,
+            required: false,
+            default: function(){
+                
+            }
+        },
+        cellStyle: {
+            type: Object,
             required: false,
             default: function(){
                 
