@@ -13,7 +13,6 @@ export default {
             required: true
         },
         field: {
-            type: String,
             required: true
         },
         textStyle:{

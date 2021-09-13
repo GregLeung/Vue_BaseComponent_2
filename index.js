@@ -31,6 +31,7 @@ import DefaultLayout from "./components/DefaultLayouts/defaultLayout.vue";
 import MyAccount from "./components/DefaultComponents/MyAccount.vue";
 import ChangePassword from "./components/DefaultComponents/ChangePassword.vue";
 import BaseGridTable from "./components/BaseGridTable/BaseGridTable.vue";
+import LogTile from "./components/LogTile/LogTile.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -72,6 +73,7 @@ export {
     MyAccount,
     ChangePassword,
     CMSCheckBox,
+    LogTile,
     Request,
     Excel,
     Util,
