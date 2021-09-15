@@ -32,6 +32,7 @@ import MyAccount from "./components/DefaultComponents/MyAccount.vue";
 import ChangePassword from "./components/DefaultComponents/ChangePassword.vue";
 import BaseGridTable from "./components/BaseGridTable/BaseGridTable.vue";
 import LogTile from "./components/LogTile/LogTile.vue";
+import ChangeLog from "./components/ChangeLog/ChangeLog.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -74,6 +75,7 @@ export {
     ChangePassword,
     CMSCheckBox,
     LogTile,
+    ChangeLog,
     Request,
     Excel,
     Util,
