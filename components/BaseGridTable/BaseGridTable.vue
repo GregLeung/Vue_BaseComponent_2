@@ -19,14 +19,23 @@
         </el-table-column>
       </el-table>
     </div>
+    <context-menu @right-click="handleRightClick" :divided="true">
+      <div v-for="(item, i) in rightClickMenuList" v-bind:key="i">
+        <context-menu-item :label="item.label" :value="item.value" @click="(value, label) => {handleMenuItemClick(value, label, item)}" :icon='item.icon' :iconColor="item.iconColor">{{item.label}}</context-menu-item>
+      </div>
+    </context-menu>
   </div>
 </template>
 
 <script>
 import Cell from "./Cell";
+import ContextMenu from "./ContextMenu"
+import ContextMenuItem from "./ContextMenuItem"
 export default {
   components: {
-    Cell
+    Cell,
+    ContextMenu,
+    ContextMenuItem
   },
   props: {
     columnList: {
@@ -96,7 +105,10 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       key: "",
-      // lastScrollYPosition: 0
+      rowMenuList: [{label: "Delete", value: "Delete", icon: "el-icon-delete-solid", iconColor: "red"}],
+      headerMenuList: [{label: "Column Settings", value: "Column Settings", icon: "el-icon-setting", iconColor: "blue"}],
+      rightClickMenuList: [],
+      rightClickSelectedRow: {}
     };
   },
   directives: {
@@ -115,6 +127,32 @@ export default {
     }
   },
   methods: {
+    handleMenuItemClick(value, label, config){
+      switch(value){
+        case "Delete":
+          if(confirm("Confirm To Delete"))
+            this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
+          break;
+        case "Column Settings":
+          break;
+        default:
+          if(config.click != null)
+            config.click(value, label, this.rightClickSelectedRow, this.this.dataList)
+      }
+    },
+    handleRightClick(event){
+      try{
+        var rowClassName = event.path.find(f => f.className.includes("cell-container") && f.className.includes("row_index_")).className.trim()
+        var rowIndex = rowClassName.split("_").at(-1)
+        var cellRef = this.getCellRefByPosition(rowIndex, 0)
+        this.rightClickSelectedRow = cellRef.row
+        this.rightClickMenuList = this.rowMenuList
+      }catch(e){
+        console.log(e);
+        this.rightClickMenuList = this.headerMenuList
+        this.rightClickSelectedRow = {}
+      }
+    },
     addKeyListener(){ 
       document.addEventListener('keydown', event => {
         if(this.isSelecting() && !this.isEditing() && this.isValidKey(event.key)){
@@ -208,7 +246,7 @@ export default {
         return false
     },
     getCellRefByPosition(rowIndex, columnIndex){
-        return this.$refs['el-table_' + 'column_' + columnIndex  + "_row_index_" + rowIndex  + "_"][0]
+      return this.$refs['el-table_' + 'column_' + columnIndex  + "_row_index_" + rowIndex  + "_"][0]
     },
     getSelectedCellRef(){
         for (let key in this.$refs) {
@@ -449,11 +487,19 @@ export default {
     padding-right: 0px
     .word-break
       margin-left: .8em
+::v-deep .el-table .el-table__row
+  overflow: hidden
+  td
+    overflow: hidden
 
 ::v-deep .el-table .selected-row 
   td
     border-top: 1px solid green
     border-bottom: 1px solid green
+::v-deep .el-table .el-table__header-wrapper .cell
+  word-break: normal
+  overflow: initial
+  white-space: nowrap
 ::v-deep .el-table .el-table__body tbody tr td:first-child
   background: #CCCCCC
 #base-table
