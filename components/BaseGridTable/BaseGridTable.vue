@@ -24,6 +24,7 @@
         <context-menu-item :label="item.label" :value="item.value" @click="(value, label) => {handleMenuItemClick(value, label, item)}" :icon='item.icon' :iconColor="item.iconColor">{{item.label}}</context-menu-item>
       </div>
     </context-menu>
+    <column-setting-drawer :columnList="columnList" :originalColumnList="originalColumnList" :visible.sync="columnSettingVisible" @confirm="handleColumnListConfirm"></column-setting-drawer>
   </div>
 </template>
 
@@ -31,11 +32,13 @@
 import Cell from "./Cell";
 import ContextMenu from "./ContextMenu"
 import ContextMenuItem from "./ContextMenuItem"
+import ColumnSettingDrawer from "./ColumnSettingDrawer"
 export default {
   components: {
     Cell,
     ContextMenu,
-    ContextMenuItem
+    ContextMenuItem,
+    ColumnSettingDrawer
   },
   props: {
     columnList: {
@@ -96,6 +99,7 @@ export default {
   async mounted() {
     this.handleDefaultSorting()
     this.addKeyListener()
+    this.originalColumnList = this.deepClone(this.columnList)
     // this.addScrollDetector()
   },
   data() {
@@ -108,7 +112,9 @@ export default {
       rowMenuList: [{label: "Delete", value: "Delete", icon: "el-icon-delete-solid", iconColor: "red"}],
       headerMenuList: [{label: "Column Settings", value: "Column Settings", icon: "el-icon-setting", iconColor: "blue"}],
       rightClickMenuList: [],
-      rightClickSelectedRow: {}
+      rightClickSelectedRow: {},
+      columnSettingVisible: false,
+      originalColumnList: []
     };
   },
   directives: {
@@ -127,6 +133,9 @@ export default {
     }
   },
   methods: {
+    handleColumnListConfirm(columnList){
+      this.columnList = columnList
+    },
     handleMenuItemClick(value, label, config){
       switch(value){
         case "Delete":
@@ -134,6 +143,7 @@ export default {
             this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
           break;
         case "Column Settings":
+          this.columnSettingVisible = true
           break;
         default:
           if(config.click != null)
@@ -295,6 +305,7 @@ export default {
         this.dataList[index] = updatedRow
         this.$refs.table.setCurrentRow(this.dataList[index])
       }
+      this.$emit("after-update",value, columnProp, updatedRow, row, column)
     },
     handleClickOutside(event){
         this.unFoucs()
@@ -469,6 +480,9 @@ export default {
 };
 </script>
 <style scoped lang="sass">
+.ghost
+    opacity: 0.5
+    background: #c8ebfb
 
 ::v-deep .el-table .el-table__header thead tr th:first-child
   background-color: #BBBBBB !important
