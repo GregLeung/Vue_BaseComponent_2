@@ -19,12 +19,14 @@
       :disabled="disabled"
       :placeholder="placeholder"
       :style="{'width': width}"
+      popper-class="select-down"
     >
     <el-option
       v-for="item in localOptions"
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      :style="cssVars"
       :disabled="item.disabled">
       <div v-if="isPopOver">
         <el-popover
@@ -123,7 +125,11 @@ export default {
             type: Boolean,
             require: false,
             default: false
-        }
+        },
+        menuItemFontSize: {
+            type: String,
+            default: "14px"
+        },
     },
     model: {
         prop: "value",
@@ -180,12 +186,21 @@ export default {
             localValue: null,
             loading: false
         }
+    },
+    computed: {
+        cssVars(){
+            return{
+                // "--menuItemColor": this.menuItemColor,
+                "--menuItemFontSize": this.menuItemFontSize
+            }
+        }
     }
 }
 </script>
 <style lang="sass" scoped>
 @import "../cmsInput.sass"
 
-::v-deep .el-input__inner
-    text-transform: var(--textTransform)
+.select-down
+    .el-select-dropdown__item
+        font-size: var(--menuItemFontSize)
 </style>
