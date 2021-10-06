@@ -8,12 +8,13 @@
           <slot name="searchSlot"/>
         </div>
         <div class="row" v-if="isAdvancedSearch">
-          <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
+          <!-- <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
             <el-button icon="el-icon-refresh" type="success" @click="handleClearAdvancedSearchFilter" circle></el-button>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Advance Search" placement="top">
+          </el-tooltip> -->
+          <!-- <el-tooltip class="item" effect="dark" content="Advance Search" placement="top">
             <el-button icon="el-icon-search" type="warning" @click="handleOpenAdvancedSearchDialog" circle></el-button>
-          </el-tooltip>
+          </el-tooltip> -->
+          <el-button @click="handleOpenAdvancedSearchDialog" type="text">Advanced Search</el-button>
         </div>
       </div>
     <div class="table-wrapper">
@@ -216,11 +217,11 @@ export default {
   },
   methods: {
     handleEnterChange() {
-      if (this.confirmedSearch != this.search){
+      // if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;
         this.currentPage = 1
         this.handleRefresh()
-      }
+      // }
     },
     handleDefaultSorting() {
       if (this.defaultSortProp != null && this.defaultSortProp != "") {
@@ -283,7 +284,6 @@ export default {
           paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
           joinClass: this.joinClass,
           computed: this.computed,
-          advancedSearch:  this.searchFilterSet,
         }, this.parameters)
         if(this.whereCondition.length > 0)
           parameters["whereCondition"] = this.whereCondition

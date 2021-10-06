@@ -1,60 +1,65 @@
 <template>
-    <el-dialog v-if="visible" :title="$t('Search')" :visible="visible" width="60%" @close="handleDialogClose" top="0vh">
-        <div slot="title">
+    <el-drawer :title="$t('Search')" :visible.sync="visible" direction="btt"  @close="handleDialogClose" size="95%">
+        <!-- <div slot="title">
          <h3>Advanced Search</h3>
-        </div>
-        <el-button type="primary" @click="handleClearSearch">Clear Advanced Search</el-button>
-      <div v-for="(item, index) in columnList" :key="index">
-        <el-card v-if="item.hasOwnProperty('advancedSearch')" class="mt-12">
-          <h4>{{item.label}}</h4>
-            <div>
-                <div v-if="item.advancedSearch.type == 'SELECTION'">
-                    <new-c-m-s-selector v-if="item.advancedSearch.remote" :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
-                    <new-c-m-s-selector v-else :remote="item.advancedSearch.remote"  v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
-                </div>
-                <div v-if="item.advancedSearch.type == 'MULTI-SELECTION'">
-                    <el-checkbox-group v-model="searchFilterSet[item.prop].value">
-                        <el-checkbox v-for="(checkBoxValue, checkBoxIndex) in item.advancedSearch.options" :key="checkBoxIndex" :label="checkBoxValue"></el-checkbox>
-                    </el-checkbox-group>
-                </div>
-                <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
-                    <new-c-m-s-selector v-if="item.advancedSearch.remote" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
-                    <new-c-m-s-selector v-else v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
-                </div>
-                <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
-                        <el-date-picker
-                            v-model="searchFilterSet[item.prop].value[0]"
-                            :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
-                            placeholder="Start"
-                            align="right">
-                        </el-date-picker>
-                        <span> To </span>
-                        <el-date-picker
-                            v-model="searchFilterSet[item.prop].value[1]"
-                            :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
-                            placeholder="End"
-                            align="right">
-                        </el-date-picker>
-                </div>
-                <div v-if="item.advancedSearch.type == 'FREETEXT'">
-                    <el-input
-                        placeholder="Search"
-                        v-model="searchFilterSet[item.prop].value"
-                        clearable>
-                    </el-input>
-                </div>
-                <div v-else-if="item.advancedSearch.type == 'NUMBER-RANGE'">
-                    <div class="row">
-                        <el-input-number class="mr-16" size="medium" v-model="searchFilterSet[item.prop].value[0]"></el-input-number>
-                        <p>To</p>
-                        <el-input-number class="ml-16" size="medium" v-model="searchFilterSet[item.prop].value[1]"></el-input-number>
+        </div> -->
+        <!-- <el-button type="primary" @click="handleClearSearch">Clear Advanced Search</el-button> -->
+    <el-card>
+        <div v-for="(item, index) in columnList" :key="index">
+        <div v-if="item.hasOwnProperty('advancedSearch')">
+            <div class="row">
+                <h4>{{item.label}}</h4>
+                <div style="width: 80%">
+                    <div v-if="item.advancedSearch.type == 'SELECTION'">
+                        <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
+                        <new-c-m-s-selector v-else :remote="item.advancedSearch.remote" :showLabel="false" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
-                </div>
+                    <div v-if="item.advancedSearch.type == 'MULTI-SELECTION'">
+                        <el-checkbox-group v-model="searchFilterSet[item.prop].value">
+                            <el-checkbox v-for="(checkBoxValue, checkBoxIndex) in item.advancedSearch.options" :key="checkBoxIndex" :label="checkBoxValue"></el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                    <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
+                        <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
+                        <new-c-m-s-selector v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
+                    </div>
+                    <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
+                            <el-date-picker
+                                v-model="searchFilterSet[item.prop].value[0]"
+                                :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
+                                placeholder="Start"
+                                align="right">
+                            </el-date-picker>
+                            <span> To </span>
+                            <el-date-picker
+                                v-model="searchFilterSet[item.prop].value[1]"
+                                :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
+                                placeholder="End"
+                                align="right">
+                            </el-date-picker>
+                    </div>
+                    <div v-if="item.advancedSearch.type == 'FREETEXT'">
+                        <el-input
+                            placeholder="Search"
+                            v-model="searchFilterSet[item.prop].value"
+                            clearable>
+                        </el-input>
+                    </div>
+                    <div v-else-if="item.advancedSearch.type == 'NUMBER-RANGE'">
+                        <div class="row">
+                            <el-input-number class="mr-16" size="medium" v-model="searchFilterSet[item.prop].value[0]"></el-input-number>
+                            <p>To</p>
+                            <el-input-number class="ml-16" size="medium" v-model="searchFilterSet[item.prop].value[1]"></el-input-number>
+                        </div>
+                    </div>
             </div>
-          </el-card>
+            </div>
+            <el-divider/>
+          </div>
       </div>
       <el-button class="mt-12"  @click="handleConfirm">Confirm</el-button>
-    </el-dialog>
+    </el-card>
+    </el-drawer>
 </template>
 <script lang="js">
 import Vue from "vue";
@@ -198,4 +203,18 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import "@/static/variables.scss"
+::v-deep 
+    #el-drawer__title
+        background-color: #0e71eb
+        margin-bottom: 1em
+        span, i
+            color: white
+        
+h4
+    margin: .2em
+    width: 10em
+.row
+    display: flex
+    align-items: center
 </style>

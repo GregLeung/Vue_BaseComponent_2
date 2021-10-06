@@ -1,8 +1,10 @@
 <template>
   <div :class="{ 'basic-information-field': direction == 'horizontal' }" :style="customStyle">
+
     <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
       <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
+    
     <el-select
       v-model="localValue"
       ref="select"
@@ -130,6 +132,12 @@ export default {
             type: String,
             default: "14px"
         },
+        getUnShowedValue:{
+            type: Function,
+            default: (value)=>{
+                return {label: value, value: value, disabled: true}
+            }
+        }
     },
     model: {
         prop: "value",
@@ -143,7 +151,6 @@ export default {
         },
         options(val, oldVal){
             var tmp = this.deepClone(this.options)
-            // tmp.sort((a,b) => a.label.localeCompare(b.label))
             this.localOptions = tmp
         },
         localOptions(val, oldVal){
@@ -160,8 +167,9 @@ export default {
         },
         remoteMethod(value){
             this.loading = true
-            this.$emit('remoteMethod', value, (options) => {
+            this.$emit('remoteMethod', value, async (options) => {
                 this.localOptions = options
+                await this.getUnknowOption()
                 this.loading = false
             })
         },
@@ -173,12 +181,21 @@ export default {
         focus(){
             this.$refs.select.focus()
         },
+        isValueInOptions(value){
+            return this.localOptions.find(f => f.value == value)
+        },
+        async getUnknowOption(){
+            if(!this.isValueInOptions(this.localValue) && !this.remote){
+                var options = await this.getUnShowedValue(this.localValue)
+                this.localOptions.push(options)
+            }
+        }
     },
-    created(){
+    async created(){
         this.localOptions = this.deepClone(this.options)
-        // this.localOptions.sort((a,b) => a.label.localeCompare(b.label))
         this.localValue = this.value
         this.handleFocus()
+        await this.getUnknowOption()
     },
     data(){
         return {
