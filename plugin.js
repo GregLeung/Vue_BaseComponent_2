@@ -252,7 +252,14 @@ const Plugin = {
                 },
                 numberWithCommas(x) {
                     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
+                },
+                filterUnique(array, prop) {
+                    return array.filter((f, index, self) =>
+                        index === self.findIndex((t) => (
+                            this.getDeepObjectProp(t, prop) == this.getDeepObjectProp(f, prop)
+                        ))
+                    )
+                },
             },
         });
     },
@@ -317,7 +324,6 @@ function isInt(value) {
 function isLengthLessThan(value, length) {
     return value.length <= length;
 }
-
 
 
 export default Plugin;
