@@ -220,6 +220,7 @@ export default {
       // if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;
         this.currentPage = 1
+        this.$refs.advancedSearchDialog.searchFilterSet = this.$refs.advancedSearchDialog.initSearchFilterSet()
         this.handleRefresh()
       // }
     },

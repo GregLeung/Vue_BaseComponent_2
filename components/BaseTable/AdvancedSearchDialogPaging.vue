@@ -1,9 +1,8 @@
 <template>
-    <el-drawer :title="$t('Search')" :visible.sync="visible" direction="btt"  @close="handleDialogClose" size="95%">
-        <!-- <div slot="title">
-         <h3>Advanced Search</h3>
-        </div> -->
-        <!-- <el-button type="primary" @click="handleClearSearch">Clear Advanced Search</el-button> -->
+    <el-drawer v-if="isReady" :visible.sync="visible" direction="btt"  @close="handleDialogClose" size="95%" :append-to-body="true">
+        <div slot="title">
+            <advanced-search-title-bar v-model="searchFilterSet" :columnList="columnList"/>
+        </div>
     <el-card>
         <div v-for="(item, index) in columnList" :key="index">
         <div v-if="item.hasOwnProperty('advancedSearch')">
@@ -15,16 +14,14 @@
                         <new-c-m-s-selector v-else :remote="item.advancedSearch.remote" :showLabel="false" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
                     <div v-if="item.advancedSearch.type == 'MULTI-SELECTION'">
-                        <el-checkbox-group v-model="searchFilterSet[item.prop].value">
-                            <el-checkbox v-for="(checkBoxValue, checkBoxIndex) in item.advancedSearch.options" :key="checkBoxIndex" :label="checkBoxValue"></el-checkbox>
-                        </el-checkbox-group>
+                        <base-check-box v-model="searchFilterSet[item.prop].value" :checkBoxList="item.advancedSearch.options"></base-check-box>
                     </div>
                     <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
                         <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                         <new-c-m-s-selector v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
-                            <el-date-picker
+                            <!-- <el-date-picker
                                 v-model="searchFilterSet[item.prop].value[0]"
                                 :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
                                 placeholder="Start"
@@ -36,7 +33,8 @@
                                 :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
                                 placeholder="End"
                                 align="right">
-                            </el-date-picker>
+                            </el-date-picker> -->
+                            <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" type="daterange" />
                     </div>
                     <div v-if="item.advancedSearch.type == 'FREETEXT'">
                         <el-input
@@ -57,7 +55,9 @@
             <el-divider/>
           </div>
       </div>
-      <el-button class="mt-12"  @click="handleConfirm">Confirm</el-button>
+      <div class="button-container">
+          <el-button type="primary" class="mt-12 confirm-button"  @click="handleConfirm">Confirm</el-button>
+        </div>
     </el-card>
     </el-drawer>
 </template>
@@ -67,6 +67,8 @@ import moment from "moment";
 import Request from "../../util/request.js"
 import Util from "../../util/util.js"
 import NewCMSSelector from "../CMSFormComponent/NewCMSSelector/NewCMSSelector"
+import BaseCheckBox from "../BaseCheckBox/BaseCheckBox"
+import AdvancedSearchTitleBar from "./AdvancedSearchTitleBar"
 export default {
     props: {
         visible: {
@@ -106,7 +108,9 @@ export default {
         }
     },
     components: {
-        NewCMSSelector
+        NewCMSSelector,
+        BaseCheckBox,
+        AdvancedSearchTitleBar
     },
     created(){
         this.searchFilterSet = this.initSearchFilterSet()
@@ -145,6 +149,7 @@ export default {
             return result
         },
         initSearchFilterSet(){
+            this.isReady = false
             var result = {}
             this.columnList.filter(f => f.hasOwnProperty("advancedSearch")).forEach(f => {
                 switch(f.advancedSearch.type){
@@ -192,12 +197,14 @@ export default {
                         break
                 }
             })
+            this.isReady = true
             return result
         }
     },
     data() {
         return {
             searchFilterSet: {},
+            isReady: false
         }
     }
 }
@@ -210,6 +217,13 @@ export default {
         margin-bottom: 1em
         span, i
             color: white
+        .el-tag
+            background-color: white
+            color: black
+            border: 1px solid black
+            i
+                color: black
+            
         
 h4
     margin: .2em
@@ -217,4 +231,11 @@ h4
 .row
     display: flex
     align-items: center
+.button-container
+    width: 100%
+    text-align: center
+    .confirm-button
+        width: 20%
+.title
+    color: white
 </style>
