@@ -1,9 +1,7 @@
 <template>
-<el-checkbox-group v-model="selectedLabel" @change="handleChange">
-    <el-tooltip v-for="label in labelList" :key="label" :content="label" placement="top">
-        <el-checkbox :style="{width: checkBoxWidth}" :label="label" border></el-checkbox>
-    </el-tooltip>
-</el-checkbox-group>
+<div>
+    <el-checkbox @change="handleChange" :style="{'transform': 'scale(' + scaleSize + ')', 'padding': size + 'px'  }" v-bind:value="value"></el-checkbox>
+</div>
 </template>
 
 <script lang="js">
@@ -15,61 +13,11 @@ export default {
             required: false,
             default: 1
         },
-        checkBoxList: {
-            type: Array,
-            required: true,
-            default: () => {
-                return []
-            }
-        },
         value: {
-            type: Array,
-            default: () => {
-                return []
-            }
+            type: Boolean,
+            required: true,
+            default: false
         },
-        checkBoxWidth: {
-            type: String,
-            default: "12em"
-        }
-    },
-    model:{
-        prop: "value",
-        event: "update"
-    },
-    mounted(){
-        this.selectedLabel = this.value.map(f => {
-            return this.checkBoxList.find(checkBox => checkBox.value == f).label
-        })
-    },
-    methods: {
-        handleChange(value){
-            this.selectedValue = value.map(f => {
-                    return this.checkBoxList.find(checkBox => checkBox.label == f).value
-                })
-            this.$emit("update", this.selectedValue)
-        }
-    },
-    watch:{
-        // selectedLabel(value){
-        //     if(value != null){
-        //         this.selectedValue = value.map(f => {
-        //             return this.checkBoxList.find(checkBox => checkBox.label == f).value
-        //         })
-        //         this.$emit("update", this.selectedValue)
-        //     }
-        // },
-        value(newValue){
-            this.selectedValue = newValue
-            this.selectedLabel = newValue.map(f => {
-                return this.checkBoxList.find(checkBox => checkBox.value == f).label
-            })
-        }
-    },
-    data(){
-        return {
-            selectedLabel: [],
-        }
     },
     computed: {
         size() {
@@ -77,22 +25,20 @@ export default {
         },
         containerWidth(){
             return this.scaleSize * 14
-        },
-        labelList(){
-            return this.checkBoxList.map(f => f.label)
         }
-    }
+    },
+    methods: {
+        handleChange(value){
+            this.$emit("update:value", value)
+            this.$emit("change", value)
+        }
+    },
+    model: {
+        prop: "value",
+        event: "update"
+    },
 }
 </script>
 
 <style lang="sass" scoped>
-::v-deep
-    .el-checkbox
-        overflow: hidden
-        text-overflow: ellipsis
-        margin-bottom: 1em
-    .el-checkbox__label
-        display: initial
-    .el-checkbox.is-bordered+.el-checkbox.is-bordered
-        margin-left: 0px !important
 </style>

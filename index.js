@@ -34,6 +34,7 @@ import BaseGridTable from "./components/BaseGridTable/BaseGridTable.vue";
 import LogTile from "./components/LogTile/LogTile.vue";
 import ChangeLog from "./components/ChangeLog/ChangeLog.vue";
 import BaseCheckBox from "./components/BaseCheckBox/BaseCheckBox.vue";
+import BaseCheckBoxGroup from "./components/BaseCheckBoxGroup/BaseCheckBoxGroup.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -78,6 +79,7 @@ export {
     LogTile,
     ChangeLog,
     BaseCheckBox,
+    BaseCheckBoxGroup,
     Request,
     Excel,
     Util,

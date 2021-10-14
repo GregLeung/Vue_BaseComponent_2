@@ -182,6 +182,7 @@ export default {
             this.$refs.select.focus()
         },
         isValueInOptions(value){
+            if(this.multiple == true) return true
             return this.localOptions.find(f => f.value == value)
         },
         async getUnknowOption(){

@@ -13,30 +13,20 @@
                         <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                         <new-c-m-s-selector v-else :remote="item.advancedSearch.remote" :showLabel="false" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
-                    <div v-if="item.advancedSearch.type == 'MULTI-SELECTION'">
-                        <base-check-box v-model="searchFilterSet[item.prop].value" :checkBoxList="item.advancedSearch.options"></base-check-box>
+                    <div v-else-if="item.advancedSearch.type == 'MULTI-SELECTION'">
+                        <i :ref="'collapse-button_' + item.prop" v-if="item.advancedSearch.options.length > 5" @click="handleOpenCollapse(item.prop)" class="el-icon-arrow-right" style="float: right; margin-top: 10px; cursor: pointer"></i>
+                        <div :ref="'collapse-container_' + item.prop" style="height: 54px; overflow: hidden">
+                            <base-check-box-group v-model="searchFilterSet[item.prop].value" :checkBoxList="item.advancedSearch.options"></base-check-box-group>
+                        </div>
                     </div>
-                    <div v-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
+                    <div v-else-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
                         <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                         <new-c-m-s-selector v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
-                            <!-- <el-date-picker
-                                v-model="searchFilterSet[item.prop].value[0]"
-                                :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
-                                placeholder="Start"
-                                align="right">
-                            </el-date-picker>
-                            <span> To </span>
-                            <el-date-picker
-                                v-model="searchFilterSet[item.prop].value[1]"
-                                :type=" (item.advancedSearch.datePickerType != null)?item.advancedSearch.datePickerType: 'date'"
-                                placeholder="End"
-                                align="right">
-                            </el-date-picker> -->
-                            <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" type="daterange" />
+                        <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" type="daterange" />
                     </div>
-                    <div v-if="item.advancedSearch.type == 'FREETEXT'">
+                    <div v-else-if="item.advancedSearch.type == 'FREETEXT'">
                         <el-input
                             placeholder="Search"
                             v-model="searchFilterSet[item.prop].value"
@@ -49,6 +39,9 @@
                             <p>To</p>
                             <el-input-number class="ml-16" size="medium" v-model="searchFilterSet[item.prop].value[1]"></el-input-number>
                         </div>
+                    </div>
+                    <div v-else>
+                        <slot :name="'advancedSearchCustom.' + item.key" :searchFilterSet="searchFilterSet" :whereOperation="whereOperation" :computed="computed"></slot>
                     </div>
             </div>
             </div>
@@ -68,6 +61,7 @@ import Request from "../../util/request.js"
 import Util from "../../util/util.js"
 import NewCMSSelector from "../CMSFormComponent/NewCMSSelector/NewCMSSelector"
 import BaseCheckBox from "../BaseCheckBox/BaseCheckBox"
+import BaseCheckBoxGroup from "../BaseCheckBoxGroup/BaseCheckBoxGroup"
 import AdvancedSearchTitleBar from "./AdvancedSearchTitleBar"
 export default {
     props: {
@@ -96,6 +90,20 @@ export default {
                 return []
             },
         },
+        whereOperation: {
+            type: Array,
+            requried: false,
+            default: function(){
+                return []
+            },
+        },
+        computed: {
+            type: Array,
+            requried: false,
+            default: function(){
+                return []
+            },
+        },
         width: {
             type: String,
             required: false,
@@ -110,12 +118,25 @@ export default {
     components: {
         NewCMSSelector,
         BaseCheckBox,
-        AdvancedSearchTitleBar
+        AdvancedSearchTitleBar,
+        BaseCheckBoxGroup
     },
     created(){
         this.searchFilterSet = this.initSearchFilterSet()
     },
     methods: {
+        handleOpenCollapse(propName){
+            var ref = this.$refs["collapse-container_" + propName][0]
+            var refCollapseButton = this.$refs["collapse-button_" + propName][0]
+            if(ref.style.height == "54px"){
+                ref.style.height = "100%"
+                refCollapseButton.classList.value = ["el-icon-arrow-down"]
+            }
+            else{
+                ref.style.height = "54px"
+                refCollapseButton.classList.value = ["el-icon-arrow-right"]
+            }
+        },
         handleClearSearch(){
             this.searchFilterSet = this.initSearchFilterSet()
         },
@@ -125,11 +146,18 @@ export default {
         },
         handleConfirm(){
             var searchFilterSet = this.filterNullSearchFilterSet(this.searchFilterSet)
-            Request.post(this, "get_" + this.tableName + "_all", {
+            var parameters = {
                 advancedSearch:  searchFilterSet,
                 paging: this.paging,
-                joinClass: this.joinClass
-            }, res => {
+                joinClass: this.joinClass,
+                // whereOperation: this.whereOperation,
+                // computed: this.computed
+            }
+            if(this.whereOperation.length > 0)
+                parameters.whereOperation = this.whereOperation
+            if(this.computed.length > 0)
+                parameters.computed = this.computed
+            Request.post(this, "get_" + this.tableName + "_all", parameters, res => {
                 this.$emit("confirm", res.data[this.tableName].data, res.data[this.tableName].totalRow, searchFilterSet)
                 this.$emit('update:visible', false)
             },err => {
@@ -212,6 +240,12 @@ export default {
 <style lang="sass" scoped>
 @import "@/static/variables.scss"
 ::v-deep 
+    .el-drawer__container
+        width: 90%
+        margin-left: 5%
+    .el-divider
+        margin-top: .8em
+        margin-bottom: .8em
     #el-drawer__title
         background-color: #0e71eb
         margin-bottom: 1em

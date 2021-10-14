@@ -8,12 +8,6 @@
           <slot name="searchSlot"/>
         </div>
         <div class="row" v-if="isAdvancedSearch">
-          <!-- <el-tooltip class="item" effect="dark" content="Clear Search" placement="top">
-            <el-button icon="el-icon-refresh" type="success" @click="handleClearAdvancedSearchFilter" circle></el-button>
-          </el-tooltip> -->
-          <!-- <el-tooltip class="item" effect="dark" content="Advance Search" placement="top">
-            <el-button icon="el-icon-search" type="warning" @click="handleOpenAdvancedSearchDialog" circle></el-button>
-          </el-tooltip> -->
           <el-button @click="handleOpenAdvancedSearchDialog" type="text">Advanced Search</el-button>
         </div>
       </div>
@@ -62,7 +56,11 @@
     </div>
     <advanced-search-dialog-paging :paging="{
       page: 1, pageSize: this.pageSize, sort: {order: this.currentSortOrder, prop:this.currentSortProp }
-    }" ref="advancedSearchDialog" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :visible.sync="visibleAdvancedSearchDialog"/>
+    }" ref="advancedSearchDialog" :tableName="tableName" :joinClass="joinClass" @confirm="handleAdvancedSearchConfirm" :columnList="columnList" :computed="computed" :whereOperation="whereOperation" :visible.sync="visibleAdvancedSearchDialog">
+      <template v-for="(column, index) in columnList" :slot="'advancedSearchCustom.' + column.key" slot-scope="scope">
+        <slot :name="'advancedSearchCustom.' + column.key" :searchFilterSet="scope.searchFilterSet" :whereOperation="scope.whereOperation" :computed="scope.computed"></slot>
+      </template> 
+    </advanced-search-dialog-paging>
   </div>
 </template>
 
@@ -146,7 +144,14 @@ export default {
         return []
       },
     },
-    whereCondition: {
+    whereCondition: { //DEPRECATED
+      type: Array,
+      requried: false,
+      default: function(){
+        return []
+      },
+    },
+    whereOperation: {
       type: Array,
       requried: false,
       default: function(){
@@ -285,9 +290,13 @@ export default {
           paging: {page: this.currentPage, pageSize: this.pageSize, search: this.confirmedSearch, sort: {order: this.currentSortOrder, prop:this.currentSortProp }},
           joinClass: this.joinClass,
           computed: this.computed,
+          advancedSearch: this.searchFilterSet,
         }, this.parameters)
         if(this.whereCondition.length > 0)
           parameters["whereCondition"] = this.whereCondition
+        if(this.whereOperation.length > 0)
+          parameters["whereOperation"] = this.whereOperation
+        console.log(parameters)
         if(this.isCustomRequest){
           this.$emit("customRequest",parameters,(result, totalRow) => {
             this.dataListForShowLength = totalRow
