@@ -2,14 +2,14 @@
     <div>
         <p v-if="!isSelected" class="title">Advanced Search</p>
         <div v-else>
-            <span class="title" v-for="(item, index) in columnList" :key="index">
+            <span class="title" v-for="(item, index) in columnList.filter(f => f.hasOwnProperty('advancedSearch'))" :key="index">
                 <span v-if="value[item.prop] != null && Array.isArray(value[item.prop].value)">
                     <span v-for="(selectedValue, selectedKey) in value[item.prop].value" :key="selectedKey" >
                         <el-tag v-if="selectedValue != null" @close="handleCloseTag(value[item.prop], value, selectedValue)" class="mr-4" closable>{{convertValueToLabel(selectedValue, item)}}</el-tag>
                     </span>
                 </span>
                 <span v-else-if="value[item.prop] != null && value[item.prop].value != ''">
-                    <el-tag @close="handleCloseTagString(value[item.prop], value, value[item.prop].value)" class="mr-4" closable>{{value[item.prop].value}}</el-tag>
+                    <el-tag @close="handleCloseTagString(value[item.prop], value, value[item.prop].value)" class="mr-4" closable>{{formatValue(value[item.prop].value, item)}}</el-tag>
                 </span>
             </span>
             <el-button type="text" @click="handleReset">Reset</el-button>
@@ -59,7 +59,19 @@ export default{
         },
         convertValueToLabel(value, column){
             try{
-                return column.advancedSearch.options.find(f => f.value == value).label
+                if(column.advancedSearch.hasOwnProperty("options"))
+                    value = column.advancedSearch.options.find(f => f.value == value).label
+                return this.formatValue(value, column)
+            }catch(e){
+                console.log(e)
+                return value
+            }
+        },
+        formatValue(value, column){
+            try{
+                if(column.advancedSearch.hasOwnProperty("format"))
+                    return column.advancedSearch.format(value)
+                return value
             }catch(e){
                 console.log(e)
                 return value

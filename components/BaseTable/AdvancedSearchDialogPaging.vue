@@ -24,7 +24,7 @@
                         <new-c-m-s-selector v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
-                        <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" type="daterange" />
+                        <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" :type="getPickerType(item)" />
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'FREETEXT'">
                         <el-input
@@ -125,6 +125,16 @@ export default {
         this.searchFilterSet = this.initSearchFilterSet()
     },
     methods: {
+        getPickerType(column){
+            try{
+                if(column.advancedSearch.hasOwnProperty("pickerType"))
+                    return column.advancedSearch.pickerType
+                return "daterange"
+            }catch(e){
+                console.log(e)
+                return "daterange"
+            }
+        },
         handleOpenCollapse(propName){
             var ref = this.$refs["collapse-container_" + propName][0]
             var refCollapseButton = this.$refs["collapse-button_" + propName][0]
