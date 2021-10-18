@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
       <div class="space-between-row">
         <div class="search-bar">
-          <el-input  @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')"/>
+          <el-input  @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Keyword Search')"/>
           <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
           <slot name="searchSlot"/>
         </div>
@@ -226,6 +226,7 @@ export default {
         this.confirmedSearch = this.search;
         this.currentPage = 1
         this.$refs.advancedSearchDialog.searchFilterSet = this.$refs.advancedSearchDialog.initSearchFilterSet()
+        this.searchFilterSet = {}
         this.handleRefresh()
       // }
     },
@@ -296,7 +297,6 @@ export default {
           parameters["whereCondition"] = this.whereCondition
         if(this.whereOperation.length > 0)
           parameters["whereOperation"] = this.whereOperation
-        console.log(parameters)
         if(this.isCustomRequest){
           this.$emit("customRequest",parameters,(result, totalRow) => {
             this.dataListForShowLength = totalRow

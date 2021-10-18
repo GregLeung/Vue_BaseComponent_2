@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <div v-if="isAdvancedSearch" class="space-between-row">
       <div style="width: 100%">
-        <el-input @input="handleSearchChange" @change="handleEnterChange"  class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Search')" />
+        <el-input @input="handleSearchChange" @change="handleEnterChange"  class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Keyword Search')" />
         <el-button v-if="!autoSearch" type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
       </div>
       <div class="row">

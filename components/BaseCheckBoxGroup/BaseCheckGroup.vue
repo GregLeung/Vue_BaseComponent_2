@@ -1,9 +1,13 @@
 <template>
-<el-checkbox-group v-model="selectedLabel" @change="handleChange">
-    <el-tooltip v-for="label in labelList" :key="label" :content="label" placement="top">
-        <el-checkbox :style="{width: checkBoxWidth}" :label="label" border></el-checkbox>
-    </el-tooltip>
-</el-checkbox-group>
+    <el-checkbox-group v-model="selectedLabel" @change="handleChange">
+        <el-row>
+            <el-col :span="6" v-for="label in labelList" :key="label">
+                <el-tooltip :content="label" placement="top">
+                    <el-checkbox :style="{width: checkBoxWidth}" :label="label" border></el-checkbox>
+                </el-tooltip>
+            </el-col>
+        </el-row>
+    </el-checkbox-group>
 </template>
 
 <script lang="js">
@@ -30,7 +34,7 @@ export default {
         },
         checkBoxWidth: {
             type: String,
-            default: "12em"
+            default: "13vw"
         }
     },
     model:{

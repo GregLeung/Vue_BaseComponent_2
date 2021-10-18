@@ -5,7 +5,7 @@
         </div>
     <el-card>
         <div v-for="(item, index) in columnList" :key="index">
-        <div v-if="item.hasOwnProperty('advancedSearch')">
+        <div v-if="item.hasOwnProperty('advancedSearch') && (!item.advancedSearch.hasOwnProperty('isHidden') || (item.advancedSearch.hasOwnProperty('isHidden') && !item.advancedSearch.isHidden))">
             <div class="row">
                 <h4>{{item.label}}</h4>
                 <div style="width: 80%">
@@ -14,14 +14,17 @@
                         <new-c-m-s-selector v-else :remote="item.advancedSearch.remote" :showLabel="false" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'MULTI-SELECTION'">
-                        <i :ref="'collapse-button_' + item.prop" v-if="item.advancedSearch.options.length > 5" @click="handleOpenCollapse(item.prop)" class="el-icon-arrow-right" style="float: right; margin-top: 10px; cursor: pointer"></i>
+                        <i :ref="'collapse-button_' + item.prop" v-if="item.advancedSearch.options.length > 4" @click="handleOpenCollapse(item.prop)" class="el-icon-arrow-right" style="float: right; margin-top: 10px; cursor: pointer"></i>
                         <div :ref="'collapse-container_' + item.prop" style="height: 54px; overflow: hidden">
                             <base-check-box-group v-model="searchFilterSet[item.prop].value" :checkBoxList="item.advancedSearch.options"></base-check-box-group>
                         </div>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'MULTI-SELECTION-SELECTOR'">
-                        <new-c-m-s-selector v-if="item.advancedSearch.remote" :showLabel="false" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
-                        <new-c-m-s-selector v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
+                        <div class="space-between-row">
+                            <new-c-m-s-selector :disabled="searchFilterSet[item.prop].value.some(f => f == null)" style="flex-grow: 1" v-if="item.advancedSearch.remote" :showLabel="false" multiple :remote="item.advancedSearch.remote" @remoteMethod="item.advancedSearch.remoteMethod" v-model="searchFilterSet[item.prop].value" :options="item.advancedSearch.options"></new-c-m-s-selector>
+                            <new-c-m-s-selector :disabled="searchFilterSet[item.prop].value.some(f => f == null)" style="flex-grow: 1" v-else :showLabel="false" v-model="searchFilterSet[item.prop].value" multiple :options="item.advancedSearch.options"></new-c-m-s-selector>
+                             <el-checkbox @change="() => {searchFilterSet[item.prop].value = searchFilterSet[item.prop].value.filter(f => f == null)}" v-model="searchFilterSet[item.prop].value" v-if="item.advancedSearch.hasOwnProperty('isNullAble') && item.advancedSearch.isNullAble" class="ml-12">{{(item.advancedSearch.hasOwnProperty("emptyText")) ? item.advancedSearch.emptyText: "No"}}</el-checkbox>
+                        </div>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
                         <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" :type="getPickerType(item)" />
@@ -177,11 +180,11 @@ export default {
         filterNullSearchFilterSet(searchFilterSet){
             var result = {}
             Object.entries(searchFilterSet).forEach(([key, object]) =>{
-                if(object.value != "" && object.value != null)
+                if((object.value != "" && object.value != null) || Array.isArray(object.value))
                     result[key] = object
             })
             Object.entries(result).forEach(([key, object]) =>{
-                if(Array.isArray(result[key].value) && result[key].value.every(f => f == null))
+                if(Array.isArray(result[key].value) && result[key].value.length == 0)
                     delete result[key]
             })
             return result
