@@ -221,6 +221,23 @@ export default {
     };
   },
   methods: {
+    getExportParameters(){
+      var parameters = {}
+      if(this.joinClass.length > 0)
+        parameters["joinClass"] = this.joinClass
+      if(Object.keys(this.searchFilterSet).length !== 0)
+        parameters["advancedSearch"] = this.searchFilterSet
+      if(this.confirmedSearch != null && this.confirmedSearch != "")
+        parameters["search"] = this.confirmedSearch
+      if(this.whereOperation.length > 0)
+        parameters["whereOperation"] = this.whereOperation
+      if(this.whereCondition.length > 0)
+        parameters["whereCondition"] = this.whereCondition
+      if(this.computed.length > 0)
+        parameters["computed"] = this.computed
+      parameters["multipleSelection"] = this.multipleSelection.map(f => f.ID)
+      return parameters
+      },
     handleEnterChange() {
       // if (this.confirmedSearch != this.search){
         this.confirmedSearch = this.search;

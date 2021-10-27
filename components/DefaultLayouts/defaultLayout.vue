@@ -12,10 +12,10 @@
                 </div>
                 <div slot="right" class="right-cms-header">
                     <slot name="header-right"></slot>
-                    <el-tooltip class="item" effect="dark" content="Account" placement="top-start">
+                    <el-tooltip class="item" effect="dark" :content="$t('Account')" placement="top-start">
                         <icon-button @click="$router.push({path:  basePath + '/my_account'})" class="mr-8" color="white" icon="mi-person"/>
                     </el-tooltip>
-                    <el-button class="text-button mr-8" type="text" style="color:black" >{{$store.getters.user.username}}</el-button>
+                    <el-button class="text-button mr-8" type="text" :style="{'color':color}" >{{$store.getters.user.username}}</el-button>
                     <el-tooltip class="item" effect="dark" content="Logout" placement="top-start">
                         <icon-button @click="handleLogOut" class="mr-8" color="white" icon="mi-exit-to-app"/>
                     </el-tooltip>
@@ -62,6 +62,11 @@ export default {
             type: String,
             required: false,
             default: ""
+        },
+        color: {
+            type: String,
+            required: false,
+            default: "black"
         }
     },
     computed: {
