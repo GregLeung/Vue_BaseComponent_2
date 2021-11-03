@@ -35,6 +35,8 @@ import LogTile from "./components/LogTile/LogTile.vue";
 import ChangeLog from "./components/ChangeLog/ChangeLog.vue";
 import BaseCheckBox from "./components/BaseCheckBox/BaseCheckBox.vue";
 import BaseCheckBoxGroup from "./components/BaseCheckBoxGroup/BaseCheckBoxGroup.vue";
+import StandardDialog from "./components/StandardDialog/StandardDialog.vue";
+import StandardDrawer from "./components/StandardDrawer/StandardDrawer.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -80,6 +82,8 @@ export {
     ChangeLog,
     BaseCheckBox,
     BaseCheckBoxGroup,
+    StandardDialog,
+    StandardDrawer,
     Request,
     Excel,
     Util,

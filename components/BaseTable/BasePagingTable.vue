@@ -1,17 +1,22 @@
 <template>
   <div id="base-table" class="container">
-    <h1>{{ title }}</h1>
-      <div class="space-between-row">
+      <div class="space-between-row title-row mt-4">
+        <h1>{{ title }}</h1>
         <div class="search-bar">
-          <el-input  @change="handleEnterChange" class="mb-8 search-input" v-model="search" size="medium" :placeholder="$t('Keyword Search')"/>
-          <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
+          <!-- <el-button @click="handleOpenAdvancedSearchDialog" type="text">Advanced Search</el-button> -->
+          <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
+            <el-button class="mr-4 advanced-search-button" icon="el-icon-s-grid" circle @click="handleOpenAdvancedSearchDialog"></el-button>
+          </el-tooltip>
+          <el-input :style="{width: '30em'}" @change="handleEnterChange" class="search-input" v-model="search" size="medium" :placeholder="$t('Keyword Search')">
+            <el-button slot="append" size="medium" icon="el-icon-search" @click="handleEnterChange"></el-button>
+          </el-input>
           <slot name="searchSlot"/>
         </div>
-        <div class="row" v-if="isAdvancedSearch">
+        <!-- <div class="row" v-if="isAdvancedSearch">
           <el-button @click="handleOpenAdvancedSearchDialog" type="text">Advanced Search</el-button>
-        </div>
+        </div> -->
       </div>
-    <div class="table-wrapper">
+    <div class="table-wrapper mt-4">
       <el-table :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" >
         <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
@@ -381,6 +386,16 @@ export default {
 </script>
 <style scoped lang="sass">
 @import "./baseTable.sass"
+::v-deep
+  .el-table th
+    padding: 0px
 .search-bar
-  width: 100%
+  display: flex
+  align-items: center
+.title-row
+  align-items: center
+.advanced-search-button
+  border-style: none
+  color: #0e71eb
+  font-size: 1.5rem
 </style>

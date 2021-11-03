@@ -109,12 +109,12 @@ export default {
             }
         },
         localValue(val, oldValue){
-            if(val != null && this.convertOriginalNumber(val).toString().length > 11 )
-                this.localValue = oldValue
-            if(this.isNumeric(val)){
-                this.$emit("update:value", val);
-            }else if(val == "")
-                this.$emit("update:value", null);
+            var rawValue = this.convertOriginalNumber(val)
+            if(this.type == "text"){
+                val = this.convertNumberWithSeperation(val)
+                this.localValue = val
+            }
+            this.$emit("update:value", rawValue)
         },
         value(val, oldVal){
             this.localValue = this.value
