@@ -1,7 +1,7 @@
 <template>
 <el-dialog
   :visible="visible"
-  width="50%"
+  :width="width"
   :show-close="false"
   :lock-scroll="false"
   >
@@ -34,6 +34,11 @@ export default{
             type: String,
             required: false,
             default: ""
+        },
+        width: {
+            type: String,
+            required: false,
+            default: "50%"
         }
     },
     methods: {

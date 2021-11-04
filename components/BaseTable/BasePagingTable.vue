@@ -17,7 +17,7 @@
         </div> -->
       </div>
     <div class="table-wrapper mt-4">
-      <el-table :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" border :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" >
+      <el-table highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" :border="border" :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" >
         <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
@@ -78,6 +78,10 @@ export default {
     AdvancedSearchDialogPaging
   },
   props: {
+    border: {
+      type: Boolean,
+      default: true,
+    },
     isAdvancedSearch: {
       type: Boolean,
       default: false,
@@ -387,8 +391,11 @@ export default {
 <style scoped lang="sass">
 @import "./baseTable.sass"
 ::v-deep
-  .el-table th
+  .el-table
+   cursor: pointer
+   th
     padding: 0px
+    
 .search-bar
   display: flex
   align-items: center
