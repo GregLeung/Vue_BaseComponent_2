@@ -114,7 +114,7 @@ export default {
                 val = this.convertNumberWithSeperation(val)
                 this.localValue = val
             }
-            this.$emit("update:value", rawValue)
+            this.$emit("update:value", rawValue == "" ? null : rawValue)
         },
         value(val, oldVal){
             this.localValue = this.value
