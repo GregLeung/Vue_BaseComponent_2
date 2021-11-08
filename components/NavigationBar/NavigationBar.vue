@@ -5,7 +5,7 @@
       default-active="2"
       @open="handleOpen"
       @close="handleClose"
-      background-color="#222d32"
+      background-color="#545c64"
       text-color="#fff"
       active-text-color="#3c8dbc"
       ref="menu"

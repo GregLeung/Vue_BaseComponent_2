@@ -35,8 +35,13 @@ export default{
 </script>
 <style lang="sass" scoped>
 ::v-deep 
+    .el-drawer__container
+        width: 90%
+        margin-left: 5%
     #el-drawer__title
         background-color: #0e71eb
-        margin-bottom: 1em
+        margin-bottom: 0em
         color: white
+    .el-drawer__header
+        padding: 0px 5px 0
 </style>

@@ -8,6 +8,7 @@
     <div class="pagination-wrapper mt-12">
       <el-pagination
         v-if="showPagination"
+        small
         :page-sizes="pageSizes"
         :page-size="pageSize"
         :current-page.sync="currentPage"
@@ -215,4 +216,8 @@ export default {
         padding: 0
     .el-table__row
         word-break: break-word
+::v-deep
+    .el-table
+        th
+            padding: 0px
 </style>

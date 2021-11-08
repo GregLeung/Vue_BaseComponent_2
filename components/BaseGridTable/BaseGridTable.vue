@@ -102,6 +102,15 @@ export default {
     this.originalColumnList = this.deepClone(this.columnList)
     // this.addScrollDetector()
   },
+  watch: {
+    dataList(value, oldVal){
+      if(this.isAllowCreate(this.dataList) && value.filter(f => {
+        return (f.innerProperty != null && f.innerProperty.isCreatedRow)
+      }).length == 0){
+        this.addNewLine()
+      }
+    }
+  },
   data() {
     return {
       windowHeight: window.innerHeight,
