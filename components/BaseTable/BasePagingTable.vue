@@ -16,7 +16,10 @@
         <div v-else class="standard-style">
           <div class="space-between-row title-row mt-4">
             <div>
-              <h1>{{ title }}</h1>
+              <div class="row">
+                <i v-if="icon != null" :class="[icon, 'icon']" :style="{'color': mainThemePlain}"></i>
+                <h1>{{ title }}</h1>
+              </div>
               <slot name="title"/>
             </div>
             <div class="search-bar">
@@ -71,7 +74,7 @@
       </el-table>
     </div>
     <div class="pagination-wrapper">
-      <el-pagination small class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" background layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage" ></el-pagination>
+      <el-pagination small class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, prev, pager, next, sizes, jumper" :total="dataListForShowLength" :page-sizes="[20, 50, 100, 500]" :page-size="pageSize" :current-page.sync="currentPage" ></el-pagination>
     </div>
     <advanced-search-dialog-paging :paging="{
       page: 1, pageSize: this.pageSize, sort: {order: this.currentSortOrder, prop:this.currentSortProp }
@@ -230,6 +233,11 @@ export default {
       default: function(){
         return []
       }
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   mounted() {
@@ -432,4 +440,7 @@ export default {
     border-style: none
     color: #0e71eb
     font-size: 1.5rem
+.icon
+  font-size: 2rem
+  margin-right: .5em
 </style>

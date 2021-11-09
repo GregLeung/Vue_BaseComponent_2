@@ -8,7 +8,10 @@
   <div slot="title">
       <div class="container-title">
           <div class="space-between-row title-row">
-              <h4>{{title}}</h4>
+              <div class="row">
+                  <i v-if="icon!=null" :class="icon"/>
+                  <h4>{{title}}</h4>
+              </div>
               <i class="el-icon-close" @click="handleCloseDialog"></i>
           </div>
       </div>
@@ -39,7 +42,12 @@ export default{
             type: String,
             required: false,
             default: "50%"
-        }
+        },
+        icon: {
+            type: String,
+            required: false,
+            default: null
+        },
     },
     methods: {
         handleCloseDialog(){
@@ -63,11 +71,19 @@ export default{
     .title-row
         align-items: center
         h4
-            padding: 1em
+            padding: 0px
             margin: 0
             color: white
         i
             padding: 1em
             color: white
             cursor: pointer
+        .row
+            display: flex
+            align-items: center
+            padding-left: 1em
+            i
+                font-size: 1.5rem
+                margin-right: .5em
+                padding: 0px
 </style>

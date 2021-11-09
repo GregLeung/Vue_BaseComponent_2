@@ -1,7 +1,10 @@
 <template>
 <el-drawer append-to-body :visible="visible" direction="btt" @close="handleClose" :size="size">
     <div slot="title">
-        <p>{{title}}</p>
+        <div class="row">
+            <i v-if="icon!=null" :class="icon"/>
+            <p>{{title}}</p>
+        </div>
     </div>
     <slot></slot>
 </el-drawer>
@@ -24,7 +27,12 @@ export default{
             type: String,
             required: false,
             default: "40%"
-        }
+        },
+        icon: {
+            type: String,
+            required: false,
+            default: null
+        },
     },
     methods: {
         handleClose(){
@@ -44,4 +52,11 @@ export default{
         color: white
     .el-drawer__header
         padding: 0px 5px 0
+.row
+    display: flex
+    align-items: center
+    padding-left: 1em
+    i
+        font-size: 1.5rem
+        margin-right: .5em
 </style>
