@@ -5,7 +5,7 @@
       default-active="2"
       @open="handleOpen"
       @close="handleClose"
-      background-color="#545c64"
+      background-color="#434c64"
       text-color="#fff"
       active-text-color="#3c8dbc"
       ref="menu"
@@ -95,4 +95,7 @@ export default {
     scrollbar-width: none
 .height-100
   height: 100%
+::v-deep
+  .el-menu-item-group__title
+    padding: 0px
 </style>

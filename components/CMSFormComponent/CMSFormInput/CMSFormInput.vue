@@ -95,7 +95,12 @@ export default {
             type: Number,
             required: false,
             default: null
-        }
+        },
+        width: {
+            type: String,
+            require: false,
+            default: "100%"
+        },
     },
     model:{
         prop: "value",
@@ -125,6 +130,7 @@ export default {
         cssVars() {
             return {
                 '--textTransform': this.textTransform,
+                'width': this.width
             }
         }
     }

@@ -3,7 +3,7 @@
     <label :style="{'min-width': labelWidth, 'max-width': labelWidth}">
         <h1 :style="{'font-size':  fontSize + 'rem'}">{{label}}</h1>
     </label>
-    <el-input @blur="handleBlur" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue">
+    <el-input @blur="handleBlur" :style="{'width': width}" @focus="handleFocus" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :type="type" :show-password="showPassword"  :rows="rows" v-model="localValue">
         <el-select :clearable="clearable" v-if="options != null" v-model="localAppendSelect" :options="options" :slot="place" :placeholder="$t('Select')" :style="'width: ' + appendWidth">
             <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
@@ -100,7 +100,12 @@ export default {
             type: String,
             required: false,
             deafult: true
-        }
+        },
+        width: {
+            type: String,
+            require: false,
+            default: "100%"
+        },
     },
     watch:{
         localAppendSelect: {
