@@ -1,7 +1,7 @@
 <template>
     <div class="space-between-row">
         <div class="left-content">
-            <div><i :style="{'font-size': iconSize}" class="el-icon-s-tools header-icon"></i></div>
+            <div v-if="icon != null"><i :style="{'font-size': iconSize}" :class="['header-icon', icon]"></i></div>
             <div :style="{'margin-left': marginLeft}">
                 <span :style="titleStyle" class="title">{{title}}</span><br>
                 <span :style="subtitleStyle" class="subtitle">{{subtitle}}</span>
@@ -16,6 +16,11 @@
 import Vue from "vue";
 export default {
     props: {
+        icon: {
+            type: String,
+            required: false,
+            default: null
+        },
         iconSize: {
             type: String,
             required: false,
