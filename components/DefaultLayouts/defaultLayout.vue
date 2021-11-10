@@ -121,7 +121,7 @@ export default {
     align-items: center
 .window-container
     display: flex
-    height: 100%
+    height: 100vh
     width: 100%
 .main-page
     margin-left: $navigation-bar-width

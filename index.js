@@ -40,6 +40,7 @@ import BaseCheckBox from "./components/BaseCheckBox/BaseCheckBox.vue";
 import BaseCheckBoxGroup from "./components/BaseCheckBoxGroup/BaseCheckBoxGroup.vue";
 import StandardDialog from "./components/StandardDialog/StandardDialog.vue";
 import StandardDrawer from "./components/StandardDrawer/StandardDrawer.vue";
+import NewCMSForm from "./components/NewCMSForm/NewCMSForm.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -90,6 +91,7 @@ export {
     BaseCheckBoxGroup,
     StandardDialog,
     StandardDrawer,
+    NewCMSForm,
     Request,
     Excel,
     Util,
