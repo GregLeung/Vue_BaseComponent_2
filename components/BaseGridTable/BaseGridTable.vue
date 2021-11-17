@@ -81,7 +81,7 @@ export default {
     },
     createDefaultValue: {
       type: Function,
-      required: true,
+      required: false,
     },
     isAllowCreate: {
       type: Function,
@@ -94,12 +94,24 @@ export default {
       type: String,
       required: false,
       default: "60"
+    },
+    extraRowMenuList: {
+      type: Array,
+      required: false,
+      default: () => {
+        return []
+      }
     }
   },
   async mounted() {
     this.handleDefaultSorting()
     this.addKeyListener()
     this.originalColumnList = this.deepClone(this.columnList)
+    this.$nextTick(()=>{
+      if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
+        this.addNewLine()
+      }
+    })
     // this.addScrollDetector()
   },
   watch: {
@@ -118,7 +130,7 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       key: "",
-      rowMenuList: [{label: "Delete", value: "Delete", icon: "el-icon-delete-solid", iconColor: "red"}],
+      rowMenuList: [],
       headerMenuList: [{label: "Column Settings", value: "Column Settings", icon: "el-icon-setting", iconColor: "blue"}],
       rightClickMenuList: [],
       rightClickSelectedRow: {},
@@ -142,6 +154,10 @@ export default {
     }
   },
   methods: {
+    handleDelete(rowIndex){
+      this.dataList.splice(rowIndex, 1);
+      this.$emit("update:dataList",this.dataList)
+    },
     handleColumnListConfirm(columnList){
       this.columnList = columnList
     },
@@ -149,14 +165,18 @@ export default {
       switch(value){
         case "Delete":
           if(confirm("Confirm To Delete"))
-            this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
+            // this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
+            this.handleDelete(this.rightClickSelectedRow.innerProperty.rowIndex, 1)
+          break;
+        case "Add New Line":
+            this.addNewLine()
           break;
         case "Column Settings":
           this.columnSettingVisible = true
           break;
         default:
           if(config.click != null)
-            config.click(value, label, this.rightClickSelectedRow, this.this.dataList)
+            config.click(value, label, this.rightClickSelectedRow, this.dataList)
       }
     },
     handleRightClick(event){
@@ -165,7 +185,13 @@ export default {
         var rowIndex = rowClassName.split("_").at(-1)
         var cellRef = this.getCellRefByPosition(rowIndex, 0)
         this.rightClickSelectedRow = cellRef.row
-        this.rightClickMenuList = this.rowMenuList
+        var rowMenu = this.deepClone(this.rowMenuList)
+        if(this.isAllowCreate(this.dataList)){
+          rowMenu.push({label: "Delete", value: "Delete", icon: "el-icon-delete-solid", iconColor: "red"})
+          rowMenu.push({label: "Add New Line", value: "Add New Line", icon: "el-icon-plus", iconColor: "blue"})
+        }
+        rowMenu = rowMenu.concat(this.extraRowMenuList)
+        this.rightClickMenuList = rowMenu
       }catch(e){
         console.log(e);
         this.rightClickMenuList = this.headerMenuList
@@ -217,7 +243,8 @@ export default {
             else if(key == "Backspace" || event.keyCode == 46){
               var selectedRowIndex = this.getSelectedRowIndex()
               if(selectedRowIndex != null && confirm("Confirm To Delete"))
-                this.dataList.splice(this.getSelectedRowIndex(), 1);
+                // this.dataList.splice(this.getSelectedRowIndex(), 1);
+                this.handleDelete(this.getSelectedRowIndex(), 1)
               this.moveCursor(nextRowIndex, nextColumnIndex)
             }
             else if(key == "Enter"){
@@ -430,14 +457,36 @@ export default {
       })
       return instance;
     },
-    addNewLine(){
-      this.dataList.push(Object.assign(this.createDefaultValue(), {
-        innerProperty: {
-          isCreatedRow : true,
-          isSelected: false,
-          rowIndex: this.dataList.length + 1
+    addNewLine(lineObject = null){
+        var newObject = lineObject
+        if(newObject == null)
+          this.dataList.push(Object.assign(this.createDefaultValue == null ? {} : this.createDefaultValue(), {
+            innerProperty: {
+              isCreatedRow : true,
+              isSelected: false,
+              rowIndex: this.dataList.length + 1
+            }
+          }))
+        else{
+          this.dataList.push(Object.assign(newObject, {
+            innerProperty: {
+              isCreatedRow : true,
+              isSelected: false,
+              rowIndex: this.dataList.length + 1
+            }
+          }))
         }
-      }))
+      // else{
+      //   var newObject = lineObject ?? this.newLine()
+      //   if(newObject != null)
+      //     this.dataList.push(Object.assign(newObject, {
+      //     innerProperty: {
+      //       isCreatedRow : true,
+      //       isSelected: false,
+      //       rowIndex: this.dataList.length + 1
+      //     }
+      //   }))
+      // }
       setTimeout(() =>{
          this.scrollToBottom()
       }, 10);
