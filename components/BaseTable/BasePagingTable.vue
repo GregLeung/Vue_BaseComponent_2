@@ -308,6 +308,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      this.$emit("selectionChange", this.multipleSelection)
     },
     sortChange: function (column) {
       if(this.isServerSidePaging){
