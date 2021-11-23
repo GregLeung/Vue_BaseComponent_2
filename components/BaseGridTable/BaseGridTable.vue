@@ -116,9 +116,7 @@ export default {
   },
   watch: {
     dataList(value, oldVal){
-      if(this.isAllowCreate(this.dataList) && value.filter(f => {
-        return (f.innerProperty != null && f.innerProperty.isCreatedRow)
-      }).length == 0){
+      if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
         this.addNewLine()
       }
     }

@@ -37,6 +37,9 @@ class Util {
     static numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    static isEmpty(str) {
+        return (!str || str.length === 0);
+    }
 }
 
 export default Util;
