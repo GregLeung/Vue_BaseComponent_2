@@ -1,6 +1,7 @@
 import moment from "moment";
 import Vue from 'vue'
 import _ from 'lodash';
+import Swal from 'sweetalert2'
 import $ from 'jquery'
 
 import {
@@ -259,6 +260,20 @@ const Plugin = {
                             this.getDeepObjectProp(t, prop) == this.getDeepObjectProp(f, prop)
                         ))
                     )
+                },
+                async confirm(title, icon = "warning") {
+                    var result = await Swal.fire({
+                        title: title,
+                        icon: icon,
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                        reverseButtons: true
+                    })
+                    return result.isConfirmed
+                },
+                convertNumberWithSeperation(val, defaultValue = "") {
+                    return (val != null) ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : defaultValue
                 },
             },
         });

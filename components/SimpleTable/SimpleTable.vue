@@ -225,4 +225,6 @@ export default {
     .el-table
         th
             padding: 0px
+        .el-table__row
+            cursor: pointer
 </style>

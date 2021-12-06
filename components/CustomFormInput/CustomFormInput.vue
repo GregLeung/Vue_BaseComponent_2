@@ -128,9 +128,11 @@ export default {
         },
         value(val, oldVal){
             this.localValue = this.value
+            this.$emit("valueChange", val)
         },
         appendSelect(val, oldVal){
             this.localAppendSelect = this.appendSelect
+            this.$emit("selectChange", val)
         }
     },
     mounted(){
@@ -155,6 +157,7 @@ export default {
         handleBlur(){
             try{
                 this.type = "text";
+                this.localValue = Number(this.localValue).toFixed(3)
                 if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.localValue)
             }catch(error){
                 console.log(error);
