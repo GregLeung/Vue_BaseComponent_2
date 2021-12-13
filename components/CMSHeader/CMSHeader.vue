@@ -47,6 +47,7 @@ export default {
 <style scoped lang="sass">
 @import "vue_basecomponent/static/variables.scss"
 @import "vue_basecomponent/static/main.sass"
+@import "@/static/variables.scss"
 #cms-header
     position: fixed
     display: flex
