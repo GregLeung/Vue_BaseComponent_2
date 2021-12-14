@@ -1,10 +1,7 @@
 <template>
 <div>
     <div class="row">
-        <div style="width: 15%"><el-tag effect="dark">{{fieldName}}</el-tag></div>
-        <div style="width: 15%">
-            <span :style="{'font-weight': 'bold'}">Updated By {{name}}</span>
-        </div>
+        <div style="width: 25%"><el-tag effect="dark">{{fieldName}}</el-tag></div>
         <div style="width: 25%" class="value-text-wrapper">
             <el-tooltip v-if="oldValue != null && oldValue != ''" class="item" effect="dark" :content="oldValue" placement="top-start">
                 <el-tag class="value-text" type="danger">{{oldValue}}</el-tag>
@@ -16,8 +13,8 @@
                 <el-tag type="success">{{newValue}}</el-tag>
             </el-tooltip>
         </div>
-        <div style="width: 20%; text-align: right">
-            <span>{{createdDate}}</span>
+        <div style="width: 25%; text-align: right">
+            <span :style="{'font-weight': 'bold'}">{{name}}</span>
         </div>
     </div>
     <el-divider v-if="withDivider"/>
