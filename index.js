@@ -48,6 +48,7 @@ import Util from "./util/util";
 import GoogleMap from "./util/googleMap";
 import Plugin from "./plugin.js"
 import BaseStore from "./util/BaseStore"
+//0.23.14
 
 export {
     BaseFooter,
