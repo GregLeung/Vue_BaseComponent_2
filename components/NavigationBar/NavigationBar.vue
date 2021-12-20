@@ -5,13 +5,17 @@
       default-active="2"
       @open="handleOpen"
       @close="handleClose"
-      background-color="#434c64"
-      text-color="#fff"
-      active-text-color="#3c8dbc"
+      :background-color="backgroundColor"
+      :text-color="textColor"
+      :active-text-color="mainThemePlain"
       ref="menu"
       @select="handleSelect"
       :collapse="isCollaspe"
     >
+      <div class="header-box" :style="{'background-color': headerColor}">
+        <img class="header-image" src="~@/assets/company_logo.png"/>
+      </div>
+      <el-divider class="divider"></el-divider>
       <navigation-menu-item
         :menuItem="item"
         :lineHeight="lineHeight"
@@ -34,6 +38,21 @@ export default {
     NavigationMenuItem
   },
   props: {
+    headerColor: {
+      type: String,
+      required: false,
+      default: "#434c64"
+    },
+    backgroundColor: {
+      type: String,
+      required: false,
+      default: "#434c64"
+    },
+    textColor: {
+      type: String,
+      required: false,
+      default: "#fff"
+    },
     path: {
       type: String,
       required: true
@@ -73,6 +92,16 @@ export default {
 <style scoped lang="sass">
 @import "vue_basecomponent/static/variables.scss"
 @import "vue_basecomponent/static/main.sass"
+.header-box
+  width: 100%
+  max-height: 8em
+  padding-top: 1em
+  padding-bottom: 1em
+  .header-image
+    width: 100%
+    object-fit: cover
+.divider
+  margin-top: 0px
 .open
   position: fixed
   z-index: 2
@@ -98,4 +127,6 @@ export default {
 ::v-deep
   .el-menu-item-group__title
     padding: 0px
+  span
+    font-weight: bold
 </style>

@@ -41,6 +41,7 @@ import BaseCheckBoxGroup from "./components/BaseCheckBoxGroup/BaseCheckBoxGroup.
 import StandardDialog from "./components/StandardDialog/StandardDialog.vue";
 import StandardDrawer from "./components/StandardDrawer/StandardDrawer.vue";
 import NewCMSForm from "./components/NewCMSForm/NewCMSForm.vue";
+import LoginPage from "./components/LoginPage/LoginPage.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -92,6 +93,7 @@ export {
     StandardDialog,
     StandardDrawer,
     NewCMSForm,
+    LoginPage,
     Request,
     Excel,
     Util,
