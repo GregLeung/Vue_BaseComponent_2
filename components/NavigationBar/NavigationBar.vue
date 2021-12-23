@@ -102,6 +102,7 @@ export default {
     object-fit: cover
 .divider
   margin-top: 0px
+  margin-bottom: .5em
 .open
   position: fixed
   z-index: 2

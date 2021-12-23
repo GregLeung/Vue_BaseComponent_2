@@ -25,13 +25,15 @@ class Request {
         params,
         fileName,
         successCallback = function() {},
-        errorCallback = function() {}, options = {}) {
+        errorCallback = function() {}, options = Request.defaultOptions()) {
+        var headers = { Token: store().getters.token, Apikey: store().state.api_key }
+        headers = (store().getters.hasOwnProperty("headers")) ? Object.assign(headers, store().getters.headers) : headers
         axios({
                 url: store().state.baseUrl + action,
                 method: 'GET',
                 responseType: 'blob',
                 params: params,
-                headers: { Token: store().getters.token, Apikey: store().state.api_key }
+                headers: headers
             }).then((res) => {
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
@@ -58,7 +60,7 @@ class Request {
         params,
         successCallback = function() {},
         errorCallback = function() {},
-        options = {},
+        options = Request.defaultOptions(),
     ) {
         get(vueInstance, action, params, successCallback, errorCallback, options);
     }
@@ -75,16 +77,18 @@ class Request {
         body,
         successCallback = function() {},
         errorCallback = function() {},
-        options = {}
+        options = Request.defaultOptions()
     ) {
         if (options.showLoading != false) Util.loading();
+        var headers = {
+            "Content-Type": "application/json",
+            "Token": store().getters.token,
+            Apikey: store().state.api_key
+        }
+        headers = (store().getters.hasOwnProperty("headers")) ? Object.assign(headers, store().getters.headers) : headers
         axios
             .post(store().state.baseUrl + action, body, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Token": store().getters.token,
-                    Apikey: store().state.api_key
-                }
+                headers: headers
             })
             .then(res => {
                 if (isError(res)) throw new NetworkError(res)
@@ -120,7 +124,7 @@ class Request {
         limitType,
         successCallback = function() {},
         errorCallback = function() {},
-        options = {}
+        options = Request.defaultOptions()
     ) {
         try {
             if (file.size / 1024 / 1024 > limitSize) throw new Error(vueInstance.$t("File Size Too large"))
@@ -128,12 +132,14 @@ class Request {
             if (options.showLoading != false) Util.loading();
             let formData = new FormData();
             formData.append("file", file);
+            var headers = {
+                "Content-Type": "multipart/form-data",
+                Apikey: store().state.api_key
+            }
+            headers = (store().getters.hasOwnProperty("headers")) ? Object.assign(headers, store().getters.headers) : headers
             axios
                 .post(store().state.baseUrl + url, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Apikey: store().state.api_key
-                    }
+                    headers: headers
                 })
                 .then(res => {
                     if (res.data.code != 200) throw new NetworkError(res)
@@ -160,7 +166,7 @@ class Request {
             });
         }
     }
-    static uploadFileAsync(vueInstance, url, file, limitSize, limitType, options = {}) {
+    static uploadFileAsync(vueInstance, url, file, limitSize, limitType, options = Request.defaultOptions()) {
         return new Promise((resolve, reject) => {
             this.uploadFile(vueInstance, url, file, limitSize, limitType, resolve, reject, options);
         }).catch(error => {
@@ -208,12 +214,14 @@ function get(vueInstance, action, params, successCallback, errorCallback, option
         successCallback(getFromCache(store().state.baseUrl + action + "/" + JSON.stringify(params)));
     } else {
         if (options.showLoading != false) Util.loading()
+        var headers = {
+            "Token": store().getters.token,
+            Apikey: store().state.api_key
+        }
+        headers = (store().getters.hasOwnProperty("headers")) ? Object.assign(headers, store().getters.headers) : headers
         axios.get(store().state.baseUrl + action, {
                 params: params,
-                headers: {
-                    "Token": store().getters.token,
-                    Apikey: store().state.api_key
-                }
+                headers: headers
             })
             .then(res => {
                 if (isError(res)) throw new NetworkError(res);

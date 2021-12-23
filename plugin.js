@@ -37,7 +37,8 @@ import {
     ChangePassword,
     CMSCheckBox,
     BaseGridTable,
-    LoginPage
+    LoginPage,
+    NewCMSForm
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -73,7 +74,8 @@ const components = {
     ChangePassword,
     CMSCheckBox,
     BaseGridTable,
-    LoginPage
+    LoginPage,
+    NewCMSForm
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
@@ -277,6 +279,9 @@ const Plugin = {
                 convertNumberWithSeperation(val, defaultValue = "") {
                     return (val != null) ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : defaultValue
                 },
+                isEmptyString(val) {
+                    return val == null || val == ""
+                }
             },
         });
     },
