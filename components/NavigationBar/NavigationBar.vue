@@ -12,7 +12,7 @@
       @select="handleSelect"
       :collapse="isCollaspe"
     >
-      <div class="header-box" :style="{'background-color': headerColor}">
+      <div v-if="hasLogo" class="header-box" :style="{'background-color': headerColor}">
         <img class="header-image" src="~@/assets/company_logo.png"/>
       </div>
       <el-divider class="divider"></el-divider>
@@ -72,6 +72,11 @@ export default {
       default: () => {
         return {};
       }
+    },
+    hasLogo: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   computed: {
