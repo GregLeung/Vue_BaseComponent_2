@@ -1,6 +1,6 @@
 <template>
 <div class="window-container">
-    <navigation-bar id="navigation-bar"  :class="classObj" lineHeight="2.6em" :path="currentPath" :menu="menu"></navigation-bar>
+    <navigation-bar id="navigation-bar" :headerColor="headerColor" :backgroundColor="backgroundColor" :textColor="textColor"  :class="classObj" lineHeight="2.6em" :path="currentPath" :menu="menu"></navigation-bar>
     <el-col>
         <div class="main-page" :class="classObj">
             <c-m-s-header :style="headerStyle">
@@ -67,7 +67,23 @@ export default {
             type: String,
             required: false,
             default: "black"
-        }
+        },
+        headerColor: {
+            type: String,
+            required: false,
+            default: "#434c64"
+        },
+        backgroundColor: {
+            type: String,
+            required: false,
+            default: "#434c64"
+        },
+        textColor: {
+            type: String,
+            required: false,
+            default: "#fff"
+        },
+        
     },
     computed: {
         ...mapGetters(["isNavigationBarOpened"]),
