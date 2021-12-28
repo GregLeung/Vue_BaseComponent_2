@@ -43,6 +43,7 @@ import StandardDrawer from "./components/StandardDrawer/StandardDrawer.vue";
 import NewCMSForm from "./components/NewCMSForm/NewCMSForm.vue";
 import LoginPage from "./components/LoginPage/LoginPage.vue";
 import ReportTemplate from "./components/ReportTemplate/ReportTemplate.vue";
+import StandardBoxButton from "./components/StandardBoxButton/StandardBoxButton.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -97,6 +98,7 @@ export {
     NewCMSForm,
     LoginPage,
     ReportTemplate,
+    StandardBoxButton,
     Request,
     Excel,
     Util,
