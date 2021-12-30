@@ -558,7 +558,7 @@ export default {
     .word-break
       margin-left: .8em
 ::v-deep .el-table__body-wrapper
-  padding-bottom: 1em
+  padding-bottom: 0px !important
 ::v-deep .el-table .el-table__row
   overflow: hidden
   td

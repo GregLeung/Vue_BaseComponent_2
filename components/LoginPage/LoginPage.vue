@@ -20,6 +20,7 @@
             <h2>{{$t('Welcome to')}}</h2>
             <h1>{{systemName}}</h1>
             <p>{{$t('Login to Access Dashboard')}}</p>
+            <p>Version: {{version}}</p>
           </div>
         </div>
       </div>
@@ -32,6 +33,11 @@ import {LoginContainerBox, LoginInput, Request} from "vue_basecomponent";
 export default Vue.extend({
     props: {
         systemName: {
+            type: String,
+            required: true,
+            default: ""
+        },
+        version: {
             type: String,
             required: true,
             default: ""
