@@ -57,6 +57,7 @@ export default{
 }
 </script>
 <style lang="sass" scoped>
+@import "@/static/variables.scss"
 ::v-deep
     .el-dialog__header
         padding: 0px
@@ -66,7 +67,7 @@ export default{
         height: 100%
 .container-title
     width: 100%
-    background-color: #0e71eb
+    background-color: $main-theme-plain
     height: 3em
     .title-row
         align-items: center

@@ -111,6 +111,17 @@ export default {
             require: false,
             default: "100%"
         },
+        formateType: {
+            type: String,
+            require: false,
+            default: "Number"
+        },
+        decimalNumber: {
+            type: Number,
+            require: false,
+            default: 3
+        }
+        
     },
     watch:{
         localAppendSelect: {
@@ -143,8 +154,8 @@ export default {
     },
     methods:{
         isNumeric(str) {
-            if (typeof str != "string") return false // we only process strings!  
-            return !isNaN(str) && !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+            if (typeof str != "string") return false
+            return !isNaN(str) && !isNaN(parseFloat(str))
         },
         handleFocus(event){
             try{
@@ -157,7 +168,8 @@ export default {
         handleBlur(){
             try{
                 this.type = "text";
-                this.localValue = Number(this.localValue).toFixed(3)
+                if(this.formateType == "Number" && this.decimalNumber != null)
+                    this.localValue = Number(this.localValue).toFixed(this.decimalNumber)
                 if(this.sperateSign != '') this.localValue = this.convertNumberWithSeperation(this.localValue)
             }catch(error){
                 console.log(error);

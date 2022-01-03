@@ -42,12 +42,13 @@ export default{
 }
 </script>
 <style lang="sass" scoped>
+@import "@/static/variables.scss"
 ::v-deep 
     .el-drawer__container
         width: 90%
         margin-left: 5%
     #el-drawer__title
-        background-color: #0e71eb
+        background-color: $main-theme-plain
         margin-bottom: 0em
         color: white
     .el-drawer__header
