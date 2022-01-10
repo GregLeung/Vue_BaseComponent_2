@@ -280,6 +280,13 @@ const Plugin = {
                     })
                     return result.isConfirmed
                 },
+                alert(title, content) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: title,
+                        text: content != null ? content : ""
+                    });
+                },
                 convertNumberWithSeperation(val, defaultValue = "") {
                     return (val != null) ? val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : defaultValue
                 },
