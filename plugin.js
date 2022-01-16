@@ -40,7 +40,9 @@ import {
     LoginPage,
     NewCMSForm,
     ReportTemplate,
-    StandardBoxButton
+    StandardBoxButton,
+    Request,
+    Util,
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -84,6 +86,8 @@ const components = {
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
 })
+Vue.prototype.$request = Request
+Vue.prototype.$util = Util
 const Plugin = {
     install(Vue, options) {
         Vue.mixin({
