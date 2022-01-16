@@ -238,6 +238,11 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    whereOperationType: {
+      type: String,
+      required: false,
+      default: "OR"
     }
   },
   mounted() {
@@ -277,6 +282,7 @@ export default {
       if(this.computed.length > 0)
         parameters["computed"] = this.computed
       parameters["multipleSelection"] = this.multipleSelection.map(f => f.ID)
+      parameters["whereOperationType"] = this.whereOperationType
       return parameters
       },
     handleEnterChange() {
@@ -356,6 +362,7 @@ export default {
           parameters["whereCondition"] = this.whereCondition
         if(this.whereOperation.length > 0)
           parameters["whereOperation"] = this.whereOperation
+        parameters["whereOperationType"] = this.whereOperationType
         if(this.isCustomRequest){
           this.$emit("customRequest",parameters,(result, totalRow) => {
             this.dataListForShowLength = totalRow

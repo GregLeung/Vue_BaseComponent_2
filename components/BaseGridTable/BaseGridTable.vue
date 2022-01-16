@@ -159,10 +159,10 @@ export default {
     handleColumnListConfirm(columnList){
       this.columnList = columnList
     },
-    handleMenuItemClick(value, label, config){
+    async handleMenuItemClick(value, label, config){
       switch(value){
         case "Delete":
-          if(confirm("Confirm To Delete"))
+          if(await this.confirm("Confirm To Delete"))
             // this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
             this.handleDelete(this.rightClickSelectedRow.innerProperty.rowIndex, 1)
           break;
@@ -258,7 +258,23 @@ export default {
         var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
         nextCellRef.isSelected = true
         this.$refs.table.setCurrentRow(nextCellRef.row)
+        // if(!this.isInViewport(nextCellRef.$el))
+        //   nextCellRef.$el.scrollIntoView();
+        this.scollIntoElement(nextCellRef.$el)
       }, 10);
+    },
+    scollIntoElement(element){
+      if(!this.isInViewport(element))
+        element.scrollIntoView();
+    },
+    isInViewport(element) {
+      const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     },
     // addScrollDetector(){
     //   const el = this.$refs.table.$el;

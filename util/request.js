@@ -182,9 +182,11 @@ class Request {
 }
 
 function getFromCache(key) {
-    if (store().state.cache == null)
+    try {
+        return store().state.cache.get(key);
+    } catch (e) {
         return null
-    return store().state.cache.get(key);
+    }
 }
 
 function cleanCache(key) {
