@@ -18,6 +18,7 @@ class BaseStore extends Vuex.Store {
         options.state.cache = initCache();
         options.state.user = Cookies.get(options.state.frontEntry + "user") || null;
         options.state.token = Cookies.get(options.state.frontEntry + "token") || "";
+        options.state.version = Cookies.get(options.state.frontEntry + "version") || null;
         options.state.loadingText = "Loading";
         options.state.loadingIcon = "el-icon-loading";
         options.state.loadingBackground = "rgba(0, 0, 0, 0.7)";
@@ -52,6 +53,10 @@ class BaseStore extends Vuex.Store {
             Cookies.set(options.state.frontEntry + "user", user);
             state.user = Cookies.get(options.state.frontEntry + "user");
         };
+        options.mutations.SET_VERSION = (state, version) => {
+            Cookies.set(options.state.frontEntry + "version", version);
+            state.version = Cookies.get(options.state.frontEntry + "version");
+        };
         options.mutations.SET_CACHE = (state, data) => {
             state.cache.set(data.key, data.value);
         };
@@ -73,6 +78,9 @@ class BaseStore extends Vuex.Store {
         (options.actions.setUser = function({ commit }, user) {
             commit("SET_USER", user);
         }),
+        (options.actions.setVersion = function({ commit }, version) {
+            commit("SET_VERSION", version);
+        }),
         (options.actions.setCache = function({ commit }, data) {
             commit("SET_CACHE", data);
         });
@@ -89,6 +97,10 @@ class BaseStore extends Vuex.Store {
         options.getters.user = state => {
             if (state.user == null) return null;
             return JSON.parse(state.user);
+        };
+        options.getters.version = state => {
+            if (state.version == null) return null;
+            return JSON.parse(state.version);
         };
         options.getters.userType = state => {
             if (state.user == null) return null;
