@@ -47,5 +47,5 @@ export default {
     padding-left: 1em
     padding-right: 1em
 ::v-deep .el-divider--horizontal
-    margin: 12px 0;
+    margin: 12px
  </style>

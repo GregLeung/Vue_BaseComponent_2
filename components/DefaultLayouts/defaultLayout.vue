@@ -1,6 +1,6 @@
 <template>
 <div class="window-container">
-    <navigation-bar id="navigation-bar" :headerColor="headerColor" :backgroundColor="backgroundColor" :textColor="textColor"  :class="classObj" lineHeight="2.6em" :path="currentPath" :menu="menu" :hasLogo="hasLogo"></navigation-bar>
+    <navigation-bar id="navigation-bar" :headerColor="headerColor" :backgroundColor="backgroundColor" :textColor="textColor"  :class="classObj" lineHeight="2.6em" :path="currentPath" :menu="menu" :hasLogo="hasLogo" :textColorActive="textColorActive"></navigation-bar>
     <el-col>
         <div class="main-page" :class="classObj">
             <c-m-s-header :style="headerStyle">
@@ -67,6 +67,10 @@ export default {
             type: String,
             required: false,
             default: "black"
+        },
+        textColorActive: {
+            required: false,
+            default: null
         },
         headerColor: {
             type: String,

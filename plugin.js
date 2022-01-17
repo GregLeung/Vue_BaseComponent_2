@@ -40,9 +40,7 @@ import {
     LoginPage,
     NewCMSForm,
     ReportTemplate,
-    StandardBoxButton,
-    Request,
-    Util,
+    StandardBoxButton
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -86,12 +84,19 @@ const components = {
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
 })
-Vue.prototype.$request = Request
-Vue.prototype.$util = Util
 const Plugin = {
     install(Vue, options) {
         Vue.mixin({
             methods: {
+                showNumber(value, decimalPoint = 3) {
+                    try {
+                        if (Math.round(value) == 0)
+                            return "0.000"
+                        return Number(value).toFixed(decimalPoint)
+                    } catch (e) {
+                        return value
+                    }
+                },
                 isJSONObject(obj) {
                     return obj !== undefined && obj !== null && obj.constructor == Object
                 },

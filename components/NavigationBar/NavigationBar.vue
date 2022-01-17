@@ -7,7 +7,7 @@
       @close="handleClose"
       :background-color="backgroundColor"
       :text-color="textColor"
-      :active-text-color="mainThemePlain"
+      :active-text-color="textColorActive == null ? mainThemePlain :textColorActive"
       ref="menu"
       @select="handleSelect"
       :collapse="isCollaspe"
@@ -52,6 +52,10 @@ export default {
       type: String,
       required: false,
       default: "#fff"
+    },
+    textColorActive: {
+      required: false,
+      default: null
     },
     path: {
       type: String,
