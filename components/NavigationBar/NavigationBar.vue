@@ -107,8 +107,10 @@ export default {
   padding-top: 1em
   padding-bottom: 1em
   .header-image
-    width: 100%
     object-fit: cover
+    width: 90%
+    margin-left: 5%
+    margin-right: 5%
 .divider
   margin-top: 0px
   margin-bottom: .5em

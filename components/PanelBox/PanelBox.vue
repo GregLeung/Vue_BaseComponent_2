@@ -30,7 +30,7 @@ export default{
         width: {
             type: String,
             required: false,
-            default: "20em"
+            default: "18em"
         },
         title: {
             type: String,
