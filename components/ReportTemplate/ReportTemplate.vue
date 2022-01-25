@@ -52,20 +52,30 @@ export default{
         },
         getElementHeightList(){
             this.elementHeightList = this.data.map((f,index) => {
-                // return this.$refs["item_" + index][0].$el.getBoundingClientRect().height 
-                return this.$refs["item_" + index][0].getBoundingClientRect().height 
+                // return this.$refs["item_" + index][0].getBoundingClientRect().height 
+                return {
+                    height: this.$refs["item_" + index][0].getBoundingClientRect().height,
+                    data: f
+                }
             })
         },
         calculateElement(){
             var currentContainerSize = 0
             this.splitedDataIndex.push([])
             this.elementHeightList.forEach((f,index) => {
-                if(currentContainerSize + f  < this.pageHeight){
-                    currentContainerSize += f
+                if(currentContainerSize + f.height  < this.pageHeight){
+                    currentContainerSize += f.height
                     this.splitedDataIndex[this.splitedDataIndex.length - 1].push(index)
+                    if(f.data.hasOwnProperty("inner")){
+                        if(f.data.inner.skipPage == true && index != this.elementHeightList.length -1){
+                            this.totalPage += 1
+                            currentContainerSize = 0
+                            this.splitedDataIndex.push([])
+                        }        
+                    }
                 }else{
                     this.totalPage += 1
-                    currentContainerSize = f
+                    currentContainerSize = f.height
                     this.splitedDataIndex.push([index])
                 }
             })

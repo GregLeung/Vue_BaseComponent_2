@@ -2,9 +2,10 @@ $great-big-pc-media: 1920px
 $big-pc-media: 1440px
 $pc-media: 1024px
 $pad-media: 768px
+$phone-media: 450px
 
 html
-    font: 18px Arial, sans-serif 
+    font: 18px Arial, sans-serif !important
     h1
         font-size: 2rem
     h2
@@ -19,13 +20,16 @@ html
         font-size: .67rem
 @media all and (max-width: $big-pc-media) 
     html
-        font: 15px Arial, sans-serif
+        font: 15px Arial, sans-serif !important
 @media all and (max-width: $pc-media) 
     html
-        font: 12px Arial, sans-serif
+        font: 12px Arial, sans-serif !important
 @media all and (max-width:$pad-media) 
     html
-        font: 10px Arial, sans-serif
+        font: 10px Arial, sans-serif !important
+@media all and (max-width:$phone-media) 
+    html
+        font: 8px Arial, sans-serif !important
 $em-size: 160
 @mixin margin-padding-mixin 
     @for $i from 1 through $em-size 
