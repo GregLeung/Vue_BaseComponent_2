@@ -75,7 +75,15 @@ body
     display: flex
     justify-content: space-between
     align-items: center
-.row
+.row //deprecated
+    display: flex
+    &.space-between
+        justify-content: space-between
+    &.align-items-center
+        align-items: center
+    &.align-items-flex-end
+        align-items: flex-end
+.base-row
     display: flex
     &.space-between
         justify-content: space-between

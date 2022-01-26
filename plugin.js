@@ -97,6 +97,9 @@ const Plugin = {
                         return value
                     }
                 },
+                showDate(value) {
+                    return this.$moment(value).format("YYYY-MM-DD")
+                },
                 isJSONObject(obj) {
                     return obj !== undefined && obj !== null && obj.constructor == Object
                 },

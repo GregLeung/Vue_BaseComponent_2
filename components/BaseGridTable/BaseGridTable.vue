@@ -2,7 +2,7 @@
   <div id="base-table" class="container">
     <div class="table-wrapper" v-click-outside="handleClickOutside">
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
-        <el-table-column v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip >
+        <el-table-column v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip :filters="filterColumnValue(column)" :filter-method="filterHandler">
           <template slot-scope="scope">
             <cell :ref="'el-table_column_' + index + '_row_index_' + scope.$index + '_'" :class="'row_index_' + scope.$index" :columnProp="column.prop" :column="column" :row="scope.row" :columnIndex="index" :columnID="scope.column.id" :cell-update="handleCellUpdate" :showValue="column.showValue != null ? column.showValue(column, scope.row, index, scope.$index): null" :isEditable="column.isEditable" :editConfig="column.editConfig" :cellStyle="column.cellStyle">
                 <div :slot="column.prop + '-active'" slot-scope="scope">
@@ -152,6 +152,26 @@ export default {
     }
   },
   methods: {
+    filterColumnValue(column){
+      var result = this.filterUnique(this.dataList, column.prop).map(f => {
+        if(f[column.prop] != null)
+          return {
+            text: f[column.prop].toString() ?? "",
+            value: f[column.prop].toString() ?? ""
+          }
+        else
+          return {
+            text: "",
+            value: ""
+          }
+      })
+      result.sort((a,b) => a.text.localeCompare(b.text))
+      return result
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] == value;
+    },
     handleDelete(rowIndex){
       this.dataList.splice(rowIndex, 1);
       this.$emit("update:dataList",this.dataList)
@@ -310,7 +330,7 @@ export default {
     },
     getSelectedCellRef(){
         for (let key in this.$refs) {
-            if(key.includes("el-table") && this.$refs[key][0].isSelected)
+            if(key.includes("el-table") && this.$refs[key].length > 0 && this.$refs[key][0].isSelected)
                 return this.$refs[key][0]
         }
         return null
@@ -415,7 +435,8 @@ export default {
       for (let key in this.$refs) {
         if(selectedCellRefName != key && key.includes("el-table")){
           try{
-            this.$refs[key][0].unFocus()
+            if(this.$refs[key].length > 0)
+              this.$refs[key][0].unFocus()
           }catch(e){
             console.log(e);
           }
