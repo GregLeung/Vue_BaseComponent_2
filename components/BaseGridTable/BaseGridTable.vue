@@ -1,6 +1,6 @@
 <template>
   <div id="base-table" class="container">
-    <div class="table-wrapper" v-click-outside="handleClickOutside">
+    <div class="table-wrapper" v-click-outside="handleClickOutside" @copy="handleCopy" @paste="handlePaste">
       <el-table :key="key" highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" class="table mb-16" border :data="dataList" style="width: 100%" ref="table" :row-style="rowStyle" @row-click="handleRowClick" @row-dblclick="handleRowDoubleClick" @cell-click="handleCellClick" :row-class-name="tableRowClassName" :cell-class-name="tableCellClassName" :header-cell-style="{ 'padding': '3px 0', 'background-color': '#DDDDDD' }">
         <el-table-column v-for="(column, index) in visibleColumn" v-bind:key="index" :label="column.label" :sortable="(column.sortable != null) ?column.sortable :'custom'" :min-width="column.width" :prop="column.prop" :fixed="column.fixed" show-overflow-tooltip :filters="filterColumnValue(column)" :filter-method="filterHandler">
           <template slot-scope="scope">
@@ -123,6 +123,7 @@ export default {
   },
   data() {
     return {
+      lastSubSelectedCellRef: null,
       windowHeight: window.innerHeight,
       currentSortProp: null,
       visibleAdvancedSearchDialog: false,
@@ -152,6 +153,55 @@ export default {
     }
   },
   methods: {
+    handlePaste(event){
+      try{
+        var pasteValue = event.clipboardData.getData('Text')
+        pasteValue = pasteValue.split("\n")
+        pasteValue = pasteValue.map(f => f.split("\t"))
+        var cellRef = this.getSelectedCellRef()
+        var rowIndex = cellRef.getRowIndex()
+        var columnIndex = cellRef.columnIndex
+        var currentRow = 0;
+        var currentColumn = 0;
+        pasteValue.forEach(rowPasteValue => {
+          rowPasteValue.forEach(f => {
+            var currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
+            currentCellRef.localValue = f
+            currentCellRef.editSubmit()
+            currentColumn += 1
+          })
+          currentRow += 1
+          currentColumn = 0
+        })
+      }catch(e){
+        console.log(e);
+      }
+    },
+    async handleCopy(){
+      try{
+        if(this.lastSubSelectedCellRef != null){
+          var result = "";
+          var cellRefList = this.getAllSelectedCellRefList()
+          var rowIndex = null
+          cellRefList.forEach(f => {
+            f.isCopy = true
+            if(rowIndex != null && rowIndex != f.getRowIndex())
+              result += "\n" + f.getDisplay() + "\t"
+            else
+              result += f.getDisplay() + "\t"
+            rowIndex = f.getRowIndex()
+          })
+          await navigator.clipboard.writeText(result)
+        }else{
+          var cellRef = this.getSelectedCellRef()
+          cellRef.isSelected = true
+          cellRef.isCopy = true
+          await navigator.clipboard.writeText(cellRef.getDisplay())
+        }
+      }catch(e){
+        console.log(e);
+      }
+    },
     filterColumnValue(column){
       var result = this.filterUnique(this.dataList, column.prop).map(f => {
         if(f[column.prop] != null)
@@ -231,23 +281,23 @@ export default {
                     nextColumnIndex = columnIndex;
                 else
                     nextColumnIndex = columnIndex + 1
-                this.moveCursor(nextRowIndex, nextColumnIndex)
+                this.moveCursor(nextRowIndex, nextColumnIndex, event.shiftKey, key)
             }else if(key === 'ArrowLeft'){
                 nextRowIndex = rowIndex
                 if(columnIndex - 1 < 0)
                     var nextColumnIndex = columnIndex;
                 else
                     var nextColumnIndex = columnIndex - 1
-                this.moveCursor(nextRowIndex, nextColumnIndex)
+                this.moveCursor(nextRowIndex, nextColumnIndex, event.shiftKey, key)
             }else if (key === 'ArrowUp') {
                 nextRowIndex = currentCellRef.row.innerProperty.rowIndex - 1
                 if(nextRowIndex < 0)
                     nextRowIndex = rowIndex
                 nextColumnIndex = columnIndex
-                this.moveCursor(nextRowIndex, nextColumnIndex)
+                this.moveCursor(nextRowIndex, nextColumnIndex, event.shiftKey, key)
             }
             else if (key === 'ArrowDown') {
-                if(currentCellRef.row.innerProperty.rowIndex + 1 >= this.dataList.length){
+                if(currentCellRef.row.innerProperty.rowIndex + 1 >= this.$refs.table.tableData.length){
                   if(this.isAllowCreate(this.dataList)){
                     this.addNewLine()
                     nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
@@ -256,14 +306,13 @@ export default {
                   nextRowIndex = currentCellRef.row.innerProperty.rowIndex + 1
                 }
                 var nextColumnIndex = columnIndex
-                this.moveCursor(nextRowIndex, nextColumnIndex)
+                this.moveCursor(nextRowIndex, nextColumnIndex, event.shiftKey, key)
             }
             else if(key == "Backspace" || event.keyCode == 46){
               var selectedRowIndex = this.getSelectedRowIndex()
               if(selectedRowIndex != null && confirm("Confirm To Delete"))
-                // this.dataList.splice(this.getSelectedRowIndex(), 1);
                 this.handleDelete(this.getSelectedRowIndex(), 1)
-              this.moveCursor(nextRowIndex, nextColumnIndex)
+              this.moveCursor(nextRowIndex, nextColumnIndex, event.shiftKey, key)
             }
             else if(key == "Enter"){
               this.focusCell(currentCellRef.row, Object.assign(currentCellRef.column, {index: columnIndex}), event)
@@ -272,37 +321,98 @@ export default {
         }
     })
     },
-    moveCursor(nextRowIndex, nextColumnIndex){
-      this.unFoucs()
-      setTimeout(() =>{
-        var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
-        nextCellRef.isSelected = true
-        this.$refs.table.setCurrentRow(nextCellRef.row)
-        // if(!this.isInViewport(nextCellRef.$el))
-        //   nextCellRef.$el.scrollIntoView();
-        this.scollIntoElement(nextCellRef.$el)
-      }, 10);
+    moveSubCursor(nextRowIndex, nextColumnIndex, key){
+      var currentCellRef = this.getSelectedCellRef()
+      if(this.lastSubSelectedCellRef == null){
+          var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
+          this.lastSubSelectedCellRef = nextCellRef
+      }else{
+        switch(key){
+          case "ArrowRight":
+              var nextCellRef = this.getCellRefByPosition(this.lastSubSelectedCellRef.getRowIndex(), this.lastSubSelectedCellRef.columnIndex + 1);
+              break;
+          case "ArrowLeft":
+              var nextCellRef = this.getCellRefByPosition(this.lastSubSelectedCellRef.getRowIndex(), this.lastSubSelectedCellRef.columnIndex - 1);
+              break;
+          case "ArrowUp":
+              var nextCellRef = this.getCellRefByPosition(this.lastSubSelectedCellRef.getRowIndex() - 1, this.lastSubSelectedCellRef.columnIndex);
+              break;
+          case "ArrowDown":
+              var nextCellRef = this.getCellRefByPosition(this.lastSubSelectedCellRef.getRowIndex() + 1, this.lastSubSelectedCellRef.columnIndex);
+              break;
+          }
+          this.lastSubSelectedCellRef = nextCellRef
+      }
+      this.setSubFocus(currentCellRef,this.calculateCellDistanceDiff(currentCellRef, nextCellRef))
     },
-    scollIntoElement(element){
-      if(!this.isInViewport(element))
+    setSubFocus(currentCellRef, distanceMap){
+      this.unFocusSubSelect()
+      var xAxisElementList = [0]
+      var yAxisElementList = [0]
+      if(distanceMap.xAxis > 0){
+        for(let i = 1; i <= distanceMap.xAxis; i++){
+          xAxisElementList.push(i)
+        }
+      }
+      else if(distanceMap.xAxis < 0){
+        for(let i = -1; i >= distanceMap.xAxis; i--){
+          xAxisElementList.push(i)
+        }
+      }
+      if(distanceMap.yAxis > 0){
+        for(let i = 1; i <= distanceMap.yAxis; i++){
+          yAxisElementList.push(i)
+        }
+      }
+      else if(distanceMap.yAxis < 0){
+        for(let i = -1; i >= distanceMap.yAxis; i--){
+          yAxisElementList.push(i)
+        }
+      }
+      xAxisElementList.forEach(x => {
+        yAxisElementList.forEach(y => {
+          if(y != 0 || x != 0){
+            var cellRef = this.getCellRefByPosition(currentCellRef.getRowIndex() + y, currentCellRef.columnIndex + x)
+            cellRef.isSubSelected = true
+          }
+        })
+      })
+    },
+    calculateCellDistanceDiff(cellRef1, cellRef2){
+      return {
+        xAxis: cellRef2.columnIndex - cellRef1.columnIndex,
+        yAxis: cellRef2.getRowIndex() - cellRef1.getRowIndex(),
+      }
+    },
+    moveCursor(nextRowIndex, nextColumnIndex, isShift, key){
+      if(!isShift){
+        this.unFocus()
+        setTimeout(() =>{
+          var nextCellRef = this.getCellRefByPosition(nextRowIndex, nextColumnIndex)
+          nextCellRef.isSelected = true
+          this.$refs.table.setCurrentRow(nextCellRef.row)
+          this.scollIntoElement(nextCellRef.$el, key)
+        }, 10);
+      }else{
+        this.moveSubCursor(nextRowIndex, nextColumnIndex, key)
+      }
+    },
+    scollIntoElement(element, key = null){
+      if(!this.isInViewport(element)){
         element.scrollIntoView();
+        if(key == "ArrowLeft")
+          document.getElementsByClassName("el-table__body-wrapper")[0].scrollBy(-100, 0)
+      }
     },
     isInViewport(element) {
       const rect = element.getBoundingClientRect();
         return (
             rect.top >= 0 &&
-            rect.left >= 0 &&
+            rect.left >= 300 &&
             rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     },
-    // addScrollDetector(){
-    //   const el = this.$refs.table.$el;
-    //   var tableWrapper = el.querySelector('.el-table__body-wrapper');
-    //   tableWrapper.addEventListener("scroll", (event)=>{
-    //     this.lastScrollYPosition =  tableWrapper.scrollTop;
-    //   })
-    // },
     getSelectedRowIndex(){
       var object = this.dataList.find(f => f.innerProperty.isSelected)
       if(object != null)
@@ -354,7 +464,7 @@ export default {
       this.dataList.forEach(f => f.innerProperty.isSelected = false)
       if(column.index == 0)
         cellRef.row.innerProperty.isSelected = true
-      this.removeUnselectedCellFocus(row,column, event)
+      this.unFocus()
       cellRef.isSelected = true
       this.$emit("cell-click", row, column, cell, event)
       this.triggerRowClassName()
@@ -378,18 +488,7 @@ export default {
       this.$emit("after-update",value, columnProp, updatedRow, row, column)
     },
     handleClickOutside(event){
-        this.unFoucs()
-    //   var refList = this.getEditingCellRefs()
-    //   var result = {}
-    //   if(refList.length > 0)
-    //     result = Object.assign({},refList[0].row)
-    //   refList.forEach(f => {
-    //     f.unFocus()
-    //   })
-    //   refList.forEach(f => {
-    //     this.assignDeepValue(result, f.columnProp, f.localValue)
-    //   })
-    //   this.rowUpdate(result, refList[0].row)
+        this.unFocus()
     },
     getEditingCellRefs(){
       var result = []
@@ -417,32 +516,6 @@ export default {
         console.log(e);
       }
     },
-    removeUnselectedRowFocus(row, column, event){
-      var selectedRefNameList = []
-      var rowClass = this.getRowClass(row,column, event)
-      for(let i = 0; i < this.totalColumnNumber; i++){
-        selectedRefNameList.push('el-table_' + 'column_' + i   + "_" +rowClass  +"_")
-      }
-      for (let key in this.$refs) {
-        if(!selectedRefNameList.includes(key) && key.includes("el-table")){
-          this.$refs[key][0].unFocus()
-        }
-      }
-    },
-    removeUnselectedCellFocus(row, column, event){
-      var rowClass = this.getRowClass(row,column, event)
-      var selectedCellRefName = 'el-table_' + 'column_' + column.index  + "_" + rowClass + "_"
-      for (let key in this.$refs) {
-        if(selectedCellRefName != key && key.includes("el-table")){
-          try{
-            if(this.$refs[key].length > 0)
-              this.$refs[key][0].unFocus()
-          }catch(e){
-            console.log(e);
-          }
-        }
-      }
-    },
     getRowClass(row,column, event){
       return "row_index_" + row.innerProperty.rowIndex
     },
@@ -457,12 +530,31 @@ export default {
       }
       return result;
     },
-    unFoucs(){
+    getAllSelectedCellRefList(){
+      var result = []
+      for (let key in this.$refs) {
+        if(key.includes("el-table") &&  this.$refs[key].length > 0){
+          if(this.$refs[key][0].isSelected || this.$refs[key][0].isSubSelected)
+            result.push(this.$refs[key][0])
+        }
+      }
+      return result
+    },
+    unFocusSubSelect(){
+      for (let key in this.$refs) {
+        if(key.includes("el-table") &&  this.$refs[key].length > 0){
+          this.$refs[key][0].isSubSelected = false
+          this.$refs[key][0].isCopy = false
+        }
+      }
+    },
+    unFocus(){
       for (let key in this.$refs) {
         if(key.includes("el-table") &&  this.$refs[key].length > 0){
           this.$refs[key][0].unFocus()
         }
       }
+      this.lastSubSelectedCellRef = null
     },
     handleRowDoubleClick(row, column, event){
       this.focusCell(row, column, event)
@@ -511,17 +603,6 @@ export default {
             }
           }))
         }
-      // else{
-      //   var newObject = lineObject ?? this.newLine()
-      //   if(newObject != null)
-      //     this.dataList.push(Object.assign(newObject, {
-      //     innerProperty: {
-      //       isCreatedRow : true,
-      //       isSelected: false,
-      //       rowIndex: this.dataList.length + 1
-      //     }
-      //   }))
-      // }
       setTimeout(() =>{
          this.scrollToBottom()
       }, 10);
@@ -542,11 +623,6 @@ export default {
       this.$refs.table.setCurrentRow()
       this.$refs.table.setCurrentRow(rowIndex)
     }
-    // scrollToLastPosition(){
-    //   const el = this.$refs.table.$el;
-    //   var tableWrapper = el.querySelector('.el-table__body-wrapper');
-    //   tableWrapper.scrollTop = this.lastScrollYPosition
-    // },
   },
   computed: {
     visibleColumn: function(){
@@ -561,7 +637,8 @@ export default {
         width: this.indexWidth,
         fixed: true,
         cellStyle: {
-          "width": "100%"
+          "width": "100%",
+          "padding": "1px"
         }
       }
       return [indexColumn].concat(this.columnList.filter(f => !f.isHidden || false))

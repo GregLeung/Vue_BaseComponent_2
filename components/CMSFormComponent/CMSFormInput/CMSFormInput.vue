@@ -3,7 +3,7 @@
     <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
       <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
-    <el-input @keyup.enter.native="handleKeyUpEnter" @keydown.enter.native="handleKeyDownEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit" @blur="handleBlur">
+    <el-input class="input" @keyup.enter.native="handleKeyUpEnter" @keydown.enter.native="handleKeyDownEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit" @blur="handleBlur">
         <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
@@ -81,6 +81,11 @@ export default {
             required: false,
             default: "none"
         },
+        isNoWrap: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         showWordLimit: {
             type: Boolean,
             required: false,
@@ -130,6 +135,8 @@ export default {
         cssVars() {
             return {
                 '--textTransform': this.textTransform,
+                '--white-space': this.isNoWrap ?  "pre" : "normal",
+                '--overflow-x': this.isNoWrap ?  "scroll" : "visible",
                 'width': this.width
             }
         }
@@ -142,4 +149,7 @@ export default {
 
 ::v-deep .el-input__inner
     text-transform: var(--textTransform)
+::v-deep .el-textarea__inner
+    white-space: var(--white-space)
+    overflow-x: var(--overflow-x)
 </style>

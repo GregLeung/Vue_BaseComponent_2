@@ -1,8 +1,8 @@
 <template>
 <div class="cell-container" style="width: 100%; height: 100%">
-    <div :class="{'is-selected': isSelected}">
+    <div :class="{'is-selected': isSelected, 'is-copy': isCopy, 'is-sub-selected': isSubSelected}">
         <div v-if="isEditing && isEditable">
-            <c-m-s-form-input v-if="editConfig.type == 'input'" @keydown-enter="handleKeyDown" ref="cellEditItem" :showLabel="false" v-model="localValue" @blur="editSubmit"></c-m-s-form-input>
+            <c-m-s-form-input  v-if="editConfig.type == 'input'" @keydown-enter="handleKeyDown" ref="cellEditItem" :showLabel="false" v-model="localValue" @blur="editSubmit"></c-m-s-form-input>
             <new-c-m-s-selector ref="cellEditItem" v-else-if="editConfig.type == 'select'"  :showLabel="false" @change="(value)=> editSubmitSelector(value, editConfig, row)" :options="editConfig.options(row)" :clearable="editConfig.clearable != null ?  editConfig.clearable(row): true" :multiple="editConfig.multiple != null ?  editConfig.multiple(row): false" @clear="()=>{if(editConfig.clear != null) editConfig.clear(row)}" :isPopOver="editConfig.isPopOver != null ?  editConfig.isPopOver(row): false" v-model="localValue">
                 <div slot="popOver">
                     <slot :name="column.prop + '-popOver'" :row="row" :isEditing="isEditing" :isEditable="isEditable" :editConfig="editConfig" :isSelected="isSelected"></slot>
@@ -93,31 +93,72 @@ export default {
         isEditing(val, oldVal){
             if(val){
                 this.localValue = this.getDeepObjectProp(this.row, this.columnProp)
+                if(this.lastValidValue == null) 
+                    this.lastValidValue = this.localValue
                 this.isSelected = false
             }
         },
     },
     methods: {
+        checkLocalValueValid(){
+            var isValid = true;
+            if(this.editConfig.type == "date"){
+                isValid = this.$moment(this.localValue, "YYYY-MM-DD").isValid()
+                this.localValue = this.$moment(this.localValue).format("YYYY-MM-DD")
+            }else if(this.editConfig.type == 'select'){
+                var selectedOption = this.editConfig.options(this.row).find(f => f.label == this.localValue || f.value == this.localValue)
+                if(selectedOption == null)
+                    isValid = false
+                else
+                    this.localValue = selectedOption.value
+            }
+            if(!isValid)
+                this.localValue = this.lastValidValue
+            return isValid;
+        },
+        getRowIndex(){
+            return this.row.innerProperty.rowIndex
+        },
+        getDisplay(){
+            var result = "";
+            if(this.showValue != null)
+                result = this.showValue
+            else if(this.column.hasOwnProperty('format'))
+                result = this.column.format(this.row[this.column.prop], this.row)
+            else if(this.editConfig.type == 'select')
+                result = this.convertValueToLabel(this.getDeepObjectProp(this.row,this.column.prop), this.editConfig.options(this.row))
+            else
+                result = this.getDeepObjectProp(this.row,this.column.prop)
+            if(result == null)
+                return ""
+            else
+                return result
+        },
         handleKeyDown(){
-            document.activeElement.blur(    );
+            document.activeElement.blur();
         },
         focus(){
             if(this.$refs.cellEditItem != null)
                 this.$refs.cellEditItem.focus();
         },
         editSubmit(isRemoveEditFocus = true){
-            if(isRemoveEditFocus)
-                this.sibilingRefList.forEach(f => f.isEditing = false)
-            var cloneRow = this.deepClone(this.row)
-            this.assignDeepValue(cloneRow, this.columnProp, this.localValue)
-            this.cellUpdate(this.localValue, this.columnProp, cloneRow, this.row, this.column)
-            setTimeout(() =>{
-                this.isSelected = true
-            },10)
+            if(this.checkLocalValueValid()){
+                if(isRemoveEditFocus)
+                    this.sibilingRefList.forEach(f => f.isEditing = false)
+                var cloneRow = this.deepClone(this.row)
+                this.assignDeepValue(cloneRow, this.columnProp, this.localValue)
+                this.cellUpdate(this.localValue, this.columnProp, cloneRow, this.row, this.column)
+                this.lastValidValue = this.localValue
+                setTimeout(() =>{
+                    this.isSelected = true
+                },10)
+            }
         },
         unFocus(){
             this.isEditing = false
             this.isSelected = false
+            this.isSubSelected = false
+            this.isCopy = false
         },
         editSubmitSelector(value, editConfig, row){
             this.localValue = value
@@ -143,7 +184,10 @@ export default {
         return {
             isEditing: false,
             isSelected: false,
+            isSubSelected: false,
+            isCopy: false,
             localValue: null,
+            lastValidValue: null,
             sibilingRefList: []
         }
     }
@@ -151,11 +195,30 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-// .cell-container
-//     height: 2em
+@import "@/static/variables.scss"
 .is-selected
     min-height: 2em
     border-style: solid
-    border-color: blue
+    border-color: $main-theme-plain
     border-width: thin
+.is-sub-selected
+    min-height: 2em
+    border-style: solid
+    border-color: $main-theme-plain
+    border-width: thin
+    background: rgba(0,0,0,0.3)
+.is-copy 
+    height: 100%
+    width: 100%
+    background: linear-gradient(90deg, $main-theme-plain 50%, transparent 50%), linear-gradient(90deg, $main-theme-plain 50%, transparent 50%), linear-gradient(0deg, $main-theme-plain 50%, transparent 50%), linear-gradient(0deg, $main-theme-plain 50%, transparent 50%)
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y
+    background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px
+    background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0px
+    border-radius: 1px
+    animation: dash 10s linear infinite
+
+
+@keyframes dash 
+    to 
+        background-position: 100% 0%, 0% 100%, 0% 0%, 100% 100%
 </style>
