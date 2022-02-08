@@ -1,5 +1,5 @@
 <template>
-  <div id="base-table" class="container">
+  <div id="base-table">
         <div v-if="tableStyle == 'OLD'" class="old-style">
           <h1>{{ title }}</h1>
           <div class="space-between-row">
@@ -8,7 +8,7 @@
               <el-button type="primary" size="medium" icon="el-icon-search" @click="handleEnterChange">Search</el-button>
               <slot name="searchSlot"/>
             </div>
-            <div class="row" v-if="isAdvancedSearch">
+            <div class="base-row" v-if="isAdvancedSearch">
               <el-button @click="handleOpenAdvancedSearchDialog" type="text">Advanced Search</el-button>
             </div>
           </div>
@@ -16,7 +16,7 @@
         <div v-else class="standard-style">
           <div class="space-between-row title-row mt-4">
             <div>
-              <div class="row">
+              <div class="base-row">
                 <i v-if="icon != null" :class="[icon, 'icon']" :style="{'color': mainThemePlain}"></i>
                 <h1>{{ title }}</h1>
               </div>
@@ -430,6 +430,7 @@ export default {
 </script>
 <style scoped lang="sass">
 @import "./baseTable.sass"
+@import "@/static/variables.scss"
 ::v-deep
   .el-table
    cursor: pointer
@@ -446,7 +447,7 @@ export default {
     align-items: center
   .advanced-search-button
     border-style: none
-    color: #0e71eb
+    color: $main-theme-plain
     font-size: 1.5rem
 .icon
   font-size: 2rem

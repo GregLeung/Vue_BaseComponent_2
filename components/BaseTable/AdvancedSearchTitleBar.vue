@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p v-if="!isSelected" class="title">Advanced Search</p>
+        <h3 v-if="!isSelected" class="title">Advanced Search</h3>
         <div v-else>
             <span class="title" v-for="(item, index) in columnList.filter(f => f.hasOwnProperty('advancedSearch'))" :key="index">
                 <span v-if="value[item.prop] != null && Array.isArray(value[item.prop].value)">

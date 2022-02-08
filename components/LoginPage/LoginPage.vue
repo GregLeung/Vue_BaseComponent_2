@@ -3,7 +3,7 @@
     <div class="row">
       <div class="container-left center-item">
         <div class="header mt-12" text-align="center">
-          <img style="width: 60%" src="~@/assets/company_logo.png"/>
+          <img :style="{width: logoWidth}" src="~@/assets/company_logo.png"/>
         </div>
         <login-container-box class="login-container-box" :title="$t('Login')">
           <div class="login-input-div">
@@ -41,6 +41,11 @@ export default Vue.extend({
             type: String,
             required: true,
             default: ""
+        },
+        logoWidth: {
+          type: String,
+          required: false,
+          default: "60%"
         }
     },
     components:{

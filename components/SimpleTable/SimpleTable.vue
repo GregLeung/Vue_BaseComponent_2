@@ -75,7 +75,7 @@ export default {
         maxHeight: {
             type: String | Number,
             required: false,
-            default: window.innerHeight * 0.75
+            default: process.client ? window.innerHeight * 0.75 : "1080px"
         },
         rowKey: {
             type: String,

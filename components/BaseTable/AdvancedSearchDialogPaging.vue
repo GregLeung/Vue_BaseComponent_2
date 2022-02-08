@@ -260,7 +260,7 @@ export default {
         margin-top: .8em
         margin-bottom: .8em
     #el-drawer__title
-        background-color: #0e71eb
+        background-color: $main-theme-plain
         margin-bottom: 1em
         span, i
             color: white
@@ -283,6 +283,8 @@ h4
     text-align: center
     .confirm-button
         width: 20%
+        background-color: $main-theme-plain
+        color: white
 .title
     color: white
 </style>

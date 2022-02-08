@@ -3,9 +3,9 @@
     <c-m-s-breadcrumb v-if="breadcrumbItem.length > 0" :item="breadcrumbItem" />
     <div class="form-container" :style="{width: width}">
         <c-m-s-page-header :title='title' :subtitle='subtitle' :icon='icon' :iconSize="iconSize"/>
-        <el-card class="mt-12" :header="boxHeader" >
+        <el-card class="mt-4" :header="boxHeader" >
             <div slot="header">
-                <div class="row">
+                <div class="base-row">
                     <span style="font-weight: bold">{{boxHeader}}</span>
                     <slot name="header"></slot>
                 </div>
@@ -87,7 +87,7 @@ export default {
     padding-top: 1%   
     // padding-left: 10%   
     // padding-right: 10%   
-    .row
+    .base-row
         display: flex
         align-items: center
         justify-content: space-between
