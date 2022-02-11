@@ -40,7 +40,8 @@ import {
     LoginPage,
     NewCMSForm,
     ReportTemplate,
-    StandardBoxButton
+    StandardBoxButton,
+    VTooltipButton
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -79,7 +80,8 @@ const components = {
     LoginPage,
     NewCMSForm,
     ReportTemplate,
-    StandardBoxButton
+    StandardBoxButton,
+    VTooltipButton
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
