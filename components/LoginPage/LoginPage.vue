@@ -7,7 +7,7 @@
         </div>
         <login-container-box class="login-container-box" :title="$t('Login')">
           <div class="login-input-div">
-            <login-input class="mb-12" :placeholder="$t('Username')" v-model="data.loginName"></login-input>
+            <login-input class="mb-8" :placeholder="$t('Username')" v-model="data.loginName"></login-input>
             <login-input type="password" class="mb-12" :placeholder="$t('Password')" v-model="data.password"></login-input>
           </div>
           <el-button @click="handleLogIn" round>{{$t('Login')}}</el-button>

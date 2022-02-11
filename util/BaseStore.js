@@ -18,6 +18,8 @@ class BaseStore extends Vuex.Store {
         options.state.cache = initCache();
         options.state.user = Cookies.get(options.state.frontEntry + "user") || null;
         options.state.token = Cookies.get(options.state.frontEntry + "token") || "";
+        options.state.member = Cookies.get(options.state.frontEntry + "member") || null;
+        options.state.memberToken = Cookies.get(options.state.frontEntry + "memberToken") || "";
         options.state.version = Cookies.get(options.state.frontEntry + "version") || null;
         options.state.loadingText = "Loading";
         options.state.loadingIcon = "el-icon-loading";
@@ -53,6 +55,14 @@ class BaseStore extends Vuex.Store {
             Cookies.set(options.state.frontEntry + "user", user);
             state.user = Cookies.get(options.state.frontEntry + "user");
         };
+        options.mutations.SET_MEMBER_TOKEN = (state, memberToken) => {
+            Cookies.set(options.state.frontEntry + "memberToken", memberToken);
+            state.memberToken = Cookies.get(options.state.frontEntry + "memberToken");
+        };
+        options.mutations.SET_MEMBER = (state, member) => {
+            Cookies.set(options.state.frontEntry + "member", member);
+            state.member = Cookies.get(options.state.frontEntry + "member");
+        };
         options.mutations.SET_VERSION = (state, version) => {
             Cookies.set(options.state.frontEntry + "version", version);
             state.version = Cookies.get(options.state.frontEntry + "version");
@@ -78,6 +88,12 @@ class BaseStore extends Vuex.Store {
         (options.actions.setUser = function({ commit }, user) {
             commit("SET_USER", user);
         }),
+        (options.actions.setMemberToken = function({ commit }, memberToken) {
+            commit("SET_MEMBER_TOKEN", memberToken);
+        }),
+        (options.actions.setMember = function({ commit }, member) {
+            commit("SET_MEMBER", member);
+        }),
         (options.actions.setVersion = function({ commit }, version) {
             commit("SET_VERSION", version);
         }),
@@ -95,8 +111,24 @@ class BaseStore extends Vuex.Store {
             return state.navigationBar.isOpen;
         };
         options.getters.user = state => {
-            if (state.user == null) return null;
-            return JSON.parse(state.user);
+            if (state.user == null) {
+                var result = Cookies.get(options.state.frontEntry + "user") || null
+                if (result != null && result != "")
+                    return JSON.parse(result)
+                else
+                    return null
+            } else
+                return JSON.parse(state.user);
+        };
+        options.getters.member = state => {
+            if (state.member == null) {
+                var result = Cookies.get(options.state.frontEntry + "member") || null
+                if (result != null && result != "")
+                    return JSON.parse(result)
+                else
+                    return null
+            } else
+                return JSON.parse(state.member);
         };
         options.getters.version = state => {
             if (state.version == null) return null;
@@ -107,7 +139,24 @@ class BaseStore extends Vuex.Store {
             return JSON.parse(state.user).type;
         };
         options.getters.token = state => {
-            return state.token;
+            if (state.token == null) {
+                var result = Cookies.get(options.state.frontEntry + "token") || null
+                if (result != null && result != "")
+                    return token
+                else
+                    return null
+            } else
+                return state.token;
+        };
+        options.getters.memberToken = state => {
+            if (state.memberToken == null) {
+                var result = Cookies.get(options.state.frontEntry + "memberToken") || null
+                if (result != null && result != "")
+                    return memberToken
+                else
+                    return null
+            } else
+                return state.memberToken;
         };
         options.getters.cache = state => {
             return state.cache;
