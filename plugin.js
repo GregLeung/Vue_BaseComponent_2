@@ -41,7 +41,10 @@ import {
     NewCMSForm,
     ReportTemplate,
     StandardBoxButton,
-    VTooltipButton
+    StandardDrawer,
+    StandardDialog,
+    VTooltipButton,
+    CMSPhotoUpload
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -81,7 +84,10 @@ const components = {
     NewCMSForm,
     ReportTemplate,
     StandardBoxButton,
-    VTooltipButton
+    StandardDrawer,
+    StandardDialog,
+    VTooltipButton,
+    CMSPhotoUpload
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
@@ -90,11 +96,14 @@ const Plugin = {
     install(Vue, options) {
         Vue.mixin({
             methods: {
+                convertValueToLabel(optionsList, value) {
+                    return optionsList.find(f => f.value == value).label
+                },
                 showNumber(value, decimalPoint = 3) {
                     try {
                         if (Math.round(value) == 0)
                             return "0.000"
-                        return Number(value).toFixed(decimalPoint)
+                        return Number(value).toLocaleString("en-US", { style: "currency", minimumFractionDigits: decimalPoint })
                     } catch (e) {
                         return value
                     }

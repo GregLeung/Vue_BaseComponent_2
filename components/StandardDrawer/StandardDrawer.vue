@@ -1,7 +1,7 @@
 <template>
 <el-drawer append-to-body :visible="visible" direction="btt" @close="handleClose" :size="size">
     <div slot="title">
-        <div class="row">
+        <div class="base-row">
             <i v-if="icon!=null" :class="icon"/>
             <p>{{title}}</p>
         </div>
@@ -53,10 +53,11 @@ export default{
         color: white
     .el-drawer__header
         padding: 0px 5px 0
-.row
+.base-row
     display: flex
     align-items: center
     padding-left: 1em
+    min-height: 3em
     i
         font-size: 1.5rem
         margin-right: .5em
