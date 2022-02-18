@@ -139,20 +139,20 @@ class BaseStore extends Vuex.Store {
             return JSON.parse(state.user).type;
         };
         options.getters.token = state => {
-            if (state.token == null) {
+            if (state.token == null || state.token == "") {
                 var result = Cookies.get(options.state.frontEntry + "token") || null
                 if (result != null && result != "")
-                    return token
+                    return result
                 else
                     return null
             } else
                 return state.token;
         };
         options.getters.memberToken = state => {
-            if (state.memberToken == null) {
+            if (state.memberToken == null || state.memberToken == "") {
                 var result = Cookies.get(options.state.frontEntry + "memberToken") || null
                 if (result != null && result != "")
-                    return memberToken
+                    return result
                 else
                     return null
             } else

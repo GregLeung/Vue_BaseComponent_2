@@ -99,11 +99,11 @@ const Plugin = {
                 convertValueToLabel(optionsList, value) {
                     return optionsList.find(f => f.value == value).label
                 },
-                showNumber(value, decimalPoint = 3) {
+                showNumber(value, decimalPoint = 2) {
                     try {
                         if (Math.round(value) == 0)
                             return "0.000"
-                        return Number(value).toLocaleString("en-US", { style: "currency", minimumFractionDigits: decimalPoint })
+                        return Number(value).toLocaleString("en-US", { minimumFractionDigits: decimalPoint })
                     } catch (e) {
                         return value
                     }
@@ -333,6 +333,12 @@ function checkValidationRules(vueInstance, prop) {
                 break;
             case "IS_INT":
                 if (!isInt(prop.value)) {
+                    vueInstance.$message.error(rule.message);
+                    return false;
+                }
+                break;
+            case "IS_POSITIVE":
+                if (prop.value < 0) {
                     vueInstance.$message.error(rule.message);
                     return false;
                 }

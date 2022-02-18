@@ -61,4 +61,6 @@ export default{
     i
         font-size: 1.5rem
         margin-right: .5em
+p
+    margin: 0px
 </style>
