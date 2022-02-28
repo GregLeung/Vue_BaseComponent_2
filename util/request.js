@@ -1,8 +1,8 @@
 import axios from "axios";
 import Util from "./util.js";
 import store from "@/store/index";
-axios.defaults.headers.common['Apikey'] = store().state.api_key || "";
-axios.defaults.headers.common['Token'] = store().getters.token || "";
+// axios.defaults.headers.common['Apikey'] = store().state.api_key || "";
+// axios.defaults.headers.common['Token'] = store().getters.token || "";
 class Request {
     static defaultOptions() {
         return {
