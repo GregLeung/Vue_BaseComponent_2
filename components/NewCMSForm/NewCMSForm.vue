@@ -21,7 +21,7 @@ import CMSBreadCrumb from "../CMSBreadCrumb/CMSBreadCrumb.vue";
 import CMSPageHeader from "../CMSPageHeader/CMSPageHeader.vue";
 export default {
     components: {
-        CMSBreadcrumb,
+        CMSBreadCrumb,
         CMSPageHeader
     },
     props: {
