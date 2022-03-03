@@ -16,7 +16,7 @@ import CMSCheckBox from "./components/CMSFormComponent/CMSCheckBox/CMSCheckBox.v
 import CMSPhotoUpload from "./components/CMSFormComponent/CMSPhotoUpload/CMSPhotoUpload.vue";
 import CMSRadioBox from "./components/CMSRadioBox/CMSRadioBox";
 import CMSInputNumber from "./components/CMSFormComponent/CMSInputNumber/CMSInputNumber.vue";
-import CMSBreadcrumb from "./components/CMSBreadcrumb/CMSBreadcrumb.vue";
+import CMSBreadCrumb from "./components/CMSBreadCrumb/CMSBreadCrumb.vue";
 import CMSContainer from "./components/CMSContainer/CMSContainer.vue";
 import CMSPageHeader from "./components/CMSPageHeader/CMSPageHeader.vue";
 import NewCMSSelector from "./components/CMSFormComponent/NewCMSSelector/NewCMSSelector.vue";
@@ -71,7 +71,7 @@ export {
     CMSPhotoUpload,
     CMSRadioBox,
     CMSInputNumber,
-    CMSBreadcrumb,
+    CMSBreadCrumb,
     CMSContainer,
     CMSPageHeader,
     NewCMSSelector,

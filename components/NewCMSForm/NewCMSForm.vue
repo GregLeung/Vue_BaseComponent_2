@@ -17,7 +17,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import CMSBreadcrumb from "../CMSBreadcrumb/CMSBreadcrumb.vue";
+import CMSBreadCrumb from "../CMSBreadCrumb/CMSBreadCrumb.vue";
 import CMSPageHeader from "../CMSPageHeader/CMSPageHeader.vue";
 export default {
     components: {
