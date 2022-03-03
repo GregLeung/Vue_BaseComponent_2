@@ -4,6 +4,7 @@
   :width="width"
   :show-close="false"
   :lock-scroll="false"
+  :append-to-body="appendToBody"
   >
   <div slot="title">
       <div class="container-title">
@@ -48,6 +49,11 @@ export default{
             required: false,
             default: null
         },
+        appendToBody: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
     },
     methods: {
         handleCloseDialog(){
