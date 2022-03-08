@@ -71,6 +71,7 @@ export default {
                 res => {
                     if(res.code == 200){
                         this.handleSuccess(res, this.selectedFile, this.fileList)
+                        this.$emit("success")
                     }
                 }
             )
@@ -96,6 +97,7 @@ export default {
                 setTimeout(() => this.processing = false, 650); // Maybe can do better
             else
                 this.processing = false
+            this.$emit("remove")
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;

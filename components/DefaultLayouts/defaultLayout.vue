@@ -15,7 +15,7 @@
                     <el-tooltip class="item" effect="dark" :content="$t('Account')" placement="top-start">
                         <icon-button @click="$router.push({path:  basePath + '/my_account'})" class="mr-8" color="white" icon="mi-person"/>
                     </el-tooltip>
-                    <el-button class="text-button mr-8" type="text" :style="{'color':color}" >{{$store.getters.user.username}}</el-button>
+                    <el-button class="text-button mr-8" type="text" :style="{'color':color}" >{{getUserName()}}</el-button>
                     <el-tooltip class="item" effect="dark" content="Logout" placement="top-start">
                         <icon-button @click="handleLogOut" class="mr-8" color="white" icon="mi-exit-to-app"/>
                     </el-tooltip>
@@ -119,12 +119,19 @@ export default {
         toggleNavigationBarChange() {
             this.$store.dispatch("toggleSideBar");
         },
+        getUserName(){
+            try{
+                return this.$store.getters.user.username
+            }catch(e){
+                return ""
+            }
+        },
         handleLogOut() {
             Request.post(this, "user_logout", {token: this.$store.getters.token, ID: this.$store.getters.user.ID}, res => {
                 this.$store.dispatch('setToken', "")
                 this.$store.dispatch('setUser', null)
                 this.$router.push({
-                    path: this.basePath + "/login",
+                    path: "/login",
                 });
             })
         }
