@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
     <el-table highlight-current-row :show-summary="showSummary" :summary-method="summaryMethod" v-loading="isLoading" :tree-props="treeProps" :row-key="rowKey" :default-expand-all="defaultExpandAll" :max-height="maxHeight"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick" @row-dblclick="rowDoubleClick">
       <slot></slot>
@@ -106,7 +105,7 @@ export default {
         },
     },
     created(){
-        this.localDataList = this.deepClone(this.dataList)
+        this.init()
     },
     watch:{
         dataList: {
@@ -129,6 +128,9 @@ export default {
         }
     },
     methods: {
+        init(){
+            this.localDataList = this.deepClone(this.dataList)
+        },
         handleMultiSelection(val){
             this.multipleSelection = val
             this.$emit('selection-change', val)

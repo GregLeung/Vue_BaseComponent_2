@@ -315,6 +315,13 @@ const Plugin = {
                 },
                 isEmptyString(val) {
                     return val == null || val == ""
+                },
+                getLocaleName(nameObject) {
+                    try {
+                        return nameObject.zh
+                    } catch (e) {
+                        return ""
+                    }
                 }
             },
         });

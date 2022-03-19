@@ -104,14 +104,7 @@ export default {
     }
   },
   async mounted() {
-    this.handleDefaultSorting()
-    this.addKeyListener()
-    this.originalColumnList = this.deepClone(this.columnList)
-    this.$nextTick(()=>{
-      if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
-        this.addNewLine()
-      }
-    })
+    this.init()
     // this.addScrollDetector()
   },
   watch: {
@@ -153,6 +146,16 @@ export default {
     }
   },
   methods: {
+    init(){
+      this.handleDefaultSorting()
+      this.addKeyListener()
+      this.originalColumnList = this.deepClone(this.columnList)
+      this.$nextTick(()=>{
+        if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
+          this.addNewLine()
+        }
+      })
+    },
     handlePaste(event){
       try{
         var pasteValue = event.clipboardData.getData('Text')
