@@ -21,6 +21,7 @@ class BaseStore extends Vuex.Store {
         options.state.member = Cookies.get(options.state.frontEntry + "member") || null;
         options.state.memberToken = Cookies.get(options.state.frontEntry + "memberToken") || "";
         options.state.version = Cookies.get(options.state.frontEntry + "version") || null;
+        options.state.sessionID = Cookies.get(options.state.frontEntry + "sessionID") || null;
         options.state.loadingText = "Loading";
         options.state.loadingIcon = "el-icon-loading";
         options.state.loadingBackground = "rgba(0, 0, 0, 0.7)";
@@ -63,6 +64,10 @@ class BaseStore extends Vuex.Store {
             Cookies.set(options.state.frontEntry + "member", member);
             state.member = Cookies.get(options.state.frontEntry + "member");
         };
+        options.mutations.SET_SESSIONID = (state, sessionID) => {
+            Cookies.set(options.state.frontEntry + "sessionID", sessionID);
+            state.sessionID = Cookies.get(options.state.frontEntry + "sessionID");
+        };
         options.mutations.SET_VERSION = (state, version) => {
             Cookies.set(options.state.frontEntry + "version", version);
             state.version = Cookies.get(options.state.frontEntry + "version");
@@ -93,6 +98,9 @@ class BaseStore extends Vuex.Store {
         }),
         (options.actions.setMember = function({ commit }, member) {
             commit("SET_MEMBER", member);
+        }),
+        (options.actions.setSessionID = function({ commit }, sessionID) {
+            commit("SET_SESSIONID", sessionID);
         }),
         (options.actions.setVersion = function({ commit }, version) {
             commit("SET_VERSION", version);
@@ -129,6 +137,14 @@ class BaseStore extends Vuex.Store {
                     return null
             } else
                 return JSON.parse(state.member);
+        };
+        options.getters.sessionID = state => {
+            var sessionID = Cookies.get(options.state.frontEntry + "sessionID") || null
+            if (sessionID == null) {
+                sessionID = generateRandomString(12)
+                Cookies.set(options.state.frontEntry + "sessionID", sessionID);
+            }
+            return sessionID
         };
         options.getters.version = state => {
             if (state.version == null) return null;
@@ -178,5 +194,15 @@ function initCache() {
         },
         maxAge: 1000 * 60 * 60
     });
+}
+
+function generateRandomString(length) {
+    var result = [];
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+    }
+    return result.join('');
 }
 export default BaseStore;
