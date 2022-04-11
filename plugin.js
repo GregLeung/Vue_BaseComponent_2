@@ -303,9 +303,9 @@ const Plugin = {
                     })
                     return result.isConfirmed
                 },
-                alert(title, content, callback = function() {}) {
+                alert(title, content, icon, callback = function() {}) {
                     Swal.fire({
-                        icon: 'error',
+                        icon: icon != null ? icon : 'error',
                         title: title,
                         text: content != null ? content : ""
                     }).then((result) => {
