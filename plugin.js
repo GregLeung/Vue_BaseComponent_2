@@ -303,11 +303,13 @@ const Plugin = {
                     })
                     return result.isConfirmed
                 },
-                alert(title, content) {
+                alert(title, content, callback = function() {}) {
                     Swal.fire({
                         icon: 'error',
                         title: title,
                         text: content != null ? content : ""
+                    }).then((result) => {
+                        callback()
                     });
                 },
                 convertNumberWithSeperation(val, defaultValue = "") {
