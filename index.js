@@ -45,6 +45,7 @@ import LoginPage from "./components/LoginPage/LoginPage.vue";
 import ReportTemplate from "./components/ReportTemplate/ReportTemplate.vue";
 import StandardBoxButton from "./components/StandardBoxButton/StandardBoxButton.vue";
 import VTooltipButton from "./components/VTooltipButton/VTooltipButton.vue";
+import VNewCMSForm from "./components/VNewCMSForm/VNewCMSForm.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
@@ -101,6 +102,7 @@ export {
     ReportTemplate,
     StandardBoxButton,
     VTooltipButton,
+    VNewCMSForm,
     Request,
     Excel,
     Util,

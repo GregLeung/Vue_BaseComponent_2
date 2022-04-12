@@ -1,44 +1,42 @@
 <template>
-<el-dropdown trigger="click" @command="handleSetLanguage">
-    <i class="icon-language"  :style="{'color': color}"/>
-    <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item :disabled="language==='en'" command="en">English</el-dropdown-item>
-        <el-dropdown-item :disabled="language==='zh'" command="zh">繁體中文</el-dropdown-item>
-        <el-dropdown-item :disabled="language==='cn'" command="cn">簡體中文</el-dropdown-item>
-    </el-dropdown-menu>
-</el-dropdown>
+  <div class="text-center">
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn dark text color="primary" v-bind="attrs" v-on="on">
+          <v-icon>mdi-translate</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item v-if="$i18n.locale !== 'en'" link>
+          <v-list-item-title  @click="handleClick('en')">
+            English
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="$i18n.locale !== 'zh'" link>
+          <v-list-item-title  @click="handleClick('zh')">
+            繁體中文
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="$i18n.locale !== 'cn'"  link>
+          <v-list-item-title @click="handleClick('cn')">
+            簡體中文
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
-        color: {
-            type: String,
-            required: false
-        }
+  methods: {
+    handleClick(localeCode) {
+      this.$i18n.setLocale(localeCode);
+      location.reload()
     },
-    computed: {
-        language() {
-            return this.$store.state.locale
-        }
-    },
-methods: {
-        handleSetLanguage(lang) {
-            this.$i18n.locale = lang
-            this.$store.dispatch('setLocale', lang)
-            this.$router.push({
-                path: "/" + lang + "/" + this.$router.history.current.path.split("/").filter((f,index) => index > 1 ).join("/"),
-                query: this.$router.history.current.query
-            })
-            location.reload()
-        }
-    }
-}
+  },
+};
 </script>
 
 <style lang="sass" scoped>
-i 
-    font-size: 1.5rem
-    cursor: pointer 
-    color: white
 </style>
