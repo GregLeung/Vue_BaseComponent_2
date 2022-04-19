@@ -44,7 +44,8 @@ import {
     StandardDrawer,
     StandardDialog,
     VTooltipButton,
-    CMSPhotoUpload
+    CMSPhotoUpload,
+    VNewCMSForm
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -87,7 +88,8 @@ const components = {
     StandardDrawer,
     StandardDialog,
     VTooltipButton,
-    CMSPhotoUpload
+    CMSPhotoUpload,
+    VNewCMSForm
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
