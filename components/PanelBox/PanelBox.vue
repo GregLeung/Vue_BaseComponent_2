@@ -1,6 +1,4 @@
 <template>
-  <!-- <div class="card-panel" :style="{'width': width}"> -->
-  <!-- <div :class="cardPanelClass" :style="{'background-color': this.color, 'width': this.width}"> -->
   <div :class="cardPanelClass" :style="cardPanelCssVal">
     <div @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" class="card-panel-icon-wrapper" :style="wrapperStyle">
       <i :class="[iconClass, icon]" :style="iconStyle"></i>
@@ -8,11 +6,13 @@
     <div class="card-panel-description">
       <div :class="cardPanelTextClass">{{title}}</div>
       <count-to
+        v-if="customWord == null"
         :start-val="0"
         :end-val="quantity"
         :duration="3000"
         :class="cardPanelNumClass"
       />
+      <p v-else class="custom-word">{{customWord}}</p>
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default{
         },
         quantity: {
             type: Number,
-            required: true
+            required: false
         },
         icon: {
             type: String,
@@ -48,6 +48,11 @@ export default{
           type: String,
           required: false,
           default: "default"
+        },
+        customWord: {
+          type: String,
+          required: false,
+          default: null
         }
     },
     methods:{
@@ -143,19 +148,22 @@ export default{
     .card-panel-description 
       float: right
       font-weight: bold
-      margin: 26px
+      margin: 4px
       margin-left: 0px
 
       .card-panel-text 
         line-height: 18px
         // color: rgba(0, 0, 0, 0.45)
-        font-size: .8rem
+        font-size: 1rem
         margin-bottom: 12px
         &.filled
           color: white
 
       .card-panel-num 
-        font-size: 1rem
+        font-size: 1.3rem
         &.filled
           color: white
+.custom-word
+  color: white
+  font-size: 1.3rem
 </style>

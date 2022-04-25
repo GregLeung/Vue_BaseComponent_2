@@ -6,7 +6,7 @@
     <el-card>
         <div v-for="(item, index) in columnList" :key="index">
         <div v-if="item.hasOwnProperty('advancedSearch') && (!item.advancedSearch.hasOwnProperty('isHidden') || (item.advancedSearch.hasOwnProperty('isHidden') && !item.advancedSearch.isHidden))">
-            <div class="row">
+            <div class="base-row">
                 <h4>{{item.label}}</h4>
                 <div style="width: 80%">
                     <div v-if="item.advancedSearch.type == 'SELECTION'">
@@ -37,7 +37,7 @@
                         </el-input>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'NUMBER-RANGE'">
-                        <div class="row">
+                        <div class="base-row">
                             <el-input-number class="mr-16" size="medium" v-model="searchFilterSet[item.prop].value[0]"></el-input-number>
                             <p>To</p>
                             <el-input-number class="ml-16" size="medium" v-model="searchFilterSet[item.prop].value[1]"></el-input-number>
@@ -275,7 +275,7 @@ export default {
 h4
     margin: .2em
     width: 10em
-.row
+.base-row
     display: flex
     align-items: center
 .button-container

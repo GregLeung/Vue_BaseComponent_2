@@ -110,7 +110,9 @@ export default {
   watch: {
     dataList(value, oldVal){
       if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
-        this.addNewLine()
+        this.$nextTick(()=>{
+          this.addNewLine()
+        })
       }
     }
   },
@@ -150,13 +152,13 @@ export default {
       this.handleDefaultSorting()
       this.addKeyListener()
       this.originalColumnList = this.deepClone(this.columnList)
-      this.$nextTick(()=>{
-        if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
-          this.addNewLine()
-        }
-      })
+      // this.$nextTick(()=>{
+      //   if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
+      //     this.addNewLine()
+      //   }
+      // })
     },
-    handlePaste(event){
+    async handlePaste(event){
       try{
         var pasteValue = event.clipboardData.getData('Text')
         pasteValue = pasteValue.split("\n")
@@ -166,16 +168,24 @@ export default {
         var columnIndex = cellRef.columnIndex
         var currentRow = 0;
         var currentColumn = 0;
-        pasteValue.forEach(rowPasteValue => {
-          rowPasteValue.forEach(f => {
+        for(let i = 0; i<pasteValue.length; i++){
+          var rowPasteValue = pasteValue[i]
+          for(let j = 0; j<rowPasteValue.length; j++){
+            var f = rowPasteValue[j]
             var currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
+            if(currentCellRef != null){
+              await this.$nextTick();
+              this.addNewLine()
+              await this.$nextTick();
+              currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
+            }
             currentCellRef.localValue = f
             currentCellRef.editSubmit()
             currentColumn += 1
-          })
+          }
           currentRow += 1
           currentColumn = 0
-        })
+        }
       }catch(e){
         console.log(e);
       }
@@ -439,7 +449,12 @@ export default {
         return false
     },
     getCellRefByPosition(rowIndex, columnIndex){
-      return this.$refs['el-table_' + 'column_' + columnIndex  + "_row_index_" + rowIndex  + "_"][0]
+      try{
+        return this.$refs['el-table_' + 'column_' + columnIndex  + "_row_index_" + rowIndex  + "_"][0]
+      }catch(e){
+        console.log(e);
+        return null
+      }
     },
     getSelectedCellRef(){
         for (let key in this.$refs) {

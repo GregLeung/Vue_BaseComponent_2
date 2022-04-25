@@ -93,7 +93,7 @@ export default {
     handleOpen(key, keyPath) {},
     handleClose(key, keyPath) {},
     handleSelect(key, keyPath) {
-      this.$router.push({ path: keyPath[keyPath.length - 1] });
+      this.$router.push({ path: '/' + this.$i18n.locale + keyPath[keyPath.length - 1] });
     }
   }
 };
