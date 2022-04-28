@@ -46,7 +46,7 @@ import ReportTemplate from "./components/ReportTemplate/ReportTemplate.vue";
 import StandardBoxButton from "./components/StandardBoxButton/StandardBoxButton.vue";
 import VTooltipButton from "./components/VTooltipButton/VTooltipButton.vue";
 import VNewCMSForm from "./components/VNewCMSForm/VNewCMSForm.vue";
-import BaseImportDrawer from "./components/VNewCMSForm/BaseImportDrawer.vue";
+import BaseImportDrawer from "./components/BaseImportDrawer/BaseImportDrawer.vue";
 import Request from "./util/request";
 import Excel from "./util/excel";
 import Util from "./util/util";
