@@ -10,8 +10,16 @@
       <v-main class="v-application">
         <v-container>
           <v-row class="justify-end">
+            <v-btn
+              v-if="errorList.length > 0"
+              text
+              color="red"
+              @click="handleOpenErrorDialog"
+            >
+              {{ $t("Show Error") }} <v-icon right> mdi-check-circle </v-icon>
+            </v-btn>
             <v-btn text color="primary" @click="handleSubmit">
-              {{ $t("編輯") }} <v-icon right> mdi-check-circle </v-icon>
+              {{ $t("Save") }} <v-icon right> mdi-check-circle </v-icon>
             </v-btn>
           </v-row>
           <v-file-input
@@ -25,7 +33,6 @@
             :isAllowCreate="() => true"
             :dataList="importData"
             :columnList="columnList"
-            :title="$t('Records')"
             :defaultSortProp="defaultSortProp"
             :defaultSort="defaultSort"
             :createDefaultValue="
@@ -34,8 +41,24 @@
               }
             "
           />
+          <slot></slot>
         </v-container>
       </v-main>
+      <standard-dialog
+        icon="el-icon-s-release"
+        :visible="errorMessageVisible"
+        title="Error Message"
+        size="95%"
+        appendToBody
+        @close="handleErrorDialogClose"
+      >
+        <div>
+          <h4 style="color: red">Error Message</h4>
+          <p v-for="(error, index) in errorList" :key="index">
+            Row: {{ error.rowIndex + 1 }}, Message: {{ error.errorMessage }}
+          </p>
+        </div>
+      </standard-dialog>
     </standard-drawer>
   </v-app>
 </template>
@@ -73,9 +96,19 @@ export default{
         importEachRowCallback: {
             type: Function,
             required: true
+        },
+        errorList: {
+          type: Array,
+          required: true,
+          default: () => {
+            return []
+          }
         }
     },
     methods: {
+        handleOpenErrorDialog(){
+          this.errorMessageVisible = true
+        },
         handleSubmit(){
             this.$emit("submit", this.importData)
         },
@@ -101,14 +134,19 @@ export default{
         },
         handleClose(){
             this.$emit("update:visible", false)
+            this.$emit("close", false)
             this.file = null
-            this.importData = []  
+            this.importData = []
         },
+        handleErrorDialogClose(){
+          this.errorMessageVisible = false
+        }
     },
     data(){
         return {
             file: null,
-            importData: []
+            importData: [],
+            errorMessageVisible: false
         }
     }
 }

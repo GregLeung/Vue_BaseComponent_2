@@ -44,7 +44,8 @@ import {
     StandardDrawer,
     NewCMSForm,
     VTooltipButton,
-    VNewCMSForm
+    VNewCMSForm,
+    BaseImportDrawer
 } from 'vue_basecomponent'
 
 const components = {
@@ -92,7 +93,8 @@ const components = {
     StandardDrawer,
     NewCMSForm,
     VTooltipButton,
-    VNewCMSForm
+    VNewCMSForm,
+    BaseImportDrawer
 }
 
 Object.entries(components).forEach(([name, component]) => {

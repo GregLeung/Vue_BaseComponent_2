@@ -111,58 +111,58 @@ export default{
 }
 </script>
 <style lang="sass" scoped>
-  .card-panel 
-    height: 108px
-    width: var(--width)
-    cursor: pointer
-    font-size: .8rem
-    position: relative
-    overflow: hidden
-    color: #666
-    background: #fff
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05)
-    border-color: rgba(0, 0, 0, .05)
-    border-radius: 8px
-    display: flex
-    justify-content: space-around
-    align-items: center
-    &.filled
-      background: var(--color)
-    &:hover 
-      .card-panel-icon-wrapper 
-        color: #fff
-
+.card-panel 
+  height: 108px
+  width: var(--width)
+  cursor: pointer
+  font-size: .8rem
+  position: relative
+  overflow: hidden
+  color: #666
+  background: #fff
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, .05)
+  border-color: rgba(0, 0, 0, .05)
+  border-radius: 8px
+  display: flex
+  justify-content: space-around
+  align-items: center
+  &.filled
+    background: var(--color)
+  &:hover 
     .card-panel-icon-wrapper 
-      float: left
-      // margin: 14px 0 0 14px
-      padding: .8em
-      transition: all 0.38s ease-out
-      border-radius: 6px
+      color: #fff
 
-    .card-panel-icon 
-      float: left
-      font-size: 2.5rem
+  .card-panel-icon-wrapper 
+    float: left
+      // margin: 14px 0 0 14px
+    padding: .8em
+    transition: all 0.38s ease-out
+    border-radius: 6px
+
+  .card-panel-icon 
+    float: left
+    font-size: 2.5rem
+    &.filled
+      color: white
+    
+  .card-panel-description 
+    float: right
+    font-weight: bold
+    margin: 4px
+    margin-left: 0px
+
+    .card-panel-text 
+      line-height: 18px
+        // color: rgba(0, 0, 0, 0.45)
+      font-size: 1rem
+      margin-bottom: 12px
       &.filled
         color: white
-    
-    .card-panel-description 
-      float: right
-      font-weight: bold
-      margin: 4px
-      margin-left: 0px
 
-      .card-panel-text 
-        line-height: 18px
-        // color: rgba(0, 0, 0, 0.45)
-        font-size: 1rem
-        margin-bottom: 12px
-        &.filled
-          color: white
-
-      .card-panel-num 
-        font-size: 1.3rem
-        &.filled
-          color: white
+    .card-panel-num 
+      font-size: 1.3rem
+      &.filled
+        color: white
 .custom-word
   color: white
   font-size: 1.3rem
