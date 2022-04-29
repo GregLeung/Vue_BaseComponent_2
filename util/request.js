@@ -82,7 +82,7 @@ class Request {
         if (options.showLoading != false) Util.loading();
         var headers = {
             "Content-Type": "application/json",
-            "Token": store().getters.token,
+            "Token": store().getters.token == null ? "" : store().getters.token,
             Apikey: store().state.api_key
         }
         headers = (store().getters.hasOwnProperty("headers")) ? Object.assign(headers, store().getters.headers) : headers
