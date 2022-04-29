@@ -131,7 +131,7 @@ export default {
                 this.$store.dispatch('setToken', "")
                 this.$store.dispatch('setUser', null)
                 this.$router.push({
-                    path: "/login",
+                    path: this.basePath + "/login",
                 });
             })
         }
