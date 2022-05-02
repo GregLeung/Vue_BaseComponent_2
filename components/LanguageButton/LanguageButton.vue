@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn dark text color="primary" v-bind="attrs" v-on="on">
+        <v-btn dark text :color="color" v-bind="attrs" v-on="on">
           <v-icon>mdi-translate</v-icon>
         </v-btn>
       </template>
@@ -29,10 +29,17 @@
 
 <script>
 export default {
+  props: {
+    color: {
+      type: String,
+      required: true,
+      default: "primary"
+    }
+  },
   methods: {
     handleClick(localeCode) {
       this.$i18n.setLocale(localeCode);
-      location.reload()
+      // location.reload()
     },
   },
 };

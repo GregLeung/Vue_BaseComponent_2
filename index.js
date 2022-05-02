@@ -48,6 +48,7 @@ import VTooltipButton from "./components/VTooltipButton/VTooltipButton.vue";
 import VNewCMSForm from "./components/VNewCMSForm/VNewCMSForm.vue";
 import BaseImportDrawer from "./components/BaseImportDrawer/BaseImportDrawer.vue";
 import Request from "./util/request";
+import NewRequest from "./util/NewRequest";
 import Excel from "./util/excel";
 import Util from "./util/util";
 import GoogleMap from "./util/googleMap";
@@ -106,6 +107,7 @@ export {
     VNewCMSForm,
     BaseImportDrawer,
     Request,
+    NewRequest,
     Excel,
     Util,
     GoogleMap,
