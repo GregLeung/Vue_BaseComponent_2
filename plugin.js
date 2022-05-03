@@ -103,8 +103,6 @@ const Plugin = {
                 },
                 showNumber(value, decimalPoint = 2) {
                     try {
-                        if (Math.round(value) == 0)
-                            return "0.000"
                         return Number(value).toLocaleString("en-US", { minimumFractionDigits: decimalPoint })
                     } catch (e) {
                         return value
