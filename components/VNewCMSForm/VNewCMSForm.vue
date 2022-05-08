@@ -32,13 +32,12 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-// import CMSBreadcrumb from "./CMSBreadcrumb.vue";
-// import CMSPageHeader from "./CMSPageHeader.vue";
+import {CMSPageHeader, CMSBreadcrumb} from "vue_basecomponent";
 export default {
-    // components: {
-    //     CMSBreadcrumb,
-    //     CMSPageHeader
-    // },
+    components: {
+        CMSBreadcrumb,
+        CMSPageHeader
+    },
     props: {
         breadcrumbItem: {
             type: Array,

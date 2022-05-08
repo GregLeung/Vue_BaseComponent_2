@@ -18,6 +18,9 @@ Vue.mixin({
         cmsHeaderWidthWithCollapseNavigationBar() {
             return variables["cms-header-width-with-collapse-navigation-bar"];
         },
+        isMobile() {
+            return this.$vuetify.breakpoint.name == 'sm' || this.$vuetify.breakpoint.name == 'xs';
+        },
         viewPortRatio() {
             if (window.innerWidth < 1024)
                 return variables["phone-width-ratio"]
