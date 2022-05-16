@@ -47,6 +47,7 @@ import StandardBoxButton from "./components/StandardBoxButton/StandardBoxButton.
 import VTooltipButton from "./components/VTooltipButton/VTooltipButton.vue";
 import VNewCMSForm from "./components/VNewCMSForm/VNewCMSForm.vue";
 import BaseImportDrawer from "./components/BaseImportDrawer/BaseImportDrawer.vue";
+import VBaseDatePicker from "./components/VBaseDatePicker/VBaseDatePicker.vue";
 import Request from "./util/request";
 import NewRequest from "./util/NewRequest";
 import Excel from "./util/excel";
@@ -106,6 +107,7 @@ export {
     VTooltipButton,
     VNewCMSForm,
     BaseImportDrawer,
+    VBaseDatePicker,
     Request,
     NewRequest,
     Excel,

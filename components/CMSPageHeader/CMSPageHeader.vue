@@ -1,7 +1,8 @@
 <template>
     <div class="space-between-row">
         <div class="left-content">
-            <div v-if="icon != null"><i :style="{'font-size': iconSize}" :class="['header-icon', icon]"></i></div>
+            <div v-if="icon != null && !icon.includes('mdi-')"><i :style="{'font-size': iconSize}" :class="['header-icon', icon]"></i></div>
+            <v-icon v-else-if="icon != null && icon.includes('mdi-')" x-large :color="mainThemePlain">{{icon}}</v-icon>
             <div :style="{'margin-left': marginLeft}">
                 <span :style="titleStyle" class="title">{{title}}</span><br>
                 <span :style="subtitleStyle" class="subtitle">{{subtitle}}</span>
