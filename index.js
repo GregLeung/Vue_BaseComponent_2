@@ -53,6 +53,7 @@ import MobileLoginPage from "./components/MobileLoginPage/MobileLoginPage.vue";
 import NewDefaultLayout from "./components/NewDefaultLayout/NewDefaultLayout.vue";
 import NewNavigationMenuItem from "./components/NewNavigationMenuItem/NewNavigationMenuItem.vue";
 import NewStandardDialog from "./components/NewStandardDialog/NewStandardDialog.vue";
+import VBaseDatePicker from "./components/VBaseDatePicker/VBaseDatePicker.vue";
 import Request from "./util/request";
 import NewRequest from "./util/NewRequest";
 import Excel from "./util/excel";
@@ -118,6 +119,7 @@ export {
     NewDefaultLayout,
     NewNavigationMenuItem,
     NewStandardDialog,
+    VBaseDatePicker,
     Request,
     NewRequest,
     Excel,
