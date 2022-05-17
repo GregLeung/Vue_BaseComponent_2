@@ -47,6 +47,12 @@ import StandardBoxButton from "./components/StandardBoxButton/StandardBoxButton.
 import VTooltipButton from "./components/VTooltipButton/VTooltipButton.vue";
 import VNewCMSForm from "./components/VNewCMSForm/VNewCMSForm.vue";
 import BaseImportDrawer from "./components/BaseImportDrawer/BaseImportDrawer.vue";
+import MobileAdvancedSearchDialog from "./components/MobileAdvancedSearchDialog/MobileAdvancedSearchDialog.vue";
+import MobileBasePagingTable from "./components/MobileBasePagingTable/MobileBasePagingTable.vue";
+import MobileLoginPage from "./components/MobileLoginPage/MobileLoginPage.vue";
+import NewDefaultLayout from "./components/NewDefaultLayout/NewDefaultLayout.vue";
+import NewNavigationMenuItem from "./components/NewNavigationMenuItem/NewNavigationMenuItem.vue";
+import NewStandardDialog from "./components/NewStandardDialog/NewStandardDialog.vue";
 import Request from "./util/request";
 import NewRequest from "./util/NewRequest";
 import Excel from "./util/excel";
@@ -106,6 +112,12 @@ export {
     VTooltipButton,
     VNewCMSForm,
     BaseImportDrawer,
+    MobileAdvancedSearchDialog,
+    MobileBasePagingTable,
+    MobileLoginPage,
+    NewDefaultLayout,
+    NewNavigationMenuItem,
+    NewStandardDialog,
     Request,
     NewRequest,
     Excel,
