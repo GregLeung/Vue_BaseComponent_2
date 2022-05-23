@@ -103,9 +103,18 @@ export default {
         checkLocalValueValid(){
             var isValid = true;
             if(this.editConfig.type == "date"){
-                isValid = this.$moment(this.localValue, "YYYY-MM-DD").isValid()
-                this.localValue = this.$moment(this.localValue).format("YYYY-MM-DD")
-            }else if(this.editConfig.type == 'select'){
+                if(this.$moment(this.localValue, "YYYY-MM-DD", true).isValid())
+                    this.localValue = this.$moment(this.localValue, "YYYY-MM-DD", true).format("YYYY-MM-DD")
+                else if(this.$moment(this.localValue, "D/M/YYYY", true).isValid())
+                    this.localValue = this.$moment(this.localValue, "D/M/YYYY", true).format("YYYY-MM-DD")
+                else if(this.$moment(this.localValue, "DD/MM/YYYY", true).isValid())
+                    this.localValue = this.$moment(this.localValue, "DD/MM/YYYY", true).format("YYYY-MM-DD")
+
+            }else if(this.editConfig.type == 'number'){
+                if(!isNaN(this.localValue.replaceAll(",", "")))
+                    this.localValue = Number(this.localValue.replaceAll(",", ""))
+            }
+            else if(this.editConfig.type == 'select'){
                 var selectedOption = this.editConfig.options(this.row).find(f => f.label == this.localValue || f.value == this.localValue)
                 if(selectedOption == null)
                     isValid = false

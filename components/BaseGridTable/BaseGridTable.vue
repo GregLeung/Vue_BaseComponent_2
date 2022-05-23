@@ -246,7 +246,6 @@ export default {
       switch(value){
         case "Delete":
           if(await this.confirm("Confirm To Delete"))
-            // this.dataList.splice(this.rightClickSelectedRow.innerProperty.rowIndex, 1);
             this.handleDelete(this.rightClickSelectedRow.innerProperty.rowIndex, 1)
           break;
         case "Add New Line":
