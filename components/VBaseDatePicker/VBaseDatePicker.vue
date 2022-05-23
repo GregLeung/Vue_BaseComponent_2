@@ -22,7 +22,9 @@
       :range="range"
       :type="type"
       no-title
-      @change="handleChange"
+      :min="min"
+      :max="max"
+      @input="handleChange"
     ></v-date-picker>
   </v-menu>
 </template>
@@ -36,19 +38,29 @@ export default{
         },
         label: {
             type: String,
-            required: true,
+            required: false,
             default: null
         },
         range: {
             type: Boolean,
-            required: true,
+            required: false,
             default: false
         },
         type: {
             type: String,
             required: false,
             default: "date"
-        }
+        },
+        min: {
+            type: String,
+            required: false,
+            default: null
+        },
+        max: {
+            type: String,
+            required: false,
+            default: null
+        },
     },
     model: {
         prop: "value",
@@ -64,11 +76,13 @@ export default{
     methods: {
         handleChange(value){
             this.$emit('change', value)
+            this.$emit('update',value)
         }
     },
     data(){
         return {
             menu1: false,
+            // localValue: null
         }
     }
 }

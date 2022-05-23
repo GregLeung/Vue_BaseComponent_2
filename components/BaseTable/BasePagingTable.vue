@@ -34,7 +34,7 @@
           </div>
         </div>
     <div class="table-wrapper mt-4">
-      <el-table highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" class="table mb-16" :border="border" :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" @row-dblclick="rowDoubleClick">
+      <el-table highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" @select="handleSelect" class="table mb-16" :border="border" :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" @row-dblclick="rowDoubleClick" @select-all="handleSelectAll">
         <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
@@ -380,6 +380,7 @@ export default {
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
         }
+        this.$emit("refreshCallback")
       } catch (error) {
         console.log(error)
         this.dataList = [];
@@ -419,6 +420,15 @@ export default {
       }else{
         this.handleRefresh()
       }
+    },
+    handleSelect(selection, row){
+      this.$emit("select", selection, row)
+    },
+    getRef(){
+      return this.$refs.table
+    },
+    handleSelectAll(selection){
+      this.$emit("select-all", selection)
     }
   },
   computed: {
@@ -452,4 +462,6 @@ export default {
 .icon
   font-size: 2rem
   margin-right: .5em
+.base-row
+  display: flex
 </style>

@@ -1,42 +1,27 @@
 <template>
-  <div>
-    <c-m-s-breadcrumb v-if="breadcrumbItem.length > 0" :item="breadcrumbItem" />
-    <v-container>
-      <c-m-s-page-header
-        :title="title"
-        :subtitle="subtitle"
-        :icon="icon"
-        :iconSize="iconSize"
-      />
-      <v-row>
-        <v-col v-if="leftCols != null" :cols="12" :xl="leftCols" :lg="leftCols" :md="leftCols" :sm="12">
-            <slot name="left"></slot>
-        </v-col>
-        <v-col :cols="12" :xl="mainCols" :lg="mainCols" :md="mainCols" :sm="12">
-          <el-card class="mt-4" :header="boxHeader">
+<div>
+    <!-- <c-m-s-breadcrumb v-if="breadcrumbItem.length > 0" :item="breadcrumbItem" /> -->
+    <div class="form-container" :style="{width: width}">
+        <c-m-s-page-header :title='title' :subtitle='subtitle' :icon='icon' :iconSize="iconSize"/>
+        <el-card class="mt-4" :header="boxHeader" >
             <div slot="header">
-              <div class="d-flex align-center justify-space-between">
-                <span style="font-weight: bold">{{ boxHeader }}</span>
-                <slot name="header"></slot>
-              </div>
+                <div class="base-row">
+                    <span style="font-weight: bold">{{boxHeader}}</span>
+                    <slot name="header"></slot>
+                </div>
             </div>
             <slot></slot>
-          </el-card>
-        </v-col>
-        <v-col v-if="rightCols != null" :cols="12" :xl="rightCols" :lg="rightCols" :md="rightCols" :sm="12">
-            <slot name="right"></slot>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        </el-card>
+    </div>
+</div>
 </template>
 <script lang="js">
 import Vue from "vue";
-// import CMSBreadcrumb from "./CMSBreadcrumb.vue";
-import {CMSPageHeader, CMSBreadcrumb} from "vue_basecomponent";
+// import CMSBreadCrumb from "../CMSBreadCrumb/CMSBreadCrumb.vue";
+// import CMSPageHeader from "../CMSPageHeader/CMSPageHeader.vue";
+import {CMSPageHeader} from "vue_basecomponent";
 export default {
     components: {
-        CMSBreadcrumb,
         CMSPageHeader
     },
     props: {
@@ -90,21 +75,20 @@ export default {
             type: String,
             required: false,
             default: "80%"
-        },
-        leftCols: {
-            required: false,
-            default: null
-        },
-        rightCols: {
-            required: false,
-            default: null
-        },
-        mainCols: {
-            required: false,
-            default: 12
         }
     }
 }
 </script>
 <style lang="sass" scoped>
+.form-container
+    width: 100% 
+    margin-left: auto
+    margin-right: auto
+    padding-top: 1%   
+    // padding-left: 10%   
+    // padding-right: 10%   
+    .base-row
+        display: flex
+        align-items: center
+        justify-content: space-between
 </style>
