@@ -47,7 +47,8 @@ import {
     CMSPhotoUpload,
     VNewCMSForm,
     VBaseDatePicker,
-    NewDefaultLayout
+    NewDefaultLayout,
+    NewNavigationMenuItem
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -93,7 +94,8 @@ const components = {
     CMSPhotoUpload,
     VNewCMSForm,
     VBaseDatePicker,
-    NewDefaultLayout
+    NewDefaultLayout,
+    NewNavigationMenuItem
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)

@@ -47,7 +47,8 @@ import {
     VNewCMSForm,
     BaseImportDrawer,
     VBaseDatePicker,
-    NewDefaultLayout
+    NewDefaultLayout,
+    NewNavigationMenuItem
 } from 'vue_basecomponent'
 
 const components = {
@@ -98,7 +99,8 @@ const components = {
     VNewCMSForm,
     BaseImportDrawer,
     VBaseDatePicker,
-    NewDefaultLayout
+    NewDefaultLayout,
+    NewNavigationMenuItem
 }
 
 Object.entries(components).forEach(([name, component]) => {
