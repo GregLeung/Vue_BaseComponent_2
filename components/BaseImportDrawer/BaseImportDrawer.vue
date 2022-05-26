@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <standard-drawer
       icon="el-icon-folder-add"
       :visible="visible"
@@ -23,7 +22,7 @@
             </v-btn>
           </v-row>
           <v-file-input
-            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .csv application/vnd.ms-excel"
             label="File input"
             v-model="file"
             @change="importExcel"
@@ -60,7 +59,7 @@
         </div>
       </standard-dialog>
     </standard-drawer>
-  </v-app>
+
 </template>
 <script lang="js">
 import Vue from "vue";
@@ -114,21 +113,49 @@ export default{
         },
         async importExcel(){
             if(this.file != null){
-                const wb = new ExcelJS.Workbook();
-                const reader = new FileReader()
-                reader.readAsArrayBuffer(this.file)
-                reader.onload = () => {
-                    var result = []
-                    const buffer = reader.result;
-                    wb.xlsx.load(buffer).then(workbook => {
-                        workbook.eachSheet((sheet, id) => {
-                            sheet.eachRow((row, rowIndex) => {
+                if(this.file.type == "application/vnd.ms-excel"){
+                  this.alert("Please convert to CSV format or xlsx format")
+                  this.file = null
+                }else if(this.file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+                  const wb = new ExcelJS.Workbook();
+                  const reader = new FileReader()
+                  reader.readAsArrayBuffer(this.file)
+                  reader.onload = () => {
+                      var result = []
+                      const buffer = reader.result;
+                      wb.xlsx.load(buffer).then(workbook => {
+                          workbook.eachSheet((sheet, id) => {;
+                              sheet.eachRow((row, rowIndex) => {
+                                // var tempRow = []
+                                // row.values.forEach(f => {
+                                //   tempRow.push(f)
+                                // })
+                                console.log(row.values);
                                 result.push(this.importEachRowCallback(row.values))
-                            })
-                        })
-                        this.importData = result
+                              })
+                          })
+                          this.importData = result
+                      }).catch(e => {
+                        this.alert(e)
+                      })
+                      this.file = null
+                  }
+                }else if(".csv"){
+                  const reader = new FileReader()
+                  reader.readAsText(this.file);
+                  var result = []
+                  reader.onload = () => {
+                    const buffer = reader.result;
+                    var rows = buffer.split("\n")
+                    rows = rows.map(row => {
+                      return row.split(",")
                     })
+                    rows.forEach(row => {
+                      result.push(this.importEachRowCallback(row))
+                    })
+                    this.importData = result
                     this.file = null
+                  }
                 }
             }
         },
