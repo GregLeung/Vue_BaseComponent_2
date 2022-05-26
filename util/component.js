@@ -48,7 +48,8 @@ import {
     BaseImportDrawer,
     VBaseDatePicker,
     NewDefaultLayout,
-    NewNavigationMenuItem
+    NewNavigationMenuItem,
+    MobileBasePagingTable
 } from 'vue_basecomponent'
 
 const components = {
@@ -100,7 +101,8 @@ const components = {
     BaseImportDrawer,
     VBaseDatePicker,
     NewDefaultLayout,
-    NewNavigationMenuItem
+    NewNavigationMenuItem,
+    MobileBasePagingTable
 }
 
 Object.entries(components).forEach(([name, component]) => {
