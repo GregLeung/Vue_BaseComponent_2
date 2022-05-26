@@ -46,7 +46,8 @@ import {
     VTooltipButton,
     VNewCMSForm,
     BaseImportDrawer,
-    VBaseDatePicker
+    VBaseDatePicker,
+    NewDefaultLayout
 } from 'vue_basecomponent'
 
 const components = {
@@ -96,7 +97,8 @@ const components = {
     VTooltipButton,
     VNewCMSForm,
     BaseImportDrawer,
-    VBaseDatePicker
+    VBaseDatePicker,
+    NewDefaultLayout
 }
 
 Object.entries(components).forEach(([name, component]) => {

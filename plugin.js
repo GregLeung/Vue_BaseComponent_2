@@ -46,7 +46,8 @@ import {
     VTooltipButton,
     CMSPhotoUpload,
     VNewCMSForm,
-    VBaseDatePicker
+    VBaseDatePicker,
+    NewDefaultLayout
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -91,7 +92,8 @@ const components = {
     VTooltipButton,
     CMSPhotoUpload,
     VNewCMSForm,
-    VBaseDatePicker
+    VBaseDatePicker,
+    NewDefaultLayout
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
