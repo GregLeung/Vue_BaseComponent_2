@@ -50,7 +50,8 @@ import {
     NewDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
-    BaseImportDrawer
+    BaseImportDrawer,
+    NewStandardDialog
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -99,7 +100,8 @@ const components = {
     NewDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
-    BaseImportDrawer
+    BaseImportDrawer,
+    NewStandardDialog
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)

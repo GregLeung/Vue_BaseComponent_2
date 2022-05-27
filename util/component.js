@@ -49,7 +49,8 @@ import {
     VBaseDatePicker,
     NewDefaultLayout,
     NewNavigationMenuItem,
-    MobileBasePagingTable
+    MobileBasePagingTable,
+    NewStandardDialog
 } from 'vue_basecomponent'
 
 const components = {
@@ -102,7 +103,8 @@ const components = {
     VBaseDatePicker,
     NewDefaultLayout,
     NewNavigationMenuItem,
-    MobileBasePagingTable
+    MobileBasePagingTable,
+    NewStandardDialog
 }
 
 Object.entries(components).forEach(([name, component]) => {
