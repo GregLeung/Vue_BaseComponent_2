@@ -3,7 +3,7 @@
     <label v-if="showLabel" :style="{ 'min-width': labelWidth, 'max-width': labelWidth }">
       <h1 :style="{ 'font-size': fontSize + 'rem' }">{{ label }}</h1>
     </label>
-    <el-input class="input" @keyup.enter.native="handleKeyUpEnter" @keydown.enter.native="handleKeyDownEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit" @blur="handleBlur">
+    <el-input class="input" @keyup.enter.native="handleKeyUpEnter" @keydown.enter.native="handleKeyDownEnter" ref="input" :min="min" :max="max" :style="cssVars" :maxlength="maxlength" :disabled="disabled" :placeholder="placeholder" :show-password="showPassword" :type="type" :rows="rows" v-bind:value="value" @input="handleOnChange" :show-word-limit="showWordLimit" @blur="handleBlur" @focus="focus">
         <el-button v-if="icon != null"  slot="append" :icon="icon" @click="iconClick"></el-button>
     </el-input>
 </div>
@@ -106,6 +106,11 @@ export default {
             require: false,
             default: "100%"
         },
+        selectOnFocus: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
     },
     model:{
         prop: "value",
@@ -120,6 +125,8 @@ export default {
         },
         focus(){
             this.$refs.input.focus()
+            if(this.selectOnFocus)
+                this.$nextTick(() => this.$refs.input.select())
         },
         handleKeyUpEnter(event){
             this.$emit("keyup-enter", event, this.value)
