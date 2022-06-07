@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'TIME-RANGE'">
-                        <c-m-s-date-picker v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" :type="getPickerType(item)" />
+                        <c-m-s-date-picker @update="(value) => {handleDateChange(value, searchFilterSet[item.prop])}" v-model="searchFilterSet[item.prop].value" class="mr-8" width="20em" :type="getPickerType(item)" />
                     </div>
                     <div v-else-if="item.advancedSearch.type == 'FREETEXT'">
                         <el-input
@@ -188,6 +188,10 @@ export default {
                     delete result[key]
             })
             return result
+        },
+        handleDateChange(value, model){
+            var endDate = value[1].split(" ")[0] + " 23:59:59"
+            model.value = [value[0], endDate]
         },
         initSearchFilterSet(){
             this.isReady = false

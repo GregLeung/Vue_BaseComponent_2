@@ -1,9 +1,9 @@
 <template>
-    <standard-drawer
+    <new-standard-dialog
       icon="el-icon-folder-add"
       :visible="visible"
       :title="label"
-      size="95%"
+      fullscreen
       @close="handleClose"
     >
       <v-main class="v-application">
@@ -28,6 +28,7 @@
             @change="importExcel"
           ></v-file-input>
           <base-grid-table
+            v-if="importData.length <= 500"
             ref="table"
             :isAllowCreate="() => true"
             :dataList="importData"
@@ -40,14 +41,17 @@
               }
             "
           />
+          <simple-table v-else :dataList="importData">
+            <el-table-column v-for="(column, index) in columnList" :key="index" :prop="column.prop" :label="column.label"/>
+          </simple-table>
           <slot></slot>
         </v-container>
       </v-main>
-      <standard-dialog
+      <new-standard-dialog
         icon="el-icon-s-release"
         :visible="errorMessageVisible"
         title="Error Message"
-        size="95%"
+        width="95%"
         appendToBody
         @close="handleErrorDialogClose"
       >
@@ -57,8 +61,8 @@
             Row: {{ error.rowIndex + 1 }}, Message: {{ error.errorMessage }}
           </p>
         </div>
-      </standard-dialog>
-    </standard-drawer>
+      </new-standard-dialog>
+    </new-standard-dialog>
 
 </template>
 <script lang="js">
@@ -126,11 +130,6 @@ export default{
                       wb.xlsx.load(buffer).then(workbook => {
                           workbook.eachSheet((sheet, id) => {;
                               sheet.eachRow((row, rowIndex) => {
-                                // var tempRow = []
-                                // row.values.forEach(f => {
-                                //   tempRow.push(f)
-                                // })
-                                console.log(row.values);
                                 result.push(this.importEachRowCallback(row.values))
                               })
                           })
@@ -179,4 +178,6 @@ export default{
 }
 </script>
 <style lang="sass" scoped>
+.v-main
+  padding: 0px !important
 </style>
