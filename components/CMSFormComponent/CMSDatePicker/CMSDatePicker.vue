@@ -86,7 +86,10 @@ export default {
             return "yyyy-MM-dd HH:mm:ss"
         },
         handleOnChange(value){
-            this.$emit("update", value)
+            if(this.type != "date" && value != null && value.length == 2){
+                this.$emit("update", [value[0], value[1].split(" ")[0] + " " + "23:59:59"])
+            }else
+                this.$emit("update", value)
         },
         focus(){
             this.$refs.picker.focus()

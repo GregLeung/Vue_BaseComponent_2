@@ -174,9 +174,9 @@ export default {
             var f = rowPasteValue[j]
             var currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
             if(currentCellRef != null){
-              await this.$nextTick();
-              this.addNewLine()
-              await this.$nextTick();
+              // await this.$nextTick();
+              // this.addNewLine()
+              // await this.$nextTick();
               currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
             }
             currentCellRef.localValue = f

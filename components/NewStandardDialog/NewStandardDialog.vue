@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" :width="width" :fullscreen="fullscreen" persistent :retain-focus="false" no-click-animation>
+  <v-dialog v-model="visible" :width="width" :fullscreen="fullscreen" :persistent="persistent" :retain-focus="false" no-click-animation>
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>{{title}}</v-toolbar-title>
@@ -48,6 +48,11 @@ export default{
             type: Boolean,
             required: false,
             default: false
+        },
+        persistent: {
+          type: Boolean,
+          required: false,
+          default: true
         }
     },
     methods: {
