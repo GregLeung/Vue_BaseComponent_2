@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app width="300" dark :color="backgroundColor">
+    <v-navigation-drawer v-model="drawer" app :width="width" dark :color="backgroundColor">
       <v-list-item v-if="hasLogo" :style="{'background': headerColor}">
         <v-list-item-content>
           <v-list-item-title class="text-h6">
@@ -78,6 +78,11 @@ export default{
             type: Boolean,
             required: false,
             default: true
+        },
+        width: {
+            type: String,
+            required: false,
+            default: "300"
         }
     },
     methods: {

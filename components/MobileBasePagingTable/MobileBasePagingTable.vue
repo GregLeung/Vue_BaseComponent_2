@@ -121,6 +121,9 @@ export default{
                 }
             })
         },
+        async handleRefresh(){
+            await this.getDataFromApi()
+        },
         async getDataFromApi () {
             this.loading = true
             const { sortBy, sortDesc, page, itemsPerPage } = this.options
@@ -139,7 +142,6 @@ export default{
                 paging: {page: this.currentPage, pageSize: this.pageSize, search: this.search, sort: {order: this.currentSortOrder, prop: this.currentSortProp }},
             }
             parameters = Object.assign(parameters, this.parameters)
-            console.log(parameters);
             var res = await Request.post("get_" + this.tableName + "_all", parameters)
             this.items = res.data[this.tableName].data
             this.totalRows = res.data[this.tableName].totalRow
