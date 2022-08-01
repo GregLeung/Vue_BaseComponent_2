@@ -54,6 +54,7 @@ import NewDefaultLayout from "./components/NewDefaultLayout/NewDefaultLayout.vue
 import NewNavigationMenuItem from "./components/NewNavigationMenuItem/NewNavigationMenuItem.vue";
 import NewStandardDialog from "./components/NewStandardDialog/NewStandardDialog.vue";
 import VBaseDatePicker from "./components/VBaseDatePicker/VBaseDatePicker.vue";
+import AdvancedSearchTitleBar from "./components/BaseTable/AdvancedSearchTitleBar"
 import Request from "./util/request";
 import NewRequest from "./util/NewRequest";
 import Excel from "./util/excel";
@@ -120,6 +121,7 @@ export {
     NewNavigationMenuItem,
     NewStandardDialog,
     VBaseDatePicker,
+    AdvancedSearchTitleBar,
     Request,
     NewRequest,
     Excel,
