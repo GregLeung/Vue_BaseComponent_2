@@ -22,7 +22,7 @@
         />
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar app dark :color="backgroundColor">
+    <v-app-bar app dark :color="appBarColor">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <div class="d-flex justify-space-between" style="width: 100%">
         <div>
@@ -70,6 +70,11 @@ export default{
             default: "#434c64"
         },
         backgroundColor: {
+            type: String,
+            required: false,
+            default: "#434c64"
+        },
+        appBarColor: {
             type: String,
             required: false,
             default: "#434c64"
