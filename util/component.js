@@ -48,6 +48,7 @@ import {
     BaseImportDrawer,
     VBaseDatePicker,
     NewDefaultLayout,
+    NewNodeDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NewStandardDialog
@@ -102,6 +103,7 @@ const components = {
     BaseImportDrawer,
     VBaseDatePicker,
     NewDefaultLayout,
+    NewNodeDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NewStandardDialog

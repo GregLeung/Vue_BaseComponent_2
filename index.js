@@ -51,6 +51,7 @@ import MobileAdvancedSearchDialog from "./components/MobileAdvancedSearchDialog/
 import MobileBasePagingTable from "./components/MobileBasePagingTable/MobileBasePagingTable.vue";
 import MobileLoginPage from "./components/MobileLoginPage/MobileLoginPage.vue";
 import NewDefaultLayout from "./components/NewDefaultLayout/NewDefaultLayout.vue";
+import NewNodeDefaultLayout from "./components/NewNodeDefaultLayout/NewNodeDefaultLayout.vue";
 import NewNavigationMenuItem from "./components/NewNavigationMenuItem/NewNavigationMenuItem.vue";
 import NewStandardDialog from "./components/NewStandardDialog/NewStandardDialog.vue";
 import VBaseDatePicker from "./components/VBaseDatePicker/VBaseDatePicker.vue";
@@ -119,6 +120,7 @@ export {
     MobileBasePagingTable,
     MobileLoginPage,
     NewDefaultLayout,
+    NewNodeDefaultLayout,
     NewNavigationMenuItem,
     NewStandardDialog,
     VBaseDatePicker,
