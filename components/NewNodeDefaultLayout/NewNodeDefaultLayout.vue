@@ -81,7 +81,7 @@ export default{
     methods: {
         getUserName(){
             try{
-                return this.$store.getters.user.username
+                return this.$store.getters.user.userName
             }catch(e){
                 return ""
             }

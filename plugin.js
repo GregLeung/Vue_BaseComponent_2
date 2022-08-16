@@ -8,6 +8,7 @@ import {
     BaseFooter,
     BaseTable,
     BasePagingTable,
+    NodeBasePagingTable,
     BaseUploadButton,
     CMSHeader,
     NavigationBar,
@@ -51,6 +52,7 @@ import {
     NewNodeDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
+    NodeMobileBasePagingTable,
     BaseImportDrawer,
     NewStandardDialog
 } from 'vue_basecomponent'
@@ -59,6 +61,7 @@ const components = {
     BaseFooter,
     BaseTable,
     BasePagingTable,
+    NodeBasePagingTable,
     BaseUploadButton,
     CMSHeader,
     NavigationBar,
@@ -102,6 +105,7 @@ const components = {
     NewNodeDefaultLayout,
     NewNavigationMenuItem,
     MobileBasePagingTable,
+    NodeMobileBasePagingTable,
     BaseImportDrawer,
     NewStandardDialog
 }
