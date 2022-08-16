@@ -57,6 +57,7 @@ import VBaseDatePicker from "./components/VBaseDatePicker/VBaseDatePicker.vue";
 import AdvancedSearchTitleBar from "./components/BaseTable/AdvancedSearchTitleBar"
 import Request from "./util/request";
 import NewRequest from "./util/NewRequest";
+import NodeRequest from "./util/NodeRequest";
 import Excel from "./util/excel";
 import Util from "./util/util";
 import GoogleMap from "./util/googleMap";
@@ -124,6 +125,7 @@ export {
     AdvancedSearchTitleBar,
     Request,
     NewRequest,
+    NodeRequest,
     Excel,
     Util,
     GoogleMap,
