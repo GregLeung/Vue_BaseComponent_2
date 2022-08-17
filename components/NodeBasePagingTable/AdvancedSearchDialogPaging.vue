@@ -91,7 +91,6 @@ export default {
             required: true
         },
         sort: {
-            type: String,
             required: true
         },
         sortOrder: {
