@@ -53,6 +53,7 @@ import {
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NodeMobileBasePagingTable,
+    AdvancedSearchTitleBar,
     BaseImportDrawer,
     NewStandardDialog
 } from 'vue_basecomponent'
@@ -106,6 +107,7 @@ const components = {
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NodeMobileBasePagingTable,
+    AdvancedSearchTitleBar,
     BaseImportDrawer,
     NewStandardDialog
 }

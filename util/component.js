@@ -53,7 +53,8 @@ import {
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NodeMobileBasePagingTable,
-    NewStandardDialog
+    NewStandardDialog,
+    AdvancedSearchTitleBar
 } from 'vue_basecomponent'
 
 const components = {
@@ -110,7 +111,8 @@ const components = {
     NewNavigationMenuItem,
     MobileBasePagingTable,
     NodeMobileBasePagingTable,
-    NewStandardDialog
+    NewStandardDialog,
+    AdvancedSearchTitleBar
 }
 
 Object.entries(components).forEach(([name, component]) => {
