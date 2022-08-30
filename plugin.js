@@ -55,7 +55,9 @@ import {
     NodeMobileBasePagingTable,
     AdvancedSearchTitleBar,
     BaseImportDrawer,
-    NewStandardDialog
+    NewStandardDialog,
+    BaseCheckBox,
+    BaseCheckBoxGroup
 } from 'vue_basecomponent'
 import { sha256 } from "js-sha256";
 const components = {
@@ -109,7 +111,9 @@ const components = {
     NodeMobileBasePagingTable,
     AdvancedSearchTitleBar,
     BaseImportDrawer,
-    NewStandardDialog
+    NewStandardDialog,
+    BaseCheckBox,
+    BaseCheckBoxGroup
 }
 Object.entries(components).forEach(([name, component]) => {
     Vue.component(name, component)
