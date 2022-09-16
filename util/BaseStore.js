@@ -53,16 +53,16 @@ class BaseStore extends Vuex.Store {
             state.token = Cookies.get(options.state.frontEntry + "token");
         };
         options.mutations.SET_USER = (state, user) => {
-            Cookies.set(options.state.frontEntry + "user", user);
-            state.user = Cookies.get(options.state.frontEntry + "user");
+            Cookies.set(options.state.frontEntry + "user", JSON.stringify(user));
+            state.user = JSON.parse(Cookies.get(options.state.frontEntry + "user"));
         };
         options.mutations.SET_MEMBER_TOKEN = (state, memberToken) => {
             Cookies.set(options.state.frontEntry + "memberToken", memberToken);
             state.memberToken = Cookies.get(options.state.frontEntry + "memberToken");
         };
         options.mutations.SET_MEMBER = (state, member) => {
-            Cookies.set(options.state.frontEntry + "member", member);
-            state.member = Cookies.get(options.state.frontEntry + "member");
+            Cookies.set(options.state.frontEntry + "member", JSON.stringify(member));
+            state.member = JSON.parse(Cookies.get(options.state.frontEntry + "member"));
         };
         options.mutations.SET_SESSIONID = (state, sessionID) => {
             Cookies.set(options.state.frontEntry + "sessionID", sessionID);
@@ -122,21 +122,35 @@ class BaseStore extends Vuex.Store {
             if (state.user == null) {
                 var result = Cookies.get(options.state.frontEntry + "user") || null
                 if (result != null && result != "")
-                    return JSON.parse(result)
+                    if(typeof result === 'string')
+                        return JSON.parse(result)
+                    else
+                        return result
                 else
                     return null
-            } else
-                return JSON.parse(state.user);
+            } else{
+                if(typeof state.user === 'string')
+                    return JSON.parse(state.user)
+                else
+                    return state.user
+            }
         };
         options.getters.member = state => {
             if (state.member == null) {
                 var result = Cookies.get(options.state.frontEntry + "member") || null
                 if (result != null && result != "")
-                    return JSON.parse(result)
+                    if(typeof result === 'string')
+                        return JSON.parse(result)
+                    else
+                        return result
                 else
                     return null
-            } else
-                return JSON.parse(state.member);
+            } else{
+                if(typeof state.member === 'string')
+                    return JSON.parse(state.member)
+                else
+                    return state.member
+            }
         };
         options.getters.sessionID = state => {
             var sessionID = Cookies.get(options.state.frontEntry + "sessionID") || null
