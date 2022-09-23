@@ -91,7 +91,7 @@ export default {
             required: true
         },
         sort: {
-            required: true
+            required: false
         },
         sortOrder: {
             type: String,

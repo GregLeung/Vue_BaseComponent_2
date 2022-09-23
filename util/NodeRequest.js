@@ -24,7 +24,7 @@ class Request {
         })
     }
     static get(action, params, options) {
-        if (options != null && options.showLoading == true)
+        if (options == null || options.showLoading == true)
             loading()
         return new Promise((resolve, reject) => {
             this.rawGet("get/"+ action, params).then(res => {
@@ -33,13 +33,14 @@ class Request {
             }).catch(error => {
                 reject(getErrorMessage(error))
             }).finally(() => {
-                if (options != null && options.showLoading == true)
+                if (options == null || options.showLoading == true)
                     loading().close()
             })
         })
     }
-    static post(action, body) {
-        loading()
+    static post(action, body, options) {
+        if (options == null || options.showLoading == true)
+            loading()
         return new Promise((resolve, reject) => {
             this.rawPost(action, body).then(res => {
                 if (isError(res)) throw new NetworkError(res)
@@ -47,12 +48,14 @@ class Request {
             }).catch(error => {
                 reject(getErrorMessage(error))
             }).finally(() => {
-                loading().close()
+                if (options == null || options.showLoading == true)
+                    loading().close()
             })
         })
     }
-    static put(action, body) {
-        loading()
+    static put(action, body, options) {
+        if (options == null || options.showLoading == true)
+            loading()
         return new Promise((resolve, reject) => {
             this.rawPut(action, body).then(res => {
                 if (isError(res)) throw new NetworkError(res)
@@ -60,7 +63,8 @@ class Request {
             }).catch(error => {
                 reject(getErrorMessage(error))
             }).finally(() => {
-                loading().close()
+                if (options == null || options.showLoading == true)
+                    loading().close()
             })
         })
     }
