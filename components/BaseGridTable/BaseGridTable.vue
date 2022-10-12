@@ -18,12 +18,12 @@
           </template>
         </el-table-column>
       </el-table>
+      <context-menu @right-click="handleRightClick" :divided="true">
+        <div v-for="(item, i) in rightClickMenuList" v-bind:key="i">
+          <context-menu-item :label="item.label" :value="item.value" @click="(value, label) => {handleMenuItemClick(value, label, item)}" :icon='item.icon' :iconColor="item.iconColor">{{item.label}}</context-menu-item>
+        </div>
+      </context-menu>
     </div>
-    <context-menu @right-click="handleRightClick" :divided="true">
-      <div v-for="(item, i) in rightClickMenuList" v-bind:key="i">
-        <context-menu-item :label="item.label" :value="item.value" @click="(value, label) => {handleMenuItemClick(value, label, item)}" :icon='item.icon' :iconColor="item.iconColor">{{item.label}}</context-menu-item>
-      </div>
-    </context-menu>
     <column-setting-drawer :columnList="columnList" :originalColumnList="originalColumnList" :visible.sync="columnSettingVisible" @confirm="handleColumnListConfirm"></column-setting-drawer>
   </div>
 </template>
@@ -152,17 +152,16 @@ export default {
       this.handleDefaultSorting()
       this.addKeyListener()
       this.originalColumnList = this.deepClone(this.columnList)
-      // this.$nextTick(()=>{
-      //   if(this.isAllowCreate(this.dataList) && this.dataList.length == 0){
-      //     this.addNewLine()
-      //   }
-      // })
     },
     async handlePaste(event){
       try{
-        var pasteValue = event.clipboardData.getData('Text')
+        var pasteValue = await navigator.clipboard.readText();
         pasteValue = pasteValue.split("\n")
         pasteValue = pasteValue.map(f => f.split("\t"))
+        pasteValue.forEach(f => {
+          if(f.at(-1) == "")
+            f.pop()
+        })
         var cellRef = this.getSelectedCellRef()
         var rowIndex = cellRef.getRowIndex()
         var columnIndex = cellRef.columnIndex
@@ -172,16 +171,12 @@ export default {
           var rowPasteValue = pasteValue[i]
           for(let j = 0; j<rowPasteValue.length; j++){
             var f = rowPasteValue[j]
-            var currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
+            var currentCellRef = this.getCellRefByPosition(Number(rowIndex) + Number(currentRow), Number(columnIndex) + Number(currentColumn))
             if(currentCellRef != null){
-              // await this.$nextTick();
-              // this.addNewLine()
-              // await this.$nextTick();
-              currentCellRef = this.getCellRefByPosition(rowIndex + currentRow, columnIndex + currentColumn)
+              currentCellRef.localValue = f
+              await currentCellRef.editSubmit()
+              currentColumn += 1
             }
-            currentCellRef.localValue = f
-            currentCellRef.editSubmit()
-            currentColumn += 1
           }
           currentRow += 1
           currentColumn = 0
@@ -251,6 +246,12 @@ export default {
         case "Add New Line":
             this.addNewLine()
           break;
+        case "Copy":
+            this.handleCopy()
+          break;
+        case "Paste":
+          this.handlePaste()
+        break;
         case "Column Settings":
           this.columnSettingVisible = true
           break;
@@ -269,6 +270,8 @@ export default {
         if(this.isAllowCreate(this.dataList)){
           rowMenu.push({label: "Delete", value: "Delete", icon: "el-icon-delete-solid", iconColor: "red"})
           rowMenu.push({label: "Add New Line", value: "Add New Line", icon: "el-icon-plus", iconColor: "blue"})
+          rowMenu.push({label: "Copy", value: "Copy", icon: "el-icon-document-copy", iconColor: "green"})
+          rowMenu.push({label: "Paste", value: "Paste", icon: "el-icon-s-order", iconColor: "red"})
         }
         rowMenu = rowMenu.concat(this.extraRowMenuList)
         this.rightClickMenuList = rowMenu

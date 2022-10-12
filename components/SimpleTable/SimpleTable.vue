@@ -1,22 +1,11 @@
 <template>
   <div>
     <el-input v-if="showSearch" slot="first" v-model="searchValue" placeholder="Search" />
-    <el-table highlight-current-row :show-summary="showSummary" :summary-method="summaryMethod" v-loading="isLoading" :tree-props="treeProps" :row-key="rowKey" :default-expand-all="defaultExpandAll" :max-height="maxHeight"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick" @row-dblclick="rowDoubleClick">
+    <el-table highlight-current-row :show-summary="showSummary" :summary-method="summaryMethod" v-loading="isLoading" :tree-props="treeProps" :row-key="rowKey" :default-expand-all="defaultExpandAll" :max-height="maxHeight"  :border='border' @selection-change="handleMultiSelection" :header-cell-style="headerCellStyle" class="mt-12" :data="filteredList().slice(this.currentPage * this.pageSize - this.pageSize, this.currentPage * this.pageSize )" @sort-change="handleSortChange" @row-click="rowClick" @row-dblclick="rowDoubleClick" :default-sort="defaultSort">
       <slot></slot>
     </el-table>
     <div class="pagination-wrapper mt-12">
-      <el-pagination
-        v-if="showPagination"
-        small
-        :page-sizes="pageSizes"
-        :page-size="pageSize"
-        :current-page.sync="currentPage"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes, prev, pager, next"
-        :total="totalLength"
-      >
-      </el-pagination>
+      <el-pagination v-if="showPagination" small :page-sizes="pageSizes" :page-size="pageSize" :current-page.sync="currentPage" @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next" :total="totalLength"/>
     </div>
   </div>
 </template>
@@ -103,6 +92,10 @@ export default {
             required: false,
             default: (row, column, event) => {},
         },
+        "default-sort": {
+            type: Object,
+            required: false,
+        }
     },
     created(){
         this.init()
