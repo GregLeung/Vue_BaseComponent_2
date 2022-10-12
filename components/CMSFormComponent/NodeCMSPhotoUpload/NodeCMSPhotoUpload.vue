@@ -66,6 +66,8 @@ export default {
             Request.uploadFile(
                 "uploadFile",
                 this.selectedFile.raw,
+                2,
+                ["image/png", "image/jpg", "image/jpeg"],
             )
             
         },
