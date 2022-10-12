@@ -37,11 +37,9 @@
 import Vue from "vue";
 import {Util} from "vue_basecomponent";
 import {NodeRequest as Request} from "vue_basecomponent";
+import config from "@/static/config.json";
 export default {
-    components: {
-        Util,
-        Request
-    },
+    components: {Util,Request},
     props: {
         photoPath: {
             type: Array,
@@ -62,25 +60,24 @@ export default {
         }
     },
     methods: {
-        handleUploadPicture(){
-            Request.uploadFile(
-                "uploadFile",
-                this.selectedFile.raw,
-                2,
-                ["image/png", "image/jpg", "image/jpeg"],
-            )
-            
+        async handleUploadPicture(){
+            try{
+                var res = await Request.uploadFile("uploadFile",this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg"],)
+                this.handleSuccess(res.data, this.selectedFile, this.fileList)
+                this.$emit("success")
+            }catch(e){
+                this.alert(e)
+            }
         },
         handleUpload(file, fileList) {
             this.processing = true
             this.selectedFile = file
         },
         handleSuccess(response, file, fileList) {
-            var url = this.$store.state.baseUrlStatic + "img/" +  response.data
+            var url = config.baseFileUrl + response.data.path
             this.fileList.push(file)
             this.photoPath.push(url);
             this.processing = false
-            console.log(this.fileList);
         },
         handleRemove(file, fileList) {
             this.processing = true
