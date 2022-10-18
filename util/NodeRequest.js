@@ -69,8 +69,8 @@ class Request {
         })
     }
     static uploadFile(action, file, limitSize ,limitType) {
-        if (file.size / 1024 / 1024 > limitSize) throw new Error(vueInstance.$t("File Size Too large"))
-        if (!limitType.includes(file.type)) throw new Error(vueInstance.$t("Wrong File Type"))
+        if (file.size / 1024 / 1024 > limitSize) throw new Error("File Size Too large")
+        if (!limitType.includes(file.type)) throw new Error("Wrong File Type")
         let formData = new FormData();
         formData.append("file", file);
         return axios.post(config.baseUrl + action, formData, {

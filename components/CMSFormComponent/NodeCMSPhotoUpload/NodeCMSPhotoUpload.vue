@@ -6,12 +6,11 @@
         :on-change="handleUpload" 
         list-type="picture-card"
         :file-list="fileList" 
-        :on-success="handleSuccess" 
         :on-remove="handleRemove" 
         :on-preview="handlePictureCardPreview" 
         :on-exceed="handleExceed" 
         :limit="limit" 
-        :class="{hide:hideUpload || processing}"
+        :class="{hide:hideUpload}"
     >
         <i slot="default" class="el-icon-plus"></i>
         <div slot="file" slot-scope="{file}">
@@ -62,7 +61,7 @@ export default {
     methods: {
         async handleUploadPicture(){
             try{
-                var res = await Request.uploadFile("uploadFile",this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg"],)
+                var res = await Request.uploadFile("uploadFile",this.selectedFile.raw,2,["image/png", "image/jpg", "image/jpeg", "image/webp"],)
                 this.handleSuccess(res.data, this.selectedFile, this.fileList)
                 this.$emit("success")
             }catch(e){
@@ -70,24 +69,17 @@ export default {
             }
         },
         handleUpload(file, fileList) {
-            this.processing = true
             this.selectedFile = file
         },
         handleSuccess(response, file, fileList) {
             var url = config.baseFileUrl + response.data.path
             this.fileList.push(file)
             this.photoPath.push(url);
-            this.processing = false
         },
         handleRemove(file, fileList) {
-            this.processing = true
             var index = this.fileList.indexOf(file)
             this.fileList.splice(index, 1);
             this.photoPath.splice(index, 1);
-            if(this.fileList.length > 0)
-                setTimeout(() => this.processing = false, 650); // Maybe can do better
-            else
-                this.processing = false
             this.$emit("remove")
         },
         handlePictureCardPreview(file) {
@@ -123,7 +115,6 @@ export default {
         return{
             dialogVisible: false,
             dialogImageUrl: '',
-            processing: false,
             fileList: []
         }
     }
