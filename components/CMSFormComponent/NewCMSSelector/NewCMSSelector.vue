@@ -17,11 +17,13 @@
       @blur="$emit('blur', $event)"
       :clearable="clearable"
       :multiple="multiple"
-      :filterable="filterable"
+      filterable
       :disabled="disabled"
       :placeholder="placeholder"
       :style="{'width': width}"
       popper-class="select-down"
+      :allow-create="autoCreate"
+      :default-first-option="autoCreate"
     >
     <el-option
       v-for="item in localOptions"
@@ -137,6 +139,11 @@ export default {
             default: (value)=>{
                 return {label: value, value: value, disabled: true}
             }
+        },
+        autoCreate:{
+            type: Boolean,
+            require: false,
+            default: false
         }
     },
     model: {
