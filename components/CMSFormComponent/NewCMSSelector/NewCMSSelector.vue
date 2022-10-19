@@ -17,7 +17,7 @@
       @blur="$emit('blur', $event)"
       :clearable="clearable"
       :multiple="multiple"
-      filterable
+      :filterable="filterable"
       :disabled="disabled"
       :placeholder="placeholder"
       :style="{'width': width}"
