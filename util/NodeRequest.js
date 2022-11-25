@@ -8,19 +8,22 @@ class Request {
     static rawPost(action, body) {
         return axios.post(config.baseUrl + action, body, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent()
+            httpsAgent: Request.getAgent(),
+            withCredentials: true
         })
     }
     static rawGet(action, params) {
         return axios.post(config.baseUrl + action, params, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent()
+            httpsAgent: Request.getAgent(),
+            withCredentials: true
         })
     }
     static rawPut(action, params) {
         return axios.put(config.baseUrl + action, params, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent()
+            httpsAgent: Request.getAgent(),
+            withCredentials: true
         })
     }
     static get(action, params, options) {
@@ -85,7 +88,7 @@ class Request {
         }
         var memberToken = store().getters.memberToken
         if (memberToken != "" && memberToken != null) {
-            headers["Membertoken"] = memberToken
+            headers["member_token"] = memberToken
         }
         var token = store().getters.token
         if (token != "" && token != null) {
