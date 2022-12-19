@@ -8,22 +8,25 @@ class Request {
     static rawPost(action, body) {
         return axios.post(config.baseUrl + action, body, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent(),
-            withCredentials: true
+            httpsAgent: Request.getAgent()
         })
     }
     static rawGet(action, params) {
         return axios.post(config.baseUrl + action, params, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent(),
-            withCredentials: true
+            httpsAgent: Request.getAgent()
         })
     }
     static rawPut(action, params) {
         return axios.put(config.baseUrl + action, params, {
             headers: Request.getDefaultHeader(),
-            httpsAgent: Request.getAgent(),
-            withCredentials: true
+            httpsAgent: Request.getAgent()
+        })
+    }
+    static rawDelete(action, params) {
+        return axios.put(config.baseUrl + action, params, {
+            headers: Request.getDefaultHeader(),
+            httpsAgent: Request.getAgent()
         })
     }
     static get(action, params, options) {
@@ -61,6 +64,22 @@ class Request {
             loading()
         return new Promise((resolve, reject) => {
             this.rawPut(action, body).then(res => {
+                if (isError(res)) throw new NetworkError(res)
+                resolve(res.data)
+            }).catch(error => {
+                reject(getErrorMessage(error))
+            }).finally(() => {
+                if (options == null || options.showLoading == true)
+                    loading().close()
+            })
+        })
+    }
+
+    static delete(action, body, options) {
+        if (options == null || options.showLoading == true)
+            loading()
+        return new Promise((resolve, reject) => {
+            this.rawDelete(action, body).then(res => {
                 if (isError(res)) throw new NetworkError(res)
                 resolve(res.data)
             }).catch(error => {
