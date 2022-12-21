@@ -1,7 +1,9 @@
 import axios from "axios";
 import store from "@/store/index";
 import { Loading } from "element-ui";
+const crypto = require('crypto');
 const https = require('https');
+const moment = require("moment")
 import config from "@/static/config.json";
 
 class Request {
@@ -101,13 +103,15 @@ class Request {
         })
     }
     static getDefaultHeader() {
+        var sha = crypto.createHash("sha256")
         var headers = {
             "Content-Type": "application/json",
-            Apikey: store().state.api_key
+            Apikey: store().state.api_key,
+            secret: sha.update(moment().format("yyyy-MM-DD") + store().state.api_key).digest("hex")
         }
         var memberToken = store().getters.memberToken
         if (memberToken != "" && memberToken != null) {
-            headers["member_token"] = memberToken
+            headers["Membertoken"] = memberToken
         }
         var token = store().getters.token
         if (token != "" && token != null) {
