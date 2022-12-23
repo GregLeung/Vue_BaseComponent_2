@@ -12,7 +12,7 @@
           </div>
           <el-button @click="handleLogIn" round>{{$t('Login')}}</el-button>
         </login-container-box>
-        <p class="footer">{{$t('Powered By Clear Future Technologies Limited  ')}}{{ + new Date().getFullYear()}}</p>
+        <p class="footer">{{$t('Powered By Clear Future Technologies Limited ')}}{{ + new Date().getFullYear()}}</p>
       </div>
       <div class="container-right center-item">
         <div class="city-image">
