@@ -1,6 +1,6 @@
 {
-    "name": "vue_basecomponent",
-    "version": "0.29.7",
+    "name": "vue_basecomponent_2",
+    "version": "1.0.0",
     "description": "",
     "main": "./index.js",
     "scripts": {
@@ -28,12 +28,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ChengWaiLim/Vue_BaseComponent.git"
+        "url": "git+https://github.com/GregLeung/Vue_BaseComponent_2.git"
     },
-    "author": "Cheng Wai Lim",
+    "author": "Greg Leung",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/ChengWaiLim/Vue_BaseComponent/issues"
+        "url": "https://github.com/GregLeung/Vue_BaseComponent_2/issues"
     },
-    "homepage": "https://github.com/ChengWaiLim/Vue_BaseComponent#readme"
+    "homepage": "https://github.com/GregLeung/Vue_BaseComponent_2#readme"
 }

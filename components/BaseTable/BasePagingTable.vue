@@ -35,7 +35,12 @@
         </div>
     <div class="table-wrapper mt-4">
       <el-table highlight-current-row :max-height="windowHeight*0.75" @sort-change="sortChange" @selection-change="handleSelectionChange" @select="handleSelect" class="table mb-16" :border="border" :data="dataList" style="width: 100%" :cell-style="cellStyle" ref="table" :header-cell-style="{ background: '#333333', color: 'white' }" :row-style="rowStyle" @row-click="rowClick" @row-dblclick="rowDoubleClick" @select-all="handleSelectAll">
-        <el-table-column v-if="isBatchSelection" type="selection"  width="55" ></el-table-column>
+        <el-table-column 
+          v-if="isBatchSelection"
+          type="selection"
+          width="55"
+          :filters="[{text:'Selected', value:'Selected'}]"
+          :filter-method="filterSelected"></el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
             <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
@@ -264,6 +269,7 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       searchFilterSet: {},
+      isSelectAll: false
     };
   },
   methods: {
@@ -422,13 +428,29 @@ export default {
       }
     },
     handleSelect(selection, row){
+      if(row.isSelected != 'Selected'){
+        row.isSelected = 'Selected';
+      }else{
+        row.isSelected = 'NotSelected';
+      }
       this.$emit("select", selection, row)
     },
     getRef(){
       return this.$refs.table
     },
     handleSelectAll(selection){
+      this.isSelectAll = !this.isSelectAll
+      var isSelected
+      if(this.isSelectAll){
+        isSelected = 'Selected'
+      }else{
+        isSelected = 'NotSelected'
+      }
+      this.dataList.forEach(data => data.isSelected = isSelected)
       this.$emit("select-all", selection)
+    },
+    filterSelected(value, row){     
+      return row.isSelected === value
     }
   },
   computed: {
