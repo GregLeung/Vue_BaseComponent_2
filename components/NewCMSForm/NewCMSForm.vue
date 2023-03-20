@@ -19,7 +19,7 @@
 import Vue from "vue";
 // import CMSBreadCrumb from "../CMSBreadCrumb/CMSBreadCrumb.vue";
 // import CMSPageHeader from "../CMSPageHeader/CMSPageHeader.vue";
-import {CMSPageHeader} from "vue_basecomponent";
+import {CMSPageHeader} from "vue_basecomponent_2";
 export default {
     components: {
         CMSPageHeader

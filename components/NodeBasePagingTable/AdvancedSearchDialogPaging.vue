@@ -60,8 +60,8 @@
 <script lang="js">
 import Vue from "vue";
 import moment from "moment";
-import {NodeRequest as Request} from "vue_basecomponent";
-import { Util, NewCMSSelector, BaseCheckBox,BaseCheckBoxGroup,AdvancedSearchTitleBar } from "vue_basecomponent";
+import {NodeRequest as Request} from "vue_basecomponent_2";
+import { Util, NewCMSSelector, BaseCheckBox,BaseCheckBoxGroup,AdvancedSearchTitleBar } from "vue_basecomponent_2";
 export default {
     props: {
         visible: {

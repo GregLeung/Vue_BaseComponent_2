@@ -14,7 +14,7 @@
 import Vue from "vue";
 import {
     Request,
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default Vue.extend({
     layout: "CMSLayout",
     mounted(){

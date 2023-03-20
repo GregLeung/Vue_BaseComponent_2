@@ -56,8 +56,8 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-// import {MobileAdvancedSearchDialog} from "vue_basecomponent"
-import {NodeRequest as Request} from "vue_basecomponent";
+// import {MobileAdvancedSearchDialog} from "vue_basecomponent_2"
+import {NodeRequest as Request} from "vue_basecomponent_2";
 import MobileAdvancedSearchDialog from "./MobileAdvancedSearchDialog"
 export default{
     props: {

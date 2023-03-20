@@ -41,7 +41,7 @@ import {
     CMSHeader, 
     IconButton, 
     Request
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default {
     middleware: "authenticated",
     components: {
@@ -140,7 +140,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "vue_basecomponent/static/main.sass"
+@import "vue_basecomponent_2/static/main.sass"
 @import "@/static/variables.scss"
 #navigation-bar
     width: $navigation-bar-width

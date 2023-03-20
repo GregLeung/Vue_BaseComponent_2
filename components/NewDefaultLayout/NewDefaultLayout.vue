@@ -50,7 +50,7 @@
 import Vue from "vue";
 import {
     NewRequest as Request
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default{
     props: {
         menu: {

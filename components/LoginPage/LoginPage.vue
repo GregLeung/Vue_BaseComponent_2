@@ -29,7 +29,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import {LoginContainerBox, LoginInput, Request} from "vue_basecomponent";
+import {LoginContainerBox, LoginInput, Request} from "vue_basecomponent_2";
 export default Vue.extend({
     props: {
         systemName: {

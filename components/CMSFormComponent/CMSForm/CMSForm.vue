@@ -19,8 +19,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "vue_basecomponent/static/variables.scss"
-@import "vue_basecomponent/static/main.sass"
+@import "vue_basecomponent_2/static/variables.scss"
+@import "vue_basecomponent_2/static/main.sass"
 @import "@/static/variables.scss"
 .container
     border-radius: 8px

@@ -59,7 +59,7 @@ import {
     NewStandardDialog,
     BaseCheckBox,
     BaseCheckBoxGroup
-} from 'vue_basecomponent'
+} from 'vue_basecomponent_2'
 import { sha256 } from "js-sha256";
 const components = {
     BaseFooter,

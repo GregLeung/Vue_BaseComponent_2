@@ -54,7 +54,7 @@ export default{
 </script>
 <style lang="sass" scoped>
 @import "@/static/variables.scss"
-@import "vue_basecomponent/static/main.sass"
+@import "vue_basecomponent_2/static/main.sass"
 .mobile-container
   background: $main-theme-vertical
   height: 100%

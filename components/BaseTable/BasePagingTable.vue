@@ -93,7 +93,7 @@
 
 <script>
 import AdvancedSearchDialogPaging from "./AdvancedSearchDialogPaging";
-import { Request, Util } from "vue_basecomponent";
+import { Request, Util } from "vue_basecomponent_2";
 
 export default {
   components: {

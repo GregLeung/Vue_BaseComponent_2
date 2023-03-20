@@ -35,7 +35,7 @@
 
 <script>
 import Vue from "vue";
-import {Util, Request} from "vue_basecomponent";
+import {Util, Request} from "vue_basecomponent_2";
 export default {
     components: {
         Util,

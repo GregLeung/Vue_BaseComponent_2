@@ -48,7 +48,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import {NodeRequest as Request} from "vue_basecomponent";
+import {NodeRequest as Request} from "vue_basecomponent_2";
 export default{
     props: {
         menu: {

@@ -45,8 +45,8 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-@import "vue_basecomponent/static/variables.scss"
-@import "vue_basecomponent/static/main.sass"
+@import "vue_basecomponent_2/static/variables.scss"
+@import "vue_basecomponent_2/static/main.sass"
 @import "@/static/variables.scss"
 #cms-header
     position: fixed

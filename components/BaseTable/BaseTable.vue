@@ -94,7 +94,7 @@
 <script>
 import axios from "axios";
 import AdvancedSearchDialog from "./AdvancedSearchDialog";
-import { Request, Util } from "vue_basecomponent";
+import { Request, Util } from "vue_basecomponent_2";
 
 export default {
   components: {

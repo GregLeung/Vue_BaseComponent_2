@@ -28,7 +28,7 @@
 <script lang="js">
 
 import Vue from "vue";
-import { Request, Util } from "vue_basecomponent";
+import { Request, Util } from "vue_basecomponent_2";
 export default {    
     props: {
         column: {

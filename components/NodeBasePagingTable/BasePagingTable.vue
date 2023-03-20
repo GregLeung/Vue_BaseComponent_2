@@ -85,8 +85,8 @@
 </template>
 
 <script>
-import { Util } from "vue_basecomponent";
-import {NodeRequest as Request} from "vue_basecomponent";
+import { Util } from "vue_basecomponent_2";
+import {NodeRequest as Request} from "vue_basecomponent_2";
 import AdvancedSearchDialogPaging from "./AdvancedSearchDialogPaging"
 
 export default {

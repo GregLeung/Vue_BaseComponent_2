@@ -22,7 +22,7 @@ import {
     CMSForm,
     CMSSelector,
     Request
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default {
     layout: "CMSLayout",
     components: {

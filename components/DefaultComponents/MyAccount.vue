@@ -31,7 +31,7 @@ import Vue from "vue";
 import sha256 from "js-sha256"
 import {
     Request,
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default {
   props: {
     validateCallback: {

@@ -99,8 +99,8 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-@import "vue_basecomponent/static/variables.scss"
-@import "vue_basecomponent/static/main.sass"
+@import "vue_basecomponent_2/static/variables.scss"
+@import "vue_basecomponent_2/static/main.sass"
 .header-box
   width: 100%
   max-height: 8em

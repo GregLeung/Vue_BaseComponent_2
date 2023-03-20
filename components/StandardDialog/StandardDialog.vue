@@ -26,7 +26,7 @@ import Cookies from "js-cookie";
 import {
     Request,
     Util,
-} from "vue_basecomponent";
+} from "vue_basecomponent_2";
 export default{
     props: {
         visible: {

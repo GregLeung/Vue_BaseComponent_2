@@ -32,7 +32,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import {CMSPageHeader, CMSBreadcrumb} from "vue_basecomponent";
+import {CMSPageHeader, CMSBreadcrumb} from "vue_basecomponent_2";
 export default {
     components: {
         CMSBreadcrumb,

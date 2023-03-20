@@ -58,7 +58,7 @@
 </template>
 <script lang="js">
 import Vue from "vue";
-import {NewRequest as Request, MobileAdvancedSearchDialog} from "vue_basecomponent"
+import {NewRequest as Request, MobileAdvancedSearchDialog} from "vue_basecomponent_2"
 export default{
     props: {
         columnList: {
