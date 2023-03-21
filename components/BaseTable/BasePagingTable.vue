@@ -38,9 +38,15 @@
         <el-table-column 
           v-if="isBatchSelection"
           type="selection"
-          width="55"
+          width="55">
+        </el-table-column>
+        <el-table-column 
+          v-if="isBatchSelection"
+          width="65"
+          label="Filter"
           :filters="[{text:'Selected', value:'Selected'}]"
-          :filter-method="filterSelected"></el-table-column>
+          :filter-method="filterSelected">
+        </el-table-column>
         <el-table-column v-if="showExpand" type="expand">
           <template slot-scope="scope">
             <slot v-if="expandOptions.type == 'CUSTOM'" name="expand" :row="scope.row" />
@@ -269,7 +275,8 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       searchFilterSet: {},
-      isSelectAll: false
+      isSelectAll: false,
+      initiated: false
     };
   },
   methods: {
@@ -319,6 +326,10 @@ export default {
       }
     },
     handleSelectionChange(val) {
+      if(!this.initiated ){
+        val.forEach(data => data.isSelected = 'Selected')
+        this.initiated = true;
+      }
       this.multipleSelection = val;
       this.$emit("selectionChange", this.multipleSelection)
     },
@@ -439,14 +450,11 @@ export default {
       return this.$refs.table
     },
     handleSelectAll(selection){
-      this.isSelectAll = !this.isSelectAll
-      var isSelected
-      if(this.isSelectAll){
-        isSelected = 'Selected'
+      if(selection.length > 0){
+        selection.forEach(data => data.isSelected = 'Selected')
       }else{
-        isSelected = 'NotSelected'
+        this.dataList.forEach(data => data.isSelected = 'NotSelected')
       }
-      this.dataList.forEach(data => data.isSelected = isSelected)
       this.$emit("select-all", selection)
     },
     filterSelected(value, row){     
