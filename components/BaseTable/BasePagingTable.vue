@@ -23,6 +23,17 @@
               <slot name="title"/>
             </div>
             <div class="search-bar">
+              <div v-if="isAccountTable">
+                <el-date-picker
+                  v-model="dateRange"
+                  type="daterange"
+                  range-separator="To"
+                  start-placeholder="Start date"
+                  end-placeholder="End date"
+                  size="small"
+                />
+                <el-button size="small" type="info" @click="handleSearchByDateRange">Search</el-button>
+              </div>
               <el-tooltip v-if="isAdvancedSearch" class="item" effect="dark" content="Advanced Search" placement="top-start">
                 <el-button class="mr-4 advanced-search-button" icon="el-icon-zoom-in" circle @click="handleOpenAdvancedSearchDialog"></el-button>
               </el-tooltip>
@@ -259,9 +270,12 @@ export default {
   mounted() {
     this.handleDefaultSorting()
     this.handleRefresh();
+    this.originalWhereOperation = structuredClone(this.whereOperation);
   },
   data() {
     return {
+      dateRange: [],
+      originalWhereOperation: [],
       search: "",
       confirmedSearch: "",
       currentPage: 1,
@@ -275,7 +289,6 @@ export default {
       visibleAdvancedSearchDialog: false,
       currentSortOrder: "ascending",
       searchFilterSet: {},
-      isSelectAll: false,
       initiated: false
     };
   },
@@ -459,6 +472,27 @@ export default {
     },
     filterSelected(value, row){     
       return row.isSelected === value
+    },
+    handleSearchByDateRange(){
+      var myDateRange = [];
+      if(this.dateRange == null){
+        this.dateRange = [];
+      }
+      myDateRange = structuredClone(this.dateRange);
+      if(this.dateRange[0] == null){
+        myDateRange.push(new Date('1800-01-01T00:00:00'));
+      }
+      if(this.dateRange[1] == null){
+        myDateRange.push(new Date('2150-01-01T00:00:00'))
+      }
+      let dateRangeCondition = myDateRange.map(date => date.toLocaleDateString("fr-CA"));
+      let filterCondition = {};
+      filterCondition.type = 'BETWEEN_TIME_RANGE_JOURNAL_AND_LEDGER'
+      filterCondition.value = dateRangeCondition;
+      filterCondition.key = 'date';
+      this.whereOperation = structuredClone(this.originalWhereOperation);
+      this.whereOperation.push(filterCondition);
+      this.handleRefresh();
     }
   },
   computed: {
