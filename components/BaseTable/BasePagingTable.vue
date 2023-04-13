@@ -117,6 +117,10 @@ export default {
     AdvancedSearchDialogPaging
   },
   props: {
+    isAccountTable:{
+      type: Boolean,
+      default: false
+    },
     tableStyle: {
       type: String,
       required: false,
