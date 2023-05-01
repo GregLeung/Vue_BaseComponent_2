@@ -260,6 +260,13 @@ export default {
         return []
       }
     },
+    selectedIdList:{
+      type: Array,
+      required: false,
+      default: function(){
+        return []
+      }
+    },
     icon: {
       type: String,
       required: false,
@@ -413,6 +420,15 @@ export default {
           var result = await Request.postAsync(this, "get_" + this.tableName + "_all", parameters, {showLoading: false});
           this.dataList = result.data[this.tableName.toString()].data
           this.dataListForShowLength = result.data[this.tableName.toString()].totalRow
+          if(this.selectedIdList.length > 0){
+            this.selectedIdList.forEach(selected =>{
+              this.dataList.forEach(data => {
+                if(data.ID == selected){
+                  data.isSelected = "Selected";
+                }
+              })
+            });
+          }
         }
         this.$emit("refreshCallback")
       } catch (error) {
